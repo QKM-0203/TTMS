@@ -12,11 +12,12 @@
             <result property="movieMinute" column="movie_minute" jdbcType="INTEGER"/>
             <result property="movieBrief" column="movie_brief" jdbcType="VARCHAR"/>
             <result property="movieScore" column="movie_score" jdbcType="FLOAT"/>
+            <result property="movieMoney" column="movie_money" jdbcType="BIGINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,movie_name,movie_status,
         movie_start,movie_minute,movie_brief,
-        movie_score
+        movie_score,movie_money
     </sql>
 </mapper>

@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -56,6 +58,17 @@ public class Movie implements Serializable {
      */
     @TableField(value = "movie_score")
     private Double movieScore;
+
+    /**
+     * 电影的票房
+     */
+    @TableField(value = "movie_money")
+    private Long movieMoney;
+
+    /**
+     * 电影的所有评论
+     */
+    private List<MovieComment> movieCommentList;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
