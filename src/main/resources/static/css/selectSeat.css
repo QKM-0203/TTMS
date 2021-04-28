@@ -203,6 +203,7 @@
     width: 115px;
     height: 158px;
     border: 2px solid #fff;
+    /*错误*/
     -webkit-box-shadow: 0 2px 7px 0 hsl(0deg 0% 53% / 50%);
     box-shadow: 0 2px 7px 0 hsl(0deg 0% 53% / 50%);
     float: left;
