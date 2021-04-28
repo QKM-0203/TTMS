@@ -1,0 +1,451 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.header{
+    height: 81px;
+    background-color: gold;
+    position: fixed;
+    top: 0;
+    min-width: 1200px;
+    width: 100%;
+    z-index: 999;
+}
+.container{
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    top: 81px;
+}
+.order-progress-bar {
+    height: 60px;
+    width: 100%;
+    margin: 40px 0;
+    text-align: center;
+    
+}
+.order-progress-bar .step {
+    float: left;
+    width: 25%;
+}
+.order-progress-bar .step-num {
+    color: #fff;
+    font-size: 12px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #ffd8d7;
+    position: relative;
+    top: 10px;
+}
+.order-progress-bar .done .step-num {
+    background-color: #f03d37;
+}
+.order-progress-bar .bar {
+    width: 0;
+    height: 4px;
+    border-left: 150px solid #ffd8d7;
+    border-right: 150px solid #ffd8d7;
+}
+.order-progress-bar .first .bar {
+    border-left-color: transparent!important;
+}
+.order-progress-bar .last .bar {
+    border-right-color: transparent!important;
+}
+.order-progress-bar .done .bar {
+    border-color: #f03d37;
+}
+.order-progress-bar .step-text {
+    font-size: 14px;
+    color: #999;
+    display: inline-block;
+    margin-top: 10px;
+}
+.order-progress-bar .done .step-text {
+    color: #f03d37;
+}
+.main{
+    width: 100%;
+    border: 1px solid #e5e5e5;
+    font-size: 0;
+    position: relative;
+}
+.hall{
+    width: 820px;
+    display: inline-block;
+    vertical-align: top;
+}
+.seat-example{
+    margin: 30px 0 30px 118px;
+}
+.example{
+    display: inline-block;
+    font-size: 16px;
+    color: #666;
+    height: 26px;
+    line-height: 26px;
+    padding-left: 38px;
+    background-repeat: no-repeat;
+    margin-right: 50px;
+}
+.seats-block{
+    font-size: 0;
+    overflow: hidden;
+    margin-left: 20px;
+    white-space: nowrap;
+}
+.row-id-container {
+    width: 20px;
+    float: left;
+    margin-top: 112px;
+    white-space: normal;
+}
+
+.row-id {
+    font-size: 16px;
+    color: #999;
+    margin-right: 40px;
+    margin-bottom: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 26px;
+    line-height: 29px;
+    text-align: center;
+}
+ .seats-container {
+    margin-left: 50px;
+    overflow: auto;
+    position: relative;
+    padding-top: 112px;
+}
+ .screen-container {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+}
+ .seats-wrapper {
+    display: inline-block;
+    min-width: 550px;
+    margin: 15px 20px 20px 105px;
+}
+.seats-block .row {
+    white-space: nowrap;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.seats-block .seat {
+    display: inline-block;
+    font-size: 0;
+    width: 30px;
+    height: 26px;
+    margin: 0 5px;
+    /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAaCAYAAACgoey0AAAAAXNSR0IArs4c6QAAAY9JREFUSA3tVs1qg0AQ3l1/i5eCFC8+QSC0+BQ999QeC32t9lLovac8RQwk6BOUXLzVitFE0/mEDVIiJsbkUgeM7jjzfd/OjpvlrGZhGL6uVqvnsix5zX3yoxBia5rm22g0etkL5vt+WRTFtm8DJrDrpKI+wExJXd3VyzMw/1axf5YDpe6IqRSPUJZlGdQdmN4eBixgAps4nmRGRUyOCTneXddlnHOWJEkv5CAFFjCBTeOP2Wz2CXI+nU7vqZkmnudVAXBuNptKpWVZGHa2OI4ZdTPTNK3CIB42n89TarYHQWpuHcfJoEqaqqqViFNKDhKUV5ICGxy2bQt6d4cfU1EUQ5LKO4KQ3NWQW5+MxAEXCbraNZd8can7QHypSrOh1EOpz1YBtQkZOw+2zK67V1teI7FhGGy9XjfpavWDWNf1xrhGYtpTGa5z2f/6jmkZFPwff0VR1H0xj1yL5XKJhv3hQRDoaZriILClKz8S5+hwIk3ptHNTHTtowBeLxXWe5/2d8vZIoi4X4/H4myZY/AJMWAAq2pF/7QAAAABJRU5ErkJggg==) no-repeat;
+    background-position: 0 1px; */
+}
+
+.has-ticket{
+    width: 300px;
+    height: 50px;
+    display: none;
+}
+
+.seats-block .row {
+    white-space: nowrap;
+    margin-bottom: 10px;
+    text-align: center;
+}
+ .screen {
+    width: 550px;
+    padding-top: 15px;
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    position: relative;
+    margin: 0 auto;
+}
+ .c-screen-line {
+    width: 0;
+    border-left: 1px dashed #e5e5e5;
+    position: absolute;
+    top: 180px;
+    bottom: 0;
+    left: 35%;
+    height: 270px;
+}
+.seats-block .row {
+    white-space: nowrap;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.side{
+    width: 340px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    display: inline-block;
+}
+
+.side .ticket-info {
+    padding: 20px 0 10px;
+    border-top: 1px dashed #e5e5e5;
+    border-bottom: 1px dashed #e5e5e5;
+}
+.side .confirm-order {
+    padding: 20px 0;
+    text-align: center;
+}
+.side .movie-info .poster {
+    width: 115px;
+    height: 158px;
+    border: 2px solid #fff;
+    -webkit-box-shadow: 0 2px 7px 0 hsl(0deg 0% 53% / 50%);
+    box-shadow: 0 2px 7px 0 hsl(0deg 0% 53% / 50%);
+    float: left;
+}
+.side .movie-info .content {
+    margin-left: 140px;
+}
+.side .movie-info .poster img {
+    width: 100%;
+    height: 100%;
+}
+.side .movie-info .content .name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 14px;
+}
+.text-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.side .show-info {
+    margin-top: 100px;
+}
+.side .show-info .info-item {
+    margin-bottom: 9px;
+}
+.side .info-item {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 4px;
+}
+.side .show-info .info-item>span {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 14px;
+}
+.side .show-info .info-item .value {
+    width: 85%;
+}
+.side .show-info .info-item .screen1 {
+    color: #f03d37;
+}
+.side .info-item .value {
+    color: #151515;
+    margin-left: 2px;
+}
+.side .ticket-info {
+    padding: 20px 0 10px;
+    border-top: 1px dashed #e5e5e5;
+    border-bottom: 1px dashed #e5e5e5;
+}
+.side .ticket-info .total-price {
+    font-size: 14px;
+    color: #333;
+}
+.side .ticket-info .buy-limit {
+    font-size: 14px;
+    color: #999;
+    margin: 0;
+}
+.side .ticket-info .no-selected {
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+    margin: 28px 0 39px;
+}
+.side .ticket-info .no-selected span {
+    color: #f03d37;
+}
+.side .ticket-info .text {
+    font-size: 14px;
+    color: #999;
+    float: left;
+    line-height: 30px;
+}
+.side .ticket-info .ticket-container {
+    margin-left: 42px;
+    margin-bottom: 20px;
+    position: relative;
+    top: -5px;
+}
+.side .ticket-info .ticket {
+    cursor: default;
+    position: relative;
+    font-size: 12px;
+    color: #f03d37;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin: 0 12px 10px 0;
+    /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAeCAYAAABwmH1PAAAAAXNSR0IArs4c6QAAAXlJREFUWAlj/Oho7cXAzLTg/89fogzDGDCys71m+PsvgeGji+2r38eP/h/u4Pexo/9BfmUCxSyLhdUwjluI11gsrRhAfmUa9j5F8+Coh9ECZNhxR2N42EUpmodGZgx/TYz9+nvzhn9ogTEsuUysDGxS/548jP4+qe/0l6zUL//fvh2WHoV5ihHGALa0GD872rQxamrm8EybzQMTH070RzsLBngeZmRk/M+7/0jVv9s3rw7n5A33MCgmQZ4GRnn7r3Vrvw+nmEX2C4qHQRLMPxlO/X38kA1Z0XBiY3h4OHkOm18wPPyXncGMWVb+FzbFw0EMxcOgkvo/A0MlW1Aw53DwHDY/wD0Mq5aYVNW1WX0D4OLYNA1lMZavtraSoGT8ydWukklTU5u7uWNY1sGwSGL5zfDrGYuM6ldQMh7OMQv3MIjBPX8xN0xguNPDNq/iirhRD+MKmeEiPhrDwyUmcflj5MUwaM7lz/FjuAJk2IiD/AjyK+NIm0wDAACxUs8MaULTAAAAAElFTkSuQmCC) no-repeat; */
+}
+.side .ticket-info .total-price {
+    font-size: 14px;
+    color: #333;
+}
+.side .ticket-info .total-price .price {
+    color: #f03d37;
+    font-size: 24px;
+}
+.side .confirm-order {
+    padding: 20px 0;
+    text-align: center;
+}
+#iLoginComp {
+    min-height: 223px;
+}
+#iLoginComp .iLoginComp-wrapper {
+    display: inline-block;
+    width: 260px;
+    padding: 0;
+}
+.iLoginComp-wrapper .iLoginComp-phone-num-wrapper, .iLoginComp-wrapper .iLoginComp-verify-code-wrapper {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+.iLoginComp-phone-num-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: .6em;
+}
+.iLoginComp-verify-code-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    margin-top: 1em;
+    padding-bottom: .6em;
+    border-bottom: 1px solid #e5e5e5;
+    /* width: 100%; */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.iLoginComp-wrapper .iLogincomp-opbtn-wrapper {
+    margin-top: 45px;
+}
+.iLoginComp-wrapper .iLoginComp-code-input, .iLoginComp-wrapper .iLoginComp-phone-num-input {
+    display: block;
+    width: 218px;
+    height: 40px;
+    border: 1px solid #e5e5e5;
+    border-radius: 50px;
+    margin-bottom: 6px;
+    padding: 0 20px;
+    color: #333;
+    background: #fff;
+    font-size: 14px;
+}
+.iLoginComp-phone-num-input, .iLoginComp-code-input,.iLoginComp-cancel-btn-wrapper,.iLoginComp-login-btn-wrapper:focus {
+    outline: none;
+    background-color: inherit;
+}
+.iLoginComp-phone-num-input {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    border: 0;
+    min-width: 0;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-size: 1em;
+}
+button, input, select, textarea {
+    font: inherit;
+    margin: 0;
+}
+.iLoginComp-wrapper .iLoginComp-send-verify-code-text {
+    display: inline-block;
+    position: absolute;
+    top: 11px;
+    right: 20px;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    font-size: 14px;
+    color: #ccc;
+    background: transparent;
+}
+.iLoginComp-wrapper .iLoginComp-cancel-btn-wrapper, .iLoginComp-wrapper .iLoginComp-login-btn-wrapper {
+    width: 260px;
+    line-height: 42px;
+    border-radius: 21px;
+    font-size: 16px;
+    color: #fff;
+    background: #e5e5e5;
+    margin-top: 20px;
+    border: 1px solid #e5e5e5;
+}
+.iLoginComp-wrapper .iLoginComp-login-btn-wrapper, .iLoginComp-wrapper .iLoginComp-login-btn-wrapper.iLogincomp-active {
+    -webkit-box-shadow: 0 2px 10px -2px #f03d37;
+    box-shadow: 0 2px 10px -2px #f03d37;
+    background-color: #f03d37;
+    margin: 20px 0;
+    border: 1px solid #f03d37;
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: rgba(0,0,0,.4);
+    display: none;
+}
+
+.footer {
+    background-color: #262426;
+    padding: 56px 0;
+    margin: 0 auto;
+    min-width: 1200px;
+    margin-top: 82px;
+    height: 262px;
+    position: relative;
+}
+.allPrice{
+    display: inline;
+}
+.ticketPrice{
+    display: inline;
+}
+.ticketDemo{
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+.ticket-containter{
+    width: 340px;
+}
+.ticketDemo{
+    display: none;
+}

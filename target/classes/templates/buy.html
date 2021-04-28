@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购票</title>
+</head>
+<body>
+    <input id="btn" type="button" value="跳转">
+    <iframe id=”myIframe” src="http://localhost:8080/seat1" style="display: none" />
+</body>
+
+<script>
+    var btn = document.getElementById('btn');
+    btn.onclick = function(){
+         //组织默认事件
+        e.preventDefault()
+        //表单序列化
+        // var formData = $('#signForm').serialize()
+        $.ajax({
+        url:'/seat',
+        type:'get',
+        dataType:'json',
+        success:data => {
+            alert(data);
+        }
+    })
+
+
+//
+//         $('#registerForm').on('submit', e => {
+//             //组织默认事件
+//             e.preventDefault()
+// //表单序列化
+//             var formData = $('#registerForm').serialize()
+//             $.ajax({
+// //如果没写loginProcessingUrl就和和loginPage的一样,写了就和loginProcessingUrl一样
+//                 url: '/register',
+//                 type: 'post',
+//                 data: formData,
+//                 dataType: 'json',
+//                 success: data => {
+//                     var sign = data.sign
+//                     alert(sign)
+//                 }
+//             })
+//         })
+
+        var myIframe = document.getElementById("myIframe");
+        if(myIframe){
+            // var data = {data: 1};
+            myIframe.contentWindow.postMessage(JSON.stringify(data), "http://localhost:8080/seat1");
+            window.open("http://localhost:8080/seat1", "_blank");
+        }
+    }
+</script>
+</html>

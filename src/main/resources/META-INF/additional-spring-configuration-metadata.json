@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "p6spy.config.executionThreshold",
+      "type": "java.lang.String",
+      "description": "Description for p6spy.config.executionThreshold."
+    },
+    {
+      "name": "spring.datasource.dynamic.durid.max-active",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.dynamic.durid.max-active."
+    }
+  ] }

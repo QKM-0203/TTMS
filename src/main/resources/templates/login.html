@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <script th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+  <script th:src="@{/layui/layui.all.js}"></script>
+ <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}" >
+  <meta charset="UTF-8">
+  <title>login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      /*background: url() no-repeat 0px 0px;*/
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      -moz-background-size: 100% 100%;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      /*background-image: url("./img/Desert.jpg");*/
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    #box {
+      width: 100%;
+      height: 100%;
+      transition: 0.6s;
+      transform-style: preserve-3d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #loginDiv {
+      width: 37%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 400px;
+      box-shadow: 7px 7px 17px rgba(52, 56, 66, 0.5);
+      border-radius: 10px;
+      z-index: 2;
+      position: relative;
+      transition: 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    #loginDiv span {
+      width: 100px;
+      display: inline-block;
+    }
+
+    #registerDiv {
+      width: 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 400px;
+      box-shadow: 7px 7px 17px rgba(52, 56, 66, 0.5);
+      border-radius: 10px;
+      position: absolute;
+      transform: rotateY(180deg);
+      transition: 0.6s;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      position: absolute;
+    }
+
+    #registerForm span {
+      width: 150px;
+      display: inline-block;
+    }
+
+
+
+    #userNname_down {
+      margin-left: 5px;
+      margin-top: 10px;
+      color: red;
+      font-size: 10px;
+      height: 18px;
+      position: absolute;
+    }
+
+    #password_down {
+      margin-left: 5px;
+      margin-top: 10px;
+      color: red;
+      font-size: 10px;
+      height: 18px;
+      position: absolute;
+    }
+
+    #userNnameR_down {
+      margin-left: 5px;
+      margin-top: 10px;
+      color: red;
+      font-size: 10px;
+      height: 18px;
+      position: absolute;
+    }
+
+    #passwordR_down {
+      margin-left: 5px;
+      margin-top: 10px;
+      color: red;
+      font-size: 10px;
+      height: 18px;
+      position: absolute;
+    }
+
+    #cpasswordR_down {
+      margin-left: 5px;
+      margin-top: 10px;
+      color: red;
+      font-size: 10px;
+      height: 18px;
+      position: absolute;
+    }
+
+
+
+    p {
+      margin-top: 15px;
+      margin-left: 20px;
+      color: purple;
+
+    }
+
+    input {
+
+      margin-left: 15px;
+      border-radius: 5px;
+      border-style: hidden;
+      height: 30px;
+      width: 140px;
+      background-color: #f0edf3;
+      padding-left: 10px;
+    }
+
+    input:focus {
+      outline: none;
+    }
+
+    .button {
+      background-color: rgb(176, 217, 253);
+      color: aliceblue;
+      border-style: hidden;
+      border-radius: 5px;
+      width: 100px;
+      height: 31px;
+      font-size: 16px;
+      padding: 0 10px;
+    }
+  </style>
+</head>
+
+<body>
+<!--<image id="img" th:src="@{/image/Desert.jpg}"></image>-->
+<div id="box">
+  <div id="loginDiv">
+    <form action="" id="signForm" onsubmit="CheckLogin()">
+      <h1 style="text-align: center;color: purple;">LOGIN IN</h1>
+      <p><span>E-mail:</span><input id="userNname" type="text"  name="accounts" onblur="checkUserName()"><span
+              id="userNname_down"></span></p>
+
+      <p><span>Password: </span><input id="password" type="password" name="password" onblur="checkpassword()"><span
+              id="password_down"></span></p>
+      <div style="text-align: center;margin-top: 50px;">
+        <input type="submit" class="button" value="login up">
+        <input type="reset" class="button" value="register" onclick="change()">
+      </div>
+    </form>
+
+  </div>
+  <div id="registerDiv" >
+    <form id="registerForm" class="layui-form">
+      <h1 style="text-align: center;color: purple;">Register</h1>
+      <p><span class="layui-form-label">E-mail:</span><input id="userNnameR" class="layui-form-item" type="text" name="accounts" lay-verify="required" onblur="checkUserNameR()"><span
+              id="userNnameR_down"></span></p>
+
+      <p><span class="layui-form-label" >Password: </span><input id="passwordR" type="password" class="layui-form-item" name="password" lay-verify="required" onblur="checkpasswordR()"><span
+              id="passwordR_down"></span></p>
+
+      <p><span class="layui-form-label">Confirm Password: </span><input id="ConfirmPassword"  class="layui-form-item" type="password"  lay-verify="required" onblur="checkcPasswordR()"><span
+              id="cpasswordR_down"></span></p>
+
+      <div style="text-align: center;margin-top: 50px;">
+        <input type="reset" class="button"  value="login up" onclick="change2()">
+        <input type="submit" class="button" value="submit">
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  var registerDiv = document.getElementById("registerDiv");
+  var loginDiv = document.getElementById("loginDiv");
+  var box = document.getElementById("box");
+
+  function change() {
+    box.style.transform = "rotateY(180deg)"
+    loginDiv.style.backfaceVisibility = "hidden"
+    registerDiv.style.zIndex = "2"
+    loginDiv.style.zIndex = "1"
+  }
+
+  function change2() {
+    box.style.transform = "rotateY(-0deg)"
+    registerDiv.style.backfaceVisibility = "hidden"
+    registerDiv.style.zIndex = "1"
+    loginDiv.style.zIndex = "2"
+  }
+
+  var userNname = document.getElementById("userNname");
+  var userNnameR = document.getElementById("userNnameR");
+  var passwordR = document.getElementById("passwordR");
+  var password = document.getElementById("password");
+  var ConfirmPassword = document.getElementById("ConfirmPassword");
+
+  var userNname_down = document.getElementById("userNname_down");
+  var userNnameR_down = document.getElementById("userNnameR_down");
+  var passwordR_down = document.getElementById("passwordR_down");
+  var password_down = document.getElementById("password_down");
+  var cpasswordR_down = document.getElementById("cpasswordR_down");
+
+ onsubmit=function CheckLogin(){
+    var  username = userNname.value;
+    var passwordl = password.value;
+    if(username==""||passwordl==""){
+      if(username=="")
+        userNname_down.innerHTML = "不能为空！"
+      if(passwordl==""){
+        password_down.innerHTML = "不能为空！"
+      }
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+ // function checkRegister(){
+ //    var usernameR = userNnameR.value;
+ //    var passwordRr = passwordR.value;
+ //    var ConfirmPasswordR = ConfirmPassword.value;
+ //    if(usernameR == ""||passwordRr==""||ConfirmPasswordR==""){
+ //      if(usernameR==""){
+ //        userNnameR_down.innerHTML = "不能为空！"
+ //      }
+ //      if(passwordRr==""){
+ //        passwordR_down.innerHTML = "不能为空！"
+ //      }
+ //      if(ConfirmPasswordR==""){
+ //        cpasswordR_down.innerHTML = "不能为空！"
+ //      }
+ //       return false;
+ //    }
+ //    else{
+ //      return true;
+ //    }
+ //  }
+
+
+
+
+  function checkUserName() {
+    var reg = /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/;
+    var username = userNname.value;
+    if (username == "") {
+      userNname_down.innerHTML = "不能为空！"
+      return false;
+    } else if (!reg.test(username)) {
+      userNname_down.innerHTML = "输入格式不正确！"
+      userNname.focus();
+      return false;
+    } else {
+      userNname_down.innerHTML = ""
+      return true;
+    }
+  }
+
+  function checkUserNameR() {
+    var reg = /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/;
+    var usernameR = userNnameR.value;
+    if (usernameR == "") {
+      userNnameR_down.innerHTML = "不能为空！"
+      return false;
+    } else if (!reg.test(usernameR)) {
+      userNnameR_down.innerHTML = "输入格式不正确！"
+      userNnameR.focus();
+      return false;
+    } else {
+      userNnameR_down.innerHTML = ""
+      return true;
+    }
+  }
+
+  function checkpassword() {
+    var passwordl = password.value;
+    if (passwordl == "") {
+      password_down.innerHTML = "不能为空！"
+      return false;
+    } else {
+      password_down.innerHTML = ""
+      return true;
+    }
+  }
+
+  function checkpasswordR() {
+    var passwordRr = passwordR.value;
+    if (passwordRr == "") {
+      passwordR_down.innerHTML = "不能为空！"
+      return false;
+    } else {
+      passwordR_down.innerHTML = ""
+      return true;
+    }
+  }
+
+  function checkcPasswordR() {
+    var passwordRI = passwordR.value;
+    var ConfirmPasswordR = ConfirmPassword.value;
+    if (ConfirmPasswordR == "") {
+      cpasswordR_down.innerHTML = "不能为空！"
+      return false;
+    } else if (passwordRI != ConfirmPasswordR) {
+      cpasswordR_down.innerHTML = "密码不一致！"
+      ConfirmPassword.focus();
+      return false;
+    } else {
+      cpasswordR_down.innerHTML = ""
+      return true;
+    }
+  }
+</script>
+
+<script >
+  $('#signForm').on('submit', e => {
+    //组织默认事件
+    e.preventDefault()
+    //表单序列化
+    var formData = $('#signForm').serialize()
+    $.ajax({
+      //如果没写loginProcessingUrl就和和loginPage的一样,写了就和loginProcessingUrl一样
+      url: '/Login',
+      type: 'post',
+      data: formData,
+      dataType: 'json',
+      success: data => {
+        var sign = data.sign
+        alert(sign)
+
+      }
+    })
+  })
+</script>
+
+<script>
+
+  $('#registerForm').on('submit', e => {
+    //组织默认事件
+    e.preventDefault()
+//表单序列化
+    var formData = $('#registerForm').serialize()
+    $.ajax({
+//如果没写loginProcessingUrl就和和loginPage的一样,写了就和loginProcessingUrl一样
+      url: '/register',
+      type: 'post',
+      data: formData,
+      dataType: 'json',
+      success: data => {
+        var sign = data.sign
+        alert(sign)
+      }
+    })
+  })
+</script>
+</body>
+</html>

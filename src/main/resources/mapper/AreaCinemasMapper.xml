@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qkm.TTMS.mapper.AreaCinemasMapper">
+
+    <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.AreaCinemas">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="areaId" column="area_id" jdbcType="BIGINT"/>
+            <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
+            <result property="cinemaPicture" column="cinema_picture" jdbcType="VARCHAR"/>
+            <result property="movieAddress" column="movie_address" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,area_id,cinema_name,
+        cinema_picture,movie_address
+    </sql>
+</mapper>

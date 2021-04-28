@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qkm.TTMS.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.User">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="accounts" column="accounts" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="icon" column="icon" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="VARCHAR"/>
+            <result property="birthday" column="birthday" jdbcType="DATE"/>
+            <result property="city" column="city" jdbcType="VARCHAR"/>
+            <result property="job" column="job" jdbcType="VARCHAR"/>
+            <result property="personalizedSignature" column="personalized_signature" jdbcType="VARCHAR"/>
+           <collection property="roles" ofType="com.qkm.TTMS.entity.Roles">
+               <result property="roleId" column="rid"/>
+               <result property="roleName" column="rname"/>
+           </collection>
+    </resultMap>
+
+
+
+
+
+    <sql id="Base_Column_List">
+        id,accounts,password,
+        nickname,create_time,icon,
+        gender,birthday,city,
+        job,personalized_signature
+    </sql>
+    <select id="getByaccounts" resultMap="BaseResultMap">
+        select m_u.*,m_u_r.role_id rid , m_r.role_name rname from movie_user m_u join movie_user_roles m_u_r on m_u.id = m_u_r.user_id join movie_role m_r on m_r.role_id = m_u_r.role_id where accounts = #{accounts}
+    </select>
+
+</mapper>

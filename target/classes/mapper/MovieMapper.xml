@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qkm.TTMS.mapper.MovieMapper">
+
+    <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.Movie">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="movieName" column="movie_name" jdbcType="VARCHAR"/>
+            <result property="movieStatus" column="movie_status" jdbcType="INTEGER"/>
+            <result property="movieStart" column="movie_start" jdbcType="DATE"/>
+            <result property="movieMinute" column="movie_minute" jdbcType="INTEGER"/>
+            <result property="movieBrief" column="movie_brief" jdbcType="VARCHAR"/>
+            <result property="movieScore" column="movie_score" jdbcType="FLOAT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,movie_name,movie_status,
+        movie_start,movie_minute,movie_brief,
+        movie_score
+    </sql>
+</mapper>
