@@ -1,0 +1,73 @@
+.staff_num{
+  width:20%;
+}
+.staff_psd{
+  width:20%;
+}
+.staff_photo{
+  width:15%;
+}
+.staff_job{
+  width:20%;
+}
+.staff_operator{
+  width:20%;
+}
+
+.staff_photo img{
+  width:50px;
+  height:50px;
+}
+
+#new_staff{
+  width:100px;
+  height:40px;
+  border:0px;
+  color:white;
+  border-radius: 18px;
+  background-image: linear-gradient(#63b3ed, #4299e1);
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.08),0px 1px 0px #3182ce;
+}
+.edit_staff{
+  border:0px;
+  padding:10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 15px;
+  background-image: linear-gradient(#ffdf93, #ffd062);
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.08),0px 1px 0px #d0a74d;
+}
+.delete_staff{
+  border:0px;
+  padding:10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 15px;
+  color:white;
+  background-image: linear-gradient(#7dc088, #56aa64);
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.08),0px 1px 0px #269d3a;
+}
+
+
+#float_staff{
+  display: none;
+  position: absolute;
+  top:0;
+  left:0; 
+  /* transform: translate(-50%,-50%); */
+  width:100vw;
+  height:100vh;
+  background-color:rgba(0,0,0,.4);
+  /* box-shadow: 0 0 1px 0px rgb(0,0,0,0.3), 0 0 6px 2px rgb(0,0,0,0.15), 0 0 10px 10px rgb(0,0,0,0.15); */
+}
+
+#new_staff_form,#edit_staff_form{
+  display: none;
+  position: absolute;
+  top:50%;
+  left:50%;
+  padding:50px;
+  transform: translate(-50%,-50%);
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 1px 0px rgba(0,0,0,0.3), 0 0 6px 2px rgba(0,0,0,0.15), 0 0 10px 10px rgba(0,0,0,0.15);
+}

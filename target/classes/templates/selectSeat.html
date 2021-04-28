@@ -36,15 +36,15 @@
             <div class="hall">
                 <div class="seat-example">
                     <div class="selectable-example example">
-                        <img th:src="@{/img/selectable.png}" alt="">
+                        <img th:src="@{/img/selectable.jpg}" alt=""/>
                         <span>可选座位</span>
                     </div>
                     <div class="sold-example example">
-                        <img th:src="@{/img/sold.png}" alt="">
+                        <img th:src="@{/img/sold.jpg}" alt="">
                         <span>已售座位</span>
                     </div>
                     <div class="selected-example example">
-                        <img th:src="@{/img/selected.png}" alt="">
+                        <img th:src="@{/img/selected.jpg}" alt="">
                         <span>已选座位</span>
                     </div>
                 </div>
@@ -54,9 +54,9 @@
 <!--                            <span class="row-id">i</span>-->
 <!--                        <% } %> -->
                     </div>
-                    <div class="seats-containter">
-                        <div class="screen-containter" style="left: 0;">
-                            <div class="screen"><img src="./img/screen.png" alt="" ></div>
+                    <div class="seats-contain">
+                        <div class="screen-contain" style="left: 0;">
+                            <div class="screen"><img th:src="@{/imgage/screen.jpg}" alt="" ></div>
                             <div class="screen">银幕中央</div>
                             <div class="c-screen-line"></div>
                         </div>
@@ -114,7 +114,7 @@
                     </div>
                     <div class="info-item">
                         <span>票价：</span>
-                        <span class="value text-ellipsis">￥<p class="ticketPrice">34.9</p>/张</span>
+                        <span class="value text-ellipsis">￥<span class="ticketPrice">34.9</span>/张</span>
                     </div>
                 </div>
                 <div class="ticket-info">
@@ -129,7 +129,7 @@
                     <div class="has-ticket">
                         <span class="text">座位：</span>
                         
-                        <div class="ticket-containter" data-limit="4" >
+                        <div class="ticket-contain" data-limit="4" >
                             <div class="ticketDemo">
                                 <img th:src="@{/img/ticket.png}" alt="" style="position: absolute;">
                                 <span class="ticket" data-row-id="3" data-column-id="09" data-index-="3-09"><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
@@ -152,7 +152,7 @@
                     <div class="total-price">
                         <span>总价：</span>
                         <span class="price">
-                            ￥<p class="allPrice">0</p>
+                            ￥<span class="allPrice">0</span>
                         </span>
                     </div>
                 </div>
@@ -160,17 +160,17 @@
                     <div class="iLoginComp">
                         <div class="iLoginComp-wrapper">
                             <div class="iLoginComp-phone-num-wrapper">
-                                <input class="iLoginComp-phone-num-input" id="phoneNumInput" type="text" maxlength="11" placeholder="输入手机号">
+                                <input class="iLoginComp-phone-num-input" id="phoneNumInput" type="text" maxlength="11" placeholder="输入手机号"/>
                             </div>
                             <div class="iLoginComp-verify-code-wrapper">
-                                <input class="iLoginComp-code-input" id="codeInput" type="text" placeholder="填写验证码">
+                                <input class="iLoginComp-code-input" id="codeInput" type="text" placeholder="填写验证码"/>
                                 <div class="iLoginComp-send-verify-code-text" id="sendCodeBtn">获取验证码</div>
                             </div>
-                            <div class="iLoginComp-opbtn-wrapper">
+                            <div class="iLoginComp-opBtn-wrapper">
                                 <button class="iLoginComp-cancel-btn-wrapper" id="cancelLogin">
                                     取消
                                   </button>
-                                <button class="iLoginComp-login-btn-wrapper" id="iloginBtn" data-act="confirm-click" data-bid="b_0a0ep6pp" style="display:none;">
+                                <button class="iLoginComp-login-btn-wrapper" id="iLoginBtn" data-act="confirm-click" data-bid="b_0a0ep6pp" style="display:none;">
                                     确认选座
                                   </button>
                             </div>
@@ -185,47 +185,47 @@
     </div>   
     <div style="height: 50px;"></div>
     <div class="footer"></div>
-    <input type="text" name="" id="" value="aData">
-    <script>
-        var aData = localStorage.getItem("aPageData");
-        if(aData){
-            // doSomething(aData);     // 当能获取到数据时就说明是从A页面跳转过来的
-            var data = JSON.parse(aData);
-            // function(data){
-            var str = "";
-            //方法中传入的参数data为后台获取的数据
-            for(a in data.seatLine) //data.data指的是数组，数组里是8个对象，i为数组的索引
-            {
-                str+="<div class=\"row\">";
-                for(b in data.seatColumn){
-                    str+="<span class=\"seat selectable\">"
-                    for(c in data.sold){
-                        if(a==data.sold.seatLine&&b == data.sold.seatColumn){
-                            str+="<img class=\"img\" src=\"/img/sold.png\">";
-                        }
-                        else{
-                            str+="<img class=\"img\" th:src=\"/img/selectable.png\">";
-                        }
-                    }
-                    str+="</span>";
-                }
-                str+="</div>";
-                
-            }
-            $(".seats-wrapper").append(str);
-        // }
-            console.log(data);
-            localStorage.removeItem("aPageData");
-        }else{
-            window.addEventListener("message", receiveMessage, false);
-        }
-        function receiveMessage(event){
-            if (event.origin !== "http://localhost:8080/buy") return;
-            if(event.data){
-                localStorage.setItem("aPageData", event.data);
-            }
-        }
-    </script>
+<!--    <input type="text"  value="aData">-->
+<!--    <script>-->
+<!--        var aData = localStorage.getItem("aPageData");-->
+<!--        if(aData){-->
+<!--            // doSomething(aData);     // 当能获取到数据时就说明是从A页面跳转过来的-->
+<!--            var data = JSON.parse(aData);-->
+<!--            // function(data){-->
+<!--            var str = "";-->
+<!--            //方法中传入的参数data为后台获取的数据-->
+<!--            for(a in data.seatLine) //data.data指的是数组，数组里是8个对象，i为数组的索引-->
+<!--            {-->
+<!--                str+="<div class=\"row\">";-->
+<!--                for(b in data.seatColumn){-->
+<!--                    str+="<span class=\"seat selectable\">"-->
+<!--                    for(c in data.sold){-->
+<!--                        if(a==data.sold.seatLine&&b == data.sold.seatColumn){-->
+<!--                            str+="<img class=\"img\" src=\"/img/sold.png\">";-->
+<!--                        }-->
+<!--                        else{-->
+<!--                            str+="<img class=\"img\" th:src=\"/img/selectable.png\">";-->
+<!--                        }-->
+<!--                    }-->
+<!--                    str+="</span>";-->
+<!--                }-->
+<!--                str+="</div>";-->
+<!--                -->
+<!--            }-->
+<!--            $(".seats-wrapper").append(str);-->
+<!--        // }-->
+<!--            console.log(data);-->
+<!--            localStorage.removeItem("aPageData");-->
+<!--        }else{-->
+<!--            window.addEventListener("message", receiveMessage, false);-->
+<!--        }-->
+<!--        function receiveMessage(event){-->
+<!--            if (event.origin !== "http://localhost:8080/buy") return;-->
+<!--            if(event.data){-->
+<!--                localStorage.setItem("aPageData", event.data);-->
+<!--            }-->
+<!--        }-->
+<!--    </script>-->
 <!--    <script th:src="@js/selectSeat.js"></script>-->
 </body>
 </html>

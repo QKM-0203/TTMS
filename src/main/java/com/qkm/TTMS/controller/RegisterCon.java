@@ -1,18 +1,17 @@
 package com.qkm.TTMS.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.qkm.TTMS.config.SecurityConfig;
-import com.qkm.TTMS.entity.HallSeat;
-import com.qkm.TTMS.entity.MovieHall;
-import com.qkm.TTMS.entity.MovieUserRoles;
-import com.qkm.TTMS.entity.User;
+import com.qkm.TTMS.entity.*;
 import com.qkm.TTMS.mapper.MovieUserRolesMapper;
 import com.qkm.TTMS.service.UserSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
@@ -55,21 +54,23 @@ public class RegisterCon {
 
     @GetMapping("/seat")
     public String buy(){
-        MovieHall movieHall = new MovieHall();
-        movieHall.setSeatColumn(5);
-        movieHall.setSeatColumn(6);
-        HallSeat hallSeat = new HallSeat();
-        hallSeat.setSeatColumn(1);
-        hallSeat.setSeatColumn(2);
-        hallSeat.setSeatColumn(2);
-        hallSeat.setSeatColumn(3);
-        hallSeat.setSeatColumn(4);
-        hallSeat.setSeatColumn(5);
-        hallSeat.setSeatColumn(2);
-        hallSeat.setSeatColumn(2);
-        List<HallSeat> hallSeats = new ArrayList<>();
-        movieHall.setSold(hallSeats);
-        return JSON.toJSONString(movieHall);
+       return "1";
     }
+
+//   @PostMapping("/addHall")
+//    public String addHall(@RequestBody JSONObject json){
+//        System.out.println(json);
+//        System.out.println(JSON.toJSONString(json));
+//        return JSON.toJSONString(json);
+//    }
+//
+//    @PostMapping("/addHall")
+//    public String addHall1(@RequestBody MovieHall movieHall){
+//        System.out.println(movieHall);
+//        return JSON.toJSONString(movieHall);
+//    }
+
+
+
 
 }

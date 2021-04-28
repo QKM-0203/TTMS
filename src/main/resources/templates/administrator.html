@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" th:href="@{/css/movie_hall.css}">
+  <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+  <link rel="stylesheet" th:href="@{/css/staff.css}">
+  <link >
+</head>
+
+<body>
+  <div id="header"> 管理员系统 </div>
+  <div id="content">
+    <!-- 
+      功能：管理员界面左边的导航栏
+      不需改变
+     -->
+    <div id="left">
+      <ul id="menu">
+        <li class="menu_li staff_list">
+          <p>管理员列表</p>
+        </li>
+        <li class="menu_li " >
+          <p>影厅管理</p>
+        </li>
+        <li class="menu_li" >
+          <p>电影管理</p>
+        </li>
+        <li class="menu_li" >
+          <p>排片管理</p>
+        </li>
+        <li class="menu_li" >
+          <p>订单管理</p>
+        </li>
+      </ul>
+    </div>
+    <!-- 
+      功能：点击左侧导航栏右侧内容发生变化
+      需要使用display属性改变对应内容
+     -->
+    <div id="right">
+      <!-- 
+        板块：管理员列表板块
+       -->
+      <div class="staff_list right_box">
+        <button id="new_staff" class="layui-btn">新增</button>
+        <div class="all_hall all_staff">
+          <div class="hall">
+            <p class="hall_name staff_num">账号</p>
+            <p class="hall_sort staff_psd">密码</p>
+            <p class="hall_sort staff_photo">头像</p>
+            <p class="hall_sort staff_job">职位</p>
+            <p class="hall_operate staff_operator">操作</p>
+          </div>
+          <form action="" class="hall">
+            <p class="hall_name staff_num hall_p">18729324573</p>
+            <p class="hall_sort staff_psd hall_p">123111111</p>
+            <p class="hall_sort staff_photo hall_p"><img th:src="@{/image/user.jpg}" alt=""></p>
+            <p class="hall_sort staff_job hall_p">管理员</p>
+            <p class="hall_operate staff_operator">
+              <button type="reset" class="edit_staff">编辑</button>
+              <button type="reset" class="delete_staff">删除</button>
+            </p>
+          </form>
+          <form action="" class="hall">
+            <p class="hall_name staff_num hall_p">18729324573</p>
+            <p class="hall_sort staff_psd hall_p">123fefvgrfbvr</p>
+            <p class="hall_sort staff_photo hall_p"><img th:src="@{/image/user.jpg}" alt=""/></p>
+            <p class="hall_sort staff_job hall_p">售票员</p>
+            <p class="hall_operate staff_operator">
+              <button type="reset" class="edit_staff">编辑</button>
+              <button type="reset" class="delete_staff">删除</button>
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <!--
+        板块：影厅管理部分html
+       -->
+      <div id="movie_hall" class="movie_hall right_box">
+        <button id="new_hall" class="layui-btn">新增</button>
+        <div class="all_hall">
+          <div class="hall">
+            <p class="hall_name">影厅名称</p>
+            <p class="hall_sort">影厅列表</p>
+            <p class="hall_line">行数</p>
+            <p class="hall_column">列数</p>
+            <p class="hall_operate">操作</p>
+          </div>
+          <form action="" class="hall">
+            <p class="hall_name hall_p">1号厅</p>
+            <p class="hall_sort hall_p">3D巨幕厅</p>
+            <p class="hall_line hall_p">6 排</p>
+            <p class="hall_column hall_p">5 列</p>
+            <p class="hall_operate">
+              <button type="reset" class="edit_hall">编辑</button>
+              <button type="reset" class="delete_hall">删除</button>
+            </p>
+          </form>
+          <form action="" class="hall">
+            <p class="hall_name hall_p">1号厅</p>
+            <p class="hall_sort hall_p">3D巨幕厅</p>
+            <p class="hall_line hall_p">6 排</p>
+            <p class="hall_column hall_p">5 列</p>
+            <p class="hall_operate">
+              <button type="reset" class="edit_hall">编辑</button>
+              <button type="reset" class="delete_hall">删除</button>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 
+    附加板块
+    内容：管理影厅板块的 新增、编辑影厅弹框html
+   -->
+  <div id="float_box">
+    <form class="layui-form" id="new_hall_form" action="">
+      <div class="layui-form-item">
+        <label class="layui-form-label">影厅名称:</label>
+        <div class="layui-input-inline">
+          <input type="text" name="hallName" required lay-verify="required" placeholder="请输入影厅名称" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">行数：</label>
+        <div class="layui-input-inline">
+          <input type="text" name="seatLine" required lay-verify="required" placeholder="请输入行数" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">列数:</label>
+        <div class="layui-input-inline">
+          <input type="text" name="seatColumn" required lay-verify="required" placeholder="请输入列数" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button id="new_hall_submit" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button><button
+            type="reset" class="layui-btn layui-btn-primary">重置</button>
+          <button type="reset" id="cancel_new_hall" class="layui-btn layui-btn-primary">取消</button>
+        </div>
+      </div>
+    </form>
+    <form class="layui-form" id="edit_hall_form" action="">
+      <div class="layui-form-item">
+        <label class="layui-form-label">影厅名称:</label>
+        <div class="layui-input-inline">
+          <input type="text" name="hallName" required lay-verify="required" placeholder="请输入影厅名称" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">行数：</label>
+        <div class="layui-input-inline">
+          <input type="text" name="seatLine" required lay-verify="required" placeholder="请输入行数" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">列数:</label>
+        <div class="layui-input-inline">
+          <input type="text" name="seatColumn" required lay-verify="required" placeholder="请输入列数" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button id="edit_hall_submit" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button><button
+            type="reset" class="layui-btn layui-btn-primary">重置</button>
+          <button type="reset" id="cancel_edit_hall" class="layui-btn layui-btn-primary">取消</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- 
+    附加板块
+    内容：管理员板块的 新增、编辑管理员弹框html
+   -->
+  <div id="float_staff">
+    <form class="layui-form" id="new_staff_form" action="">
+      <div class="layui-form-item">
+        <label class="layui-form-label">账号:</label>
+        <div class="layui-input-inline">
+          <input type="text" name="accounts" required lay-verify="required" placeholder="请输入影厅名称" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">密码：</label>
+        <div class="layui-input-inline">
+          <input type="text" name="password" required lay-verify="required" placeholder="请输入行数" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">职位:</label>
+        <div class="layui-input-inline">
+          <input type="text" name="cinemaId" required lay-verify="required" placeholder="请输入列数" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button id="new_staff_submit" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button><button
+            type="reset" class="layui-btn layui-btn-primary">重置</button>
+          <button type="reset" id="cancel_new_staff" class="layui-btn layui-btn-primary">取消</button>
+        </div>
+      </div>
+    </form>
+    <form class="layui-form" id="edit_staff_form" action="">
+      <div class="layui-form-item">
+        <label class="layui-form-label">账号:</label>
+        <div class="layui-input-inline">
+          <input type="text" name="accounts" required lay-verify="required" placeholder="请输入影厅名称" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">密码：</label>
+        <div class="layui-input-inline">
+          <input type="text" name="password" required lay-verify="required" placeholder="请输入行数" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">职位:</label>
+        <div class="layui-input-inline">
+          <input type="text" name="cinemaId" required lay-verify="required" placeholder="请输入列数" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button id="edit_staff_submit" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button><button
+            type="reset" class="layui-btn layui-btn-primary">重置</button>
+          <button type="reset" id="cancel_edit_staff" class="layui-btn layui-btn-primary">取消</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <script th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+  <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+  <script type="text/javascript" th:src="@{/js/movie_hall.js}"></script>
+  <script type="text/javascript" th:src="@{/js/staff.js}"></script>
+  <script type="text/javascript" th:src="@{/js/adminisrator.js}"></script>
+  <!-- 
+     影厅管理：提交添加影厅表单代码
+  -->
+  <script>
+    //Demo
+    // layui.use('form', function () {
+    //   var form = layui.form;
+
+    //   //监听提交
+    //   form.on('submit(formDemo)', function (data) {
+    //     // layer.msg(JSON.stringify(data.field));
+    //     console.log(JSON.stringify(data.field))
+    //     return false;
+    //   });
+    // });
+    $('#new_hall_form').on('submit', e => {
+      e.preventDefault()
+      const formData = $('#new_hall_form').serializeArray()
+      var o = {}
+      $.each(formData, function () {
+        if (o[this.name]) {
+          if (!o[this.name].push) {
+            o[this.name] = [o[this.name]];
+          }
+          o[this.name].push(this.value || '');
+        } else {
+          o[this.name] = this.value || '';
+        }
+      })
+      console.log(o)
+      var fd = JSON.stringify(o)
+      // window.location.href = '../views/administrator.html'
+      $.ajax({
+        url: '/addHall',
+        type: 'post',
+        data: fd,
+        dataType: 'JSON',
+        contentType: 'application/json;charset=UTF-8',
+        success: data => {
+          console.log(data)
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>

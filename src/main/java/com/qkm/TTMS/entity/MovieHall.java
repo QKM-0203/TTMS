@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.List;
-
 import lombok.Data;
 
 /**
@@ -47,17 +45,10 @@ public class MovieHall implements Serializable {
     private String hallName;
 
     /**
-     * 演出厅是否在使用,0未使用,1在使用
+     * 影厅的类型
      */
-    @TableField(value = "hall_status")
-    private Integer hallStatus;
-
-
-    /**
-     * 演出厅的座位列表
-     */
-    private List<HallSeat> sold;
-
+    @TableField(value = "movie_type")
+    private String movieType;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

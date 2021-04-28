@@ -33,10 +33,11 @@ public class HallSeat implements Serializable {
     private Integer seatColumn;
 
     /**
-     * 演出厅的id
+     * 某一个电影院的某个电影的某个时间段的id
      */
-    @TableField(value = "hall_id")
-    private Long hallId;
+    @TableField(value = "movie_plan_id")
+    private Long moviePlanId;
+
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

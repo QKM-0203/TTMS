@@ -10,11 +10,11 @@
             <result property="seatLine" column="seat_line" jdbcType="INTEGER"/>
             <result property="seatColumn" column="seat_column" jdbcType="INTEGER"/>
             <result property="hallName" column="hall_name" jdbcType="VARCHAR"/>
-            <result property="hallStatus" column="hall_status" jdbcType="INTEGER"/>
+            <result property="movieType" column="movie_type" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,cinema_id,seat_line,
-        seat_column,hall_name,hall_status
+        seat_column,hall_name,movie_type
     </sql>
 </mapper>

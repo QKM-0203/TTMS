@@ -5,11 +5,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
+
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+//    }
+
 
     /**
      * 不用经过Service操作直接返回试图.
@@ -22,6 +31,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/fail").setViewName("Fail");
         registry.addViewController("/buy").setViewName("buy");
         registry.addViewController("/seat1").setViewName("selectSeat");
+        registry.addViewController("/admin").setViewName("administrator");
     }
 
     /**

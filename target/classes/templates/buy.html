@@ -5,15 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>购票</title>
+    <script th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
 </head>
 <body>
     <input id="btn" type="button" value="跳转">
-    <iframe id=”myIframe” src="http://localhost:8080/seat1" style="display: none" />
+<!--    <iframe id="myIframe" src="http://localhost:8080/seat1" style="display: none" />-->
 </body>
 
 <script>
     var btn = document.getElementById('btn');
-    btn.onclick = function(){
+    btn.onclick = function(e){
          //组织默认事件
         e.preventDefault()
         //表单序列化
