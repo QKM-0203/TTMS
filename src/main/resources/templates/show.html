@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTMS</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="../猫眼电影/font_2447382_jrs1x1qhzt9/iconfont.css">
+    <style>
+        .clearfix::before,
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+
+
+        .iconfont {
+            font-family: "iconfont" !important;
+            font-size: 16px;
+            font-style: normal;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+           /* background-image: linear-gradient(to bottom right,#a8ff78,#78ffd6); */
+           background-attachment: fixed;
+           background-size: cover;
+           /* background-color: lemonchiffon; */
+        }
+
+        .head .top {
+            width: 100%;
+            height: 80px;
+            background-color: #fff;
+            border-bottom: 1px solid #d8d8d8;
+        }
+
+        .head .top .logo {
+            float: left;
+            width: 133px;
+            height: 80px;
+            line-height: 80px;
+            margin-left: 150px;
+            font-size: 25px;
+            color: crimson;
+        }
+
+        .head .top .logo .iconfont {
+            font-size: 25px;
+        }
+
+        .head .top .navv .nav li {
+            float: left;
+            height: 80px;
+            line-height: 80px;
+            font-size: 20px;
+        }
+
+        .head .top .navv .nav .change {
+            background-color: crimson;
+
+        }
+
+        .head .top .navv .nav .change div {
+            color: #fff;
+        }
+
+        .head .top .navv .nav .none div {
+            color: black;
+        }
+
+        .head .top .navv .nav .none div:hover {
+            color: crimson;
+        }
+
+        .head .top .navv .nav li a {
+            display: block;
+            text-decoration: none;
+
+        }
+
+        .head .top .navv .nav li a div {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .head .top .nav-right .download span {
+            margin-left: 30px;
+            height: 80px;
+            line-height: 80px;
+            font-size: 20px;
+            float: left;
+        }
+
+        .head .top .nav-right .download span a {
+            text-decoration: none;
+        }
+
+        /* .head .top .nav-right .search{
+            height: 180px;
+            float: left;
+        } */
+        .head .top .nav-right .search input {
+
+            display: block;
+            height: 20px;
+            line-height: 20px;
+            width: 220px;
+            /* padding: 0 40px 0 20px; */
+            border: 1px solid #ccc;
+            font-size: 14px;
+            /* border-radius: 30px; */
+            background-color: #faf8fa;
+            /* overflow: hidden; */
+            color: #333;
+            margin-top: 28px;
+            margin-left: 40px;
+            float: left;
+
+        }
+
+        .head .top .nav-right .btn {
+            float: left;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50px;
+            color: crimson;
+            margin-right: 30px;
+        }
+
+        .head .top .nav-right .logn {
+
+            height: 80px;
+            line-height: 80px;
+            font-size: 30px;
+
+        }
+
+        .head .top .nav-right .logn a {
+            text-decoration: none;
+            color: black;
+        }
+        .head .top .nav-right .logn a:hover{
+            color: crimson;
+        }
+        .contents {
+            margin-top: 35px;
+        }
+
+        .contents-left {
+            width: 810px;
+
+            /* height: 2036px; */
+            /* background-color: darkgrey;   */
+        }
+
+        .contents-left .contents-body {
+            margin-left: 150px;
+
+        }
+
+        .contents-left .contents-body .rtitle h2 {
+            font-size: 26px;
+            color: crimson;
+            display: inline;
+            margin-right: 350px;
+
+        }
+
+        .contents-left .contents-body .rlist {
+            font-size: 15px;
+            color: darkgrey;
+        }
+
+        .contents-left .contents-body .rlist a {
+            text-decoration: none;
+        }
+
+        .contents-left .contents-body .imgg {
+            margin-top: 15px;
+            float: left;
+            margin-left: 40px;
+            margin-bottom: 20px;
+        }
+
+        .contents-left .contents-body .imgg img {
+            width: 160px;
+            height: 220px;
+        }
+
+        .contents-left .contents-body .imgg .letter {
+            margin-top: -20px;
+            margin-left: 15px;
+            margin-bottom: 3px;
+            color: #ffffff;
+        }
+
+        .contents-left .contents-body .imgg button {
+            width: 160px;
+            height: 35px;
+            color: crimson;
+            box-shadow: 1px 1px 5px silver;
+            /* border:1px solid gray ; */
+            /* border-color: grey; */
+        }
+        .contents-left .contents-body .imgg button:hover{
+            background-color: crimson;
+            color: #fff;
+        }
+        .contents-right {
+            width: 610px;
+            float: right;
+            /* background-color: khaki; */
+            position: relative;
+            top: -606px;
+        }
+
+        .contents-right .panel {
+            margin-left: 50px;
+        }
+
+        .contents-right .panel h2 {
+            color: crimson;
+            font-size: 30px;
+        }
+
+        .contents-right .panel .tuwen {
+            margin-top: 20px;
+        }
+
+        .contents-right .panel .tuwen .tu {
+            width: 120px;
+            height: 78px;
+        }
+
+        .contents-right .panel .tuwen .wen {
+            width: 250px;
+            height: 75px;
+            /* border:rgb(122, 101, 101) 1px solid; */
+            position: relative;
+            left: 120px;
+            top: -78px;
+            box-shadow: 1px 1px 5px silver;
+
+        }
+
+        .contents-right .panel .tuwen .wen p {
+            height: 35px;
+            line-height: 35px;
+            margin-left: 20px;
+
+        }
+
+        .contents-right .panel .tuwen .wen p .span1 {
+            font-size: 20px;
+
+        }
+
+        .contents-right .panel .tuwen .wen p .span2 {
+            /* height: 75px;
+            line-height: 75px; */
+            font-size: 15px;
+            color: crimson;
+        }
+        .contents-right .panel .list .listtop li div{
+            width: 370px;
+            height: 55px;
+            line-height: 55px;
+            position: relative;
+            top: -60px;
+        }
+        .contents-right .panel .list .listtop li div .top123{
+            color: crimson;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .contents-right .panel .list .listtop li a{
+            text-decoration: none;
+            color: black;
+        }
+        .contents-right .panel .list .listtop li div .toppf{
+             float: right; 
+            color: crimson;
+            font-size: 15px;
+        }
+        .contents-right .panel .list .listtop li div:hover{
+            box-shadow: 1px 1px 5px silver;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="head">
+        <div class="top">
+            <div class="logo clearfix">
+                <span class="iconfont">&#xe995;</span>猫眼电影
+            </div>
+            <div class="navv">
+                <ul class="nav">
+                    <li class="none clearfix"><a href="#">
+                            <div>西安</div>
+                        </a></li>
+                    <li class="change clearfix"><a href="#">
+                            <div>首页</div>
+                        </a></li>
+                    <li class="none clearfix"><a href="#">
+                            <div>电影</div>
+                        </a></li>
+                    <li class="none clearfix"><a href="#">
+                            <div>影院</div>
+                        </a></li>
+                    <li class="none clearfix"><a href="#">
+                            <div>演出</div>
+                        </a></li>
+                    <li class="none clearfix"><a href="#">
+                            <div>榜单</div>
+                        </a></li>
+                    <li class="none clearfix"><a href="#">
+                            <div>热点</div>
+                        </a></li>
+                    <li class="none clearfix"><a href="#">
+                            <div>商城</div>
+                        </a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div class="download ">
+                    <span class="iconfont clearfix">&#xe666;<a href="#"> APP下载</a></span>
+                </div>
+                <div class="search">
+                    <input type="search...." name="search" id="">
+                </div>
+                <div class="btn clearfix">
+                    <button class="iconfont">&#xe7b3;</button>
+                </div>
+                <div class="logn iconfont"><a href="#">&#xe773;</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="contents">
+        <div class="contents-left clearfix">
+            <div class="contents-body">
+                <span class="rtitle">
+                    <h2>正在热映（43部）</h2>
+                </span>
+                <span class="rlist"><a href="#">查看全部></a></span>
+
+<!--                <div class="imgg">-->
+<!--                    <img src="image/user.jpg" alt="">-->
+<!--                    <div class="letter">你好，李焕英</div>-->
+<!--                    <button>购票</button>-->
+<!--                </div>-->
+<!--                <div class="imgg">-->
+<!--                    <img src="02.png" alt="">-->
+<!--                    <div class="letter">人潮汹涌</div>-->
+<!--                    <button>购票</button>-->
+<!--                </div>-->
+<!--                <div class="imgg">-->
+<!--                    <img src="03.png" alt="">-->
+<!--                    <div class="letter">第十一回</div>-->
+<!--                    <button>购票</button>-->
+<!--                </div>-->
+<!--                <div class="imgg">-->
+<!--                    <img src="04.png" alt="">-->
+<!--                    <div class="letter">唐人街探案3</div>-->
+<!--                    <button>购票</button>-->
+<!--                </div>-->
+<!--                <div class="imgg">-->
+<!--                    <img src="05.png" alt="">-->
+<!--                    <div class="letter">波斯语课</div>-->
+<!--                    <button>购票</button>-->
+<!--                </div>-->
+<!--                <div class="imgg">-->
+<!--                    <img src="06.png" alt="">-->
+<!--                    <div class="letter">哥斯拉大战金刚</div>-->
+<!--                    <button>购票</button>-->
+<!--                </div>-->
+            </div>
+        </div>
+        <div class="contents-right">
+            <div class="panel">
+                <h2>今日票房</h2>
+                <div class="tuwen">
+                    <img class="tu" src="-01.png" alt="">
+                    <div class="wen">
+                        <p><span class="span1">哥斯拉大战金刚</span><br><span class="span2">2536.9万</span></p>
+                    </div>
+                </div>
+                <div class="list">
+                    <ul class="listtop">
+                        <li><a href="#">
+                                <div><span class="top123">2</span>平安中国之守护者 <span class="toppf">213.8万</span></div>
+                            </a></li>
+                        <li><a href="#">
+                                <div><span class="top123">3</span>你好，李焕英 <span class="toppf">213.8万</span></div>
+                            </a></li>
+                        <li><a href="#">
+                                <div><span class="top123">4</span>哥斯拉大战金刚 <span class="toppf">213.8万</span></div>
+                            </a></li>
+                        <li><a href="#">
+                                <div><span class="top123">5</span>唐人街探案3 <span class="toppf">213.8万</span></div>
+                            </a></li>
+                        <li><a href="#">
+                                <div><span class="top123">6</span>第十一回 <span class="toppf">213.8万</span></div>
+                            </a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $.ajax({
+        url:'/getMovies',
+        type:'get',
+        dataType:'json',
+        success:data => {
+            console.log(data);
+            var str = "";
+            for(var a = 0;a<data.length;a++){
+                console.log(data[a])
+                str+=`<div className=\"imgg\"><img ><div className=\"letter\">${data[a].movieName}</div><button>购票</button></div>`
+            }
+            $(".contents-body").append(str);
+            console.log($(".contents-body"));
+        }
+    })
+</script>
+</html>

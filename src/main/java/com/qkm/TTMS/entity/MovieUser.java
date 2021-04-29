@@ -5,8 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * 用户表
@@ -14,15 +20,16 @@ import lombok.Data;
  */
 @TableName(value ="movie_user")
 @Data
-public class MovieUser implements Serializable {
+public class MovieUser implements Serializable{
+
     /**
-     * 
+     *
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
 
     /**
-     * 用户名
+     * 用户名`
      */
     @TableField(value = "accounts")
     private String accounts;
@@ -82,11 +89,29 @@ public class MovieUser implements Serializable {
     private String personalizedSignature;
 
     /**
-     * 管理员的id
+     *电影院id
      */
     @TableField(value = "cinema_id")
     private Long cinemaId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    public MovieUser(Long id, String accounts, String password, String nickname, Date createTime, String icon, String gender, Date birthday, String city, String job, String personalizedSignature) {
+        this.id = id;
+        this.accounts = accounts;
+        this.password = password;
+        this.nickname = nickname;
+        this.createTime = createTime;
+        this.icon = icon;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.city = city;
+        this.job = job;
+        this.personalizedSignature = personalizedSignature;
+    }
+
+    private List<Roles> roles;
+
+
 }

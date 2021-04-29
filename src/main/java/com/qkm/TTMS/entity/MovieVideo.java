@@ -15,19 +15,19 @@ import lombok.Data;
 @Data
 public class MovieVideo implements Serializable {
     /**
-     * 
+     * 主键
      */
     @TableId(value = "id")
     private Integer id;
 
     /**
-     * 
+     * 电影的id
      */
     @TableField(value = "movie_id")
     private Long movieId;
 
     /**
-     * 
+     * 电影的视频
      */
     @TableField(value = "movie_video")
     private String movieVideo;

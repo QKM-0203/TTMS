@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class RUser implements UserDetails,Serializable {
 
-    private final User user;
+    private final MovieUser user;
 
-    public RUser(User user){
+    public RUser(MovieUser user){
         this.user = user;
     }
     @Override
@@ -60,5 +60,10 @@ public class RUser implements UserDetails,Serializable {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Long getCinemaId(Long id){
+        return user.getCinemaId();
+
     }
 }

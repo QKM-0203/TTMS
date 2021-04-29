@@ -70,6 +70,9 @@ public class Movie implements Serializable {
      */
     private List<MovieComment> movieCommentList;
 
+
+
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

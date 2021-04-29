@@ -14,7 +14,6 @@ $('.menu_li').each(function (index) {
     })
 
     var element = $('.right_box')[index]
-    console.log(element)
     $(element).css("display", "block")
   })
 })

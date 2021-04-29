@@ -24,7 +24,13 @@
         type:'get',
         dataType:'json',
         success:data => {
-            alert(data);
+            console.log(data);
+            var  pop = window.open("","_blank");
+            if(pop){
+                setTimeout(function (){
+                    pop.postMessage(JSON.stringify(data),"");
+                },500);
+            }
         }
     })
 

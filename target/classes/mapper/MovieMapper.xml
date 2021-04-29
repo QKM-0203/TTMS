@@ -13,6 +13,16 @@
             <result property="movieBrief" column="movie_brief" jdbcType="VARCHAR"/>
             <result property="movieScore" column="movie_score" jdbcType="FLOAT"/>
             <result property="movieMoney" column="movie_money" jdbcType="BIGINT"/>
+<!--            <collection property="picturesList" ofType="com.qkm.TTMS.entity.MoviePicture">-->
+<!--                <result property="moviePicture" column="mp"/>-->
+<!--                <result property="movieId" column="mi"/>-->
+<!--            </collection>-->
+<!--           <collection property="movieCommentList" ofType="com.qkm.TTMS.entity.MovieComment">-->
+<!--               <result property="movieComment" column="mC"/>-->
+<!--               <result property="commentPeopleNickname" column="mn"/>-->
+<!--               <result property="movieIcon" column="mi"/>-->
+<!--               <result property="peopleScore" column="pc"/>-->
+<!--            </collection>-->
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -20,4 +30,8 @@
         movie_start,movie_minute,movie_brief,
         movie_score,movie_money
     </sql>
+    <select id="getMovies" resultMap="BaseResultMap">
+--         select m.* ,m_p.movie_id mi ,m_p.movie_picture mp,mc.movie_comment mC ,mc.movie_icon mi, mc.comment_people_nickname mn , mc.people_score pc from movie m join movie_picture m_p on m_p.movie_id = m.id join movie_comment mc on m.id = mc.movie_id
+     select * from movie;
+    </select>
 </mapper>

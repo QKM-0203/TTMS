@@ -1,22 +1,21 @@
 package com.qkm.TTMS.service.impl;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import com.qkm.TTMS.entity.User;
-import com.qkm.TTMS.mapper.UserMapper;
+import com.qkm.TTMS.entity.MovieUser;
+import com.qkm.TTMS.mapper.MovieUserMapper;
 import com.qkm.TTMS.service.UserSer;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserSerImpl implements UserSer {
-    private final UserMapper userMapper;
+    private final MovieUserMapper userMapper;
 
-    public UserSerImpl(UserMapper userMapper) {
+    public UserSerImpl(MovieUserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
 
     @Override
-    public int addUser(User user) {
+    public int addUser(MovieUser user) {
         try{
             return userMapper.insert(user);
         }catch(Exception e){

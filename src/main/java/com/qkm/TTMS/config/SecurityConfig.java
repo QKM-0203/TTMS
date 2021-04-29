@@ -1,6 +1,8 @@
 package com.qkm.TTMS.config;
 
 import com.alibaba.fastjson.JSON;
+import com.qkm.TTMS.entity.MovieUser;
+import com.qkm.TTMS.mapper.MovieUserMapper;
 import com.qkm.TTMS.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +26,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
+    public SecurityConfig(MovieUserMapper movieUserMapper) {
+        this.movieUserMapper = movieUserMapper;
+    }
+
     @Bean//加密模式，记住这个验证时是加密验证的，那么存的时候也要加密后再存，
     public PasswordEncoder encode(){
         return new BCryptPasswordEncoder();
@@ -35,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService);
     }
 
+    private final MovieUserMapper movieUserMapper;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -51,21 +58,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("accounts")
                 //前后端分离,成功的Json
                 .successHandler((req, resp, authentication) -> {
+                    String accounts = req.getParameter("accounts");
+                    Long cinemaIdByAccounts = movieUserMapper.getCinemaIdByAccounts(accounts);
                     Object principal = authentication.getPrincipal();
                     HashMap<String, Object> stringObjectHashMap = new HashMap<>();
                     stringObjectHashMap.put("privilege",principal);
                     stringObjectHashMap.put("sign","1");
+                    stringObjectHashMap.put("cinemaId",cinemaIdByAccounts);
                     resp.setContentType("application/json;charset=utf-8");
                     PrintWriter out = resp.getWriter();
+
                     out.write(JSON.toJSONString(stringObjectHashMap));
                     out.flush();
                     out.close();
                 })
-                //登录处理器,不写则登录接口和LoginPage的填写是一样的,写了的话登录接口就是和LoginProcessingUrl一致.
- //               .loginProcessingUrl("/LW")
-                //成功之后页面的跳转,前后端不分离
-//                .defaultSuccessUrl("/Head")
-                //失败的Json
+               // 失败的Json
                 .failureHandler((req, resp, authentication) -> {
                     resp.setContentType("application/json;charset=utf-8");
                     PrintWriter out = resp.getWriter();

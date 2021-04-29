@@ -109,31 +109,31 @@
 .hall_name{
   display: inline-block;
   text-align: center;
-  width:20%;
+  width:182px;
 }
 
 .hall_sort{
   display: inline-block;
   text-align: center;
-  width:20%;
+  width:182px;
 }
 
 .hall_line{
   display: inline-block;
   text-align: center;
-  width:15%;
+  width:136px;
 }
 
 .hall_column{
   display: inline-block;
   text-align: center;
-  width:20%;
+  width:182px;
 }
 
 .hall_operate{
   display: inline-block;
   text-align: center;
-  width:20%;
+  width:182px;
 }
 
 

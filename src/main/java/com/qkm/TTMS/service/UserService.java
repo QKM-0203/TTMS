@@ -2,8 +2,8 @@ package com.qkm.TTMS.service;
 
 import com.qkm.TTMS.entity.RUser;
 import com.qkm.TTMS.entity.Roles;
-import com.qkm.TTMS.entity.User;
-import com.qkm.TTMS.mapper.UserMapper;
+import com.qkm.TTMS.entity.MovieUser;
+import com.qkm.TTMS.mapper.MovieUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,24 +11,25 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    private UserMapper userMapper;
+    private final MovieUserMapper movieUserMapper;
+
+    public UserService(MovieUserMapper movieUserMapper) {
+        this.movieUserMapper = movieUserMapper;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userMapper.getByaccounts(s);
+        MovieUser user = movieUserMapper.getByaccounts(s);
+
         if(user == null){
             throw new UsernameNotFoundException("accounts not find");
-        }
-        // 将权限全部放入
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for(Roles r: user.getRoles()){
-            authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
         }
 
         //返回实现userDetails的user类

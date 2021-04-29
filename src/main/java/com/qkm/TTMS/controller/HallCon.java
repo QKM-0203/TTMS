@@ -3,9 +3,6 @@ package com.qkm.TTMS.controller;
 import com.alibaba.fastjson.JSON;
 import com.qkm.TTMS.entity.MovieHall;
 import com.qkm.TTMS.mapper.MovieHallMapper;
-import com.qkm.TTMS.mapper.MovieMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +28,7 @@ public class HallCon {
     }
 
 
-    @GetMapping("/get")
+    @GetMapping("/getHalls")
     public String getHalls(){
         List<MovieHall> movieHalls = movieHallMapper.selectList(null);
         System.out.println(movieHalls);
@@ -44,4 +41,5 @@ public class HallCon {
         System.out.println(movieHall);
         return JSON.toJSONString(movieHall);
     }
+
 }

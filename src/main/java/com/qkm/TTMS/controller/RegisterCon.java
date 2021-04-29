@@ -1,17 +1,12 @@
 package com.qkm.TTMS.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.qkm.TTMS.config.SecurityConfig;
 import com.qkm.TTMS.entity.*;
 import com.qkm.TTMS.mapper.MovieUserRolesMapper;
 import com.qkm.TTMS.service.UserSer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
@@ -33,7 +28,7 @@ public class RegisterCon {
 
 
     @PostMapping("/register")
-    public String addUser(User user){
+    public String addUser(MovieUser user){
         user.setCreateTime(new Date());
         user.setPassword(securityConfig.encode().encode(user.getPassword()));
         int sign = userSer.addUser(user);
@@ -56,20 +51,6 @@ public class RegisterCon {
     public String buy(){
        return "1";
     }
-
-//   @PostMapping("/addHall")
-//    public String addHall(@RequestBody JSONObject json){
-//        System.out.println(json);
-//        System.out.println(JSON.toJSONString(json));
-//        return JSON.toJSONString(json);
-//    }
-//
-//    @PostMapping("/addHall")
-//    public String addHall1(@RequestBody MovieHall movieHall){
-//        System.out.println(movieHall);
-//        return JSON.toJSONString(movieHall);
-//    }
-
 
 
 
