@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qkm.TTMS.mapper.MovieDirectorMapper">
+
+    <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MovieDirector">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="directorName" column="director_name" jdbcType="VARCHAR"/>
+            <result property="directorPicture" column="director_picture" jdbcType="VARCHAR"/>
+            <result property="movieId" column="movie_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,director_name,director_picture,
+        movie_id
+    </sql>
+</mapper>

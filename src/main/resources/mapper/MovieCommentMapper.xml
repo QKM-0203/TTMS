@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qkm.TTMS.mapper.MovieCommentMapper">
+
+    <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MovieComment">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="movieId" column="movie_id" jdbcType="BIGINT"/>
+            <result property="peopleComment" column="people_comment" jdbcType="VARCHAR"/>
+            <result property="peopleNickname" column="people_nickname" jdbcType="VARCHAR"/>
+            <result property="peopleIcon" column="people_icon" jdbcType="VARCHAR"/>
+            <result property="peopleScore" column="people_score" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,movie_id,people_comment,
+        people_nickname,people_icon,people_score
+    </sql>
+</mapper>

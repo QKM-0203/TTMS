@@ -8,6 +8,7 @@
     <script th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
 </head>
 <body>
+<iframe loading="lazy"  id="receiver" src="/seat1" style="display: none;" width="300" height="360" />
     <input id="btn" type="button" value="跳转">
 <!--    <iframe id="myIframe" src="http://localhost:8080/seat1" style="display: none" />-->
 </body>
@@ -15,22 +16,23 @@
 <script>
     var btn = document.getElementById('btn');
     btn.onclick = function(e){
-         //组织默认事件
-        e.preventDefault()
-        //表单序列化
-        // var formData = $('#signForm').serialize()
         $.ajax({
         url:'/seat',
         type:'get',
         dataType:'json',
         success:data => {
             console.log(data);
-            var  pop = window.open("","_blank");
-            if(pop){
-                setTimeout(function (){
-                    pop.postMessage(JSON.stringify(data),"");
-                },500);
-            }
+            var receiver = document.getElementById("receiver");
+            receiver.postMessage(JSON.stringify(data),"/seat1");
+            var  pop = window.open("/seat1","_blank");
+            // if(pop){
+            //     setTimeout(function (){
+            //         pop.postMessage(JSON.stringify(data),"/seat1");
+            //     },500);
+            // }
+
+
+
         }
     })
 

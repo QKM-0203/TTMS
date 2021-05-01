@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.qkm.TTMS.config.SecurityConfig;
 import com.qkm.TTMS.entity.*;
 import com.qkm.TTMS.mapper.MovieUserRolesMapper;
+import com.qkm.TTMS.mapper.PeopleWantMapper;
 import com.qkm.TTMS.service.UserSer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,10 +20,11 @@ public class RegisterCon {
 
     private final SecurityConfig securityConfig;
 
-    public RegisterCon(UserSer userSer, SecurityConfig securityConfig, MovieUserRolesMapper movieUserRolesMapper) {
+    public RegisterCon(UserSer userSer, SecurityConfig securityConfig, MovieUserRolesMapper movieUserRolesMapper, PeopleWantMapper peopleWantMapper) {
         this.userSer = userSer;
         this.securityConfig = securityConfig;
         this.movieUserRolesMapper = movieUserRolesMapper;
+        this.peopleWantMapper = peopleWantMapper;
     }
 
     private final MovieUserRolesMapper movieUserRolesMapper;
@@ -32,24 +35,34 @@ public class RegisterCon {
         user.setCreateTime(new Date());
         user.setPassword(securityConfig.encode().encode(user.getPassword()));
         int sign = userSer.addUser(user);
-        Map<String, Object> map = new HashMap<>();
         if(sign == 1){
             MovieUserRoles movieUserRoles = new MovieUserRoles();
             System.out.println();
             movieUserRoles.setUserId(user.getId());
             movieUserRoles.setRoleId(2);
             movieUserRolesMapper.insert(movieUserRoles);
-            map.put("sign","注册成功");
+            return JSON.toJSONString("注册成功");
         }else{
-            map.put("sign","注册失败,帐号已经注册");
+            return JSON.toJSONString("注册失败,帐号已经注册");
         }
-        return JSON.toJSONString(map);
+
     }
 
 
     @GetMapping("/seat")
     public String buy(){
-       return "1";
+        Map<String, Object> map = new HashMap<>();
+        map.put("name","qkm");
+       return JSON.toJSONString(map);
+    }
+
+
+    private final PeopleWantMapper peopleWantMapper;
+
+    @GetMapping("/wl")
+    public String Wl(){
+        List<Long> longs = peopleWantMapper.selectMovieIdByAccounts("123@qq.com");
+        return JSON.toJSONString(longs);
     }
 
 

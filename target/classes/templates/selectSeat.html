@@ -8,27 +8,28 @@
     <title>选座</title>
 </head>
 <body>
-    <div class="header"></div>
+
+    <div class="header">1</div>
     <div class="container" id="app">
         <div class="order-progress-bar">
             <div class="step first done">
                 <span class="step-num">1</span>
-                <div class="bar"></div>
+                <div class="bar">1</div>
                 <span class="step-text">选择影片场次</span>
             </div>
             <div class="step done">
                 <span class="step-num">2</span>
-                <div class="bar"></div>
+                <div class="bar">1</div>
                 <span class="step-text">选择座位</span>
             </div>
             <div class="step">
                 <span class="step-num">3</span>
-                <div class="bar"></div>
+                <div class="bar">1</div>
                 <span class="step-text">14分钟内付款</span>
             </div>
             <div class="step last">
                 <span class="step-num">4</span>
-                <div class="bar"></div>
+                <div class="bar">1</div>
                 <span class="step-text">影院取票</span>
             </div>
         </div>
@@ -36,44 +37,32 @@
             <div class="hall">
                 <div class="seat-example">
                     <div class="selectable-example example">
-                        <img th:src="@{/img/selectable.jpg}" alt=""/>
+                        <img th:src="@{/img/selectable.jpg}" />
                         <span>可选座位</span>
                     </div>
                     <div class="sold-example example">
-                        <img th:src="@{/img/sold.jpg}" alt="">
+                        <img th:src="@{/img/sold.jpg}" />
                         <span>已售座位</span>
                     </div>
                     <div class="selected-example example">
-                        <img th:src="@{/img/selected.jpg}" alt="">
+                        <img th:src="@{/img/selected.jpg}" />
                         <span>已选座位</span>
                     </div>
                 </div>
                 <div class="seats-block">
                     <div class="row-id-container">
-<!--                        <% for(int i=1;i<=list.i;i++){%>-->
-<!--                            <span class="row-id">i</span>-->
-<!--                        <% } %> -->
+
                     </div>
                     <div class="seats-contain">
                         <div class="screen-contain" style="left: 0;">
-                            <div class="screen"><img th:src="@{/imgage/screen.jpg}" alt="" ></div>
+                            <div class="screen"><img th:src="@{/imgage/screen.jpg}"  ></div>
                             <div class="screen">银幕中央</div>
                             <div class="c-screen-line"></div>
                         </div>
                         <div class="seats-wrapper">
-                            
-                            <!-- <div class="row">
-                                <span class="seat selectable" data-column-id="01" data-row-id="1" data-no="0000000000000001-1-09" data-st="N" data-act="seat-click" data-bid="b_s7eiiijf"><img class="img" src="./img/selectable.png" alt=""></span>
-                                <span class="seat selectable" data-column-id="02" data-row-id="1" data-no="0000000000000001-1-09" data-st="N" data-act="seat-click" data-bid="b_s7eiiijf"><img class="img" src="./img/selectable.png" alt=""></span>
-                                <span class="seat selectable" data-column-id="03" data-row-id="1" data-no="0000000000000001-1-09" data-st="N" data-act="seat-click" data-bid="b_s7eiiijf"><img class="img" src="./img/selectable.png" alt=""></span>
-                                <span class="seat selectable" data-column-id="04" data-row-id="1" data-no="0000000000000001-1-09" data-st="N" data-act="seat-click" data-bid="b_s7eiiijf"><img class="img" src="./img/selectable.png" alt=""></span>
-                                <span class="seat selectable" data-column-id="05" data-row-id="1" data-no="0000000000000001-1-09" data-st="N" data-act="seat-click" data-bid="b_s7eiiijf"><img class="img" src="./img/selectable.png" alt=""></span>
-                                <span class="seat selectable" data-column-id="06" data-row-id="1" data-no="0000000000000001-1-09" data-st="N" data-act="seat-click" data-bid="b_s7eiiijf"><img class="img" src="./img/selectable.png" alt=""></span>
-                                <span class="seat selectable" data-column-id="07" data-row-id="1" data-no="0000000000000001-1-09" data-st="N" data-act="seat-click" data-bid="b_s7eiiijf"><img class="img" src="./img/selectable.png" alt=""></span>
-                                <span class="seat selectable" data-column-id="08" data-row-id="1" data-no="0000000000000001-1-09" data-st="N" data-act="seat-click" data-bid="b_s7eiiijf"><img class="img" src="./img/selectable.png" alt=""></span>
-                                <span class="seat selectable" data-column-id="09" data-row-id="1" data-no="0000000000000001-1-09" data-st="N" data-act="seat-click" data-bid="b_s7eiiijf"><img class="img" src="./img/selectable.png" alt=""></span>
-                            </div> -->
-                            
+
+
+
                         </div>
                     </div>
                 </div>
@@ -128,25 +117,25 @@
                     </div>
                     <div class="has-ticket">
                         <span class="text">座位：</span>
-                        
-                        <div class="ticket-contain" data-limit="4" >
+
+                        <div class="ticket-contain"  >
                             <div class="ticketDemo">
-                                <img th:src="@{/img/ticket.png}" alt="" style="position: absolute;">
-                                <span class="ticket" data-row-id="3" data-column-id="09" data-index-="3-09"><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
+                                <img th:src="@{/img/ticket.png}"  style="position: absolute;">
+                                <span class="ticket" ><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
                             </div>
                             <div class="ticketDemo">
-                                <img th:src="@{/img/ticket.png}" alt="" style="position: absolute;">
-                                <span class="ticket" data-row-id="3" data-column-id="09" data-index-="3-09"><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
+                                <img th:src="@{/img/ticket.png}"  style="position: absolute;">
+                                <span class="ticket" ><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
                             </div>
                             <div class="ticketDemo">
-                                <img th:src="@{/img/ticket.png}" alt="" style="position: absolute;">
-                                <span class="ticket" data-row-id="3" data-column-id="09" data-index-="3-09"><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
+                                <img th:src="@{/img/ticket.png}"  style="position: absolute;">
+                                <span class="ticket" ><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
                             </div>
                             <div class="ticketDemo">
-                                <img th:src="@{/img/ticket.png}" alt="" style="position: absolute;">
-                                <span class="ticket" data-row-id="3" data-column-id="09" data-index-="3-09"><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
+                                <img th:src="@{/img/ticket.png}"  style="position: absolute;">
+                                <span class="ticket" ><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="total-price">
@@ -160,7 +149,7 @@
                     <div class="iLoginComp">
                         <div class="iLoginComp-wrapper">
                             <div class="iLoginComp-phone-num-wrapper">
-                                <input class="iLoginComp-phone-num-input" id="phoneNumInput" type="text" maxlength="11" placeholder="输入手机号"/>
+                                <input class="iLoginComp-phone-num-input" id="phoneNumInput" type="text"  placeholder="输入手机号"/>
                             </div>
                             <div class="iLoginComp-verify-code-wrapper">
                                 <input class="iLoginComp-code-input" id="codeInput" type="text" placeholder="填写验证码"/>
@@ -170,7 +159,7 @@
                                 <button class="iLoginComp-cancel-btn-wrapper" id="cancelLogin">
                                     取消
                                   </button>
-                                <button class="iLoginComp-login-btn-wrapper" id="iLoginBtn" data-act="confirm-click" data-bid="b_0a0ep6pp" style="display:none;">
+                                <button class="iLoginComp-login-btn-wrapper" id="iLoginBtn"   style="display:none;">
                                     确认选座
                                   </button>
                             </div>
@@ -182,53 +171,26 @@
         <div class="modal-container">
 
         </div>
-    </div>   
-    <div style="height: 50px;"></div>
-    <div class="footer"></div>
+    </div>
+    <div style="height: 50px;">1</div>
+    <div class="footer">1</div>
     <script>
 
+            window.addEventListener('message', function (e) {  // 监听 message 事件
+                alert(1);
+                // if (e.origin !== "/buy") {  // 验证消息来源地址
+                //     return;
+                // }
+                console.log(e);
+            });
+
+        // window.addEventListener("message", receiveMessage, false);
+        // function receiveMessage(event){
+        //     // if (event.origin !== "/buy") return;
+        //     console.log(JSON.parse(event));    // {data: 1}
+        // }
+
     </script>
-<!--    <input type="text"  value="aData">-->
-<!--    <script>-->
-<!--        var aData = localStorage.getItem("aPageData");-->
-<!--        if(aData){-->
-<!--            // doSomething(aData);     // 当能获取到数据时就说明是从A页面跳转过来的-->
-<!--            var data = JSON.parse(aData);-->
-<!--            // function(data){-->
-<!--            var str = "";-->
-<!--            //方法中传入的参数data为后台获取的数据-->
-<!--            for(a in data.seatLine) //data.data指的是数组，数组里是8个对象，i为数组的索引-->
-<!--            {-->
-<!--                str+="<div class=\"row\">";-->
-<!--                for(b in data.seatColumn){-->
-<!--                    str+="<span class=\"seat selectable\">"-->
-<!--                    for(c in data.sold){-->
-<!--                        if(a==data.sold.seatLine&&b == data.sold.seatColumn){-->
-<!--                            str+="<img class=\"img\" src=\"/img/sold.png\">";-->
-<!--                        }-->
-<!--                        else{-->
-<!--                            str+="<img class=\"img\" th:src=\"/img/selectable.png\">";-->
-<!--                        }-->
-<!--                    }-->
-<!--                    str+="</span>";-->
-<!--                }-->
-<!--                str+="</div>";-->
-<!--                -->
-<!--            }-->
-<!--            $(".seats-wrapper").append(str);-->
-<!--        // }-->
-<!--            console.log(data);-->
-<!--            localStorage.removeItem("aPageData");-->
-<!--        }else{-->
-<!--            window.addEventListener("message", receiveMessage, false);-->
-<!--        }-->
-<!--        function receiveMessage(event){-->
-<!--            if (event.origin !== "http://localhost:8080/buy") return;-->
-<!--            if(event.data){-->
-<!--                localStorage.setItem("aPageData", event.data);-->
-<!--            }-->
-<!--        }-->
-<!--    </script>-->
-<!--    <script th:src="@js/selectSeat.js"></script>-->
+
 </body>
 </html>

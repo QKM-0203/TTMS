@@ -63,13 +63,53 @@ public class Movie implements Serializable {
      * 电影的票房
      */
     @TableField(value = "movie_money")
-    private Long movieMoney;
+    private Double movieMoney;
+
+    /**
+     * 电影的当天的票房
+     */
+    @TableField(value = "day_money")
+    private Double dayMoney;
+
+
+    /**
+     * 电影的想看数目
+     */
+    @TableField(value = "want_look")
+    private Long  wantLook;
+
 
     /**
      * 电影的所有评论
      */
-    private List<MovieComment> movieCommentList;
+    private List<MovieComment> commentList;
 
+
+    /**
+     * 电影的所有编剧
+     */
+    private List<MovieWriter> writerList;
+
+    /**
+     * 电影的所有导演
+     */
+    private List<MovieDirector> directorList;
+
+    /**
+     * 电影的所有制片人
+     */
+    private List<MovieProducer> producerList;
+
+    /**
+     * 电影的所有演员
+     */
+
+     private List<MovieActor> movieActorList;
+
+    /**
+     * 电影的所有视频
+     */
+     private  List<MovieVideo> movieVideoList;
 
 
 

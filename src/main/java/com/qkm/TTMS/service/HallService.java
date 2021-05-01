@@ -1,5 +1,12 @@
 package com.qkm.TTMS.service;
 
+import com.qkm.TTMS.entity.MovieHall;
+
+import java.util.List;
+
 public interface HallService {
-    public void delHall(Integer id);
+    int delHall(Long id);
+    List<MovieHall> getHalls(Long cinemaId);
+    int  updateHall(MovieHall movieHall);
+    Long  addHall( MovieHall movieHall);
 }

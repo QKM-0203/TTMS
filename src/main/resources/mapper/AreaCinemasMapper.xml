@@ -9,7 +9,7 @@
             <result property="areaId" column="area_id" jdbcType="BIGINT"/>
             <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
             <result property="cinemaPicture" column="cinema_picture" jdbcType="VARCHAR"/>
-            <result property="movieAddress" column="movie_address" jdbcType="VARCHAR"/>
+            <result property="movieAddress" column="cinema_address" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">

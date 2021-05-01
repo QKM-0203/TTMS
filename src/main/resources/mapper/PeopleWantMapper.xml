@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qkm.TTMS.mapper.PeopleWantMapper">
+
+    <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.PeopleWant">
+            <result property="id" column="id" jdbcType="BIGINT"/>
+            <result property="movieId" column="movie_id" jdbcType="BIGINT"/>
+            <result property="accounts" column="accounts" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,movie_id,user_id
+    </sql>
+    <select id="selectMovieIdByAccounts" resultType="Long">
+        select movie_id from people_want where accounts = #{accounts}
+    </select>
+
+</mapper>

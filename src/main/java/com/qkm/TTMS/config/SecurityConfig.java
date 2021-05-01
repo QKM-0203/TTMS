@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler((req, resp, authentication) -> {
                     String accounts = req.getParameter("accounts");
                     Long cinemaIdByAccounts = movieUserMapper.getCinemaIdByAccounts(accounts);
+
                     Object principal = authentication.getPrincipal();
                     HashMap<String, Object> stringObjectHashMap = new HashMap<>();
                     stringObjectHashMap.put("privilege",principal);

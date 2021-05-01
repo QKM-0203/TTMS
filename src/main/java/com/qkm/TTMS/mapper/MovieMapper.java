@@ -11,7 +11,9 @@ import java.util.List;
  */
 @Repository
 public interface MovieMapper extends BaseMapper<Movie> {
-       List<Movie> getMovies();
+   List<Movie>  getMoviesOn();
+   List<Movie>  getMoviesSoon();
+   List<Movie>  getMoviesHot();
 }
 
 

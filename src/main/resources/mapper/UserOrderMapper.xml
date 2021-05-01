@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qkm.TTMS.mapper.UserOrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.UserOrder">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="orderDate" column="order_date" jdbcType="TIMESTAMP"/>
+            <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
+            <result property="movieName" column="movie_name" jdbcType="VARCHAR"/>
+            <result property="orderMoney" column="order_money" jdbcType="INTEGER"/>
+            <result property="cinemaId" column="cinema_id" jdbcType="BIGINT"/>
+            <result property="ticketMoney" column="ticket_money" jdbcType="INTEGER"/>
+            <result property="movieTime" column="movie_start_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,order_date,
+        cinema_name,movie_name,order_money,
+        cinema_id,ticket_money,movie_time
+    </sql>
+</mapper>

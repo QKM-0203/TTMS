@@ -13,16 +13,40 @@
             <result property="movieBrief" column="movie_brief" jdbcType="VARCHAR"/>
             <result property="movieScore" column="movie_score" jdbcType="FLOAT"/>
             <result property="movieMoney" column="movie_money" jdbcType="BIGINT"/>
-<!--            <collection property="picturesList" ofType="com.qkm.TTMS.entity.MoviePicture">-->
-<!--                <result property="moviePicture" column="mp"/>-->
-<!--                <result property="movieId" column="mi"/>-->
-<!--            </collection>-->
-<!--           <collection property="movieCommentList" ofType="com.qkm.TTMS.entity.MovieComment">-->
-<!--               <result property="movieComment" column="mC"/>-->
-<!--               <result property="commentPeopleNickname" column="mn"/>-->
-<!--               <result property="movieIcon" column="mi"/>-->
-<!--               <result property="peopleScore" column="pc"/>-->
-<!--            </collection>-->
+            <result property="dayMoney" column="day_money" jdbcType="FLOAT"/>
+<!--            制片人-->
+            <collection property="producerList" javaType="java.util.ArrayList" column="id" ofType="com.qkm.TTMS.entity.MovieProducer" select="getProducers">
+                <result property="producerName" column="producer_name"/>
+                <result property="producerPicture" column="producer_picture"/>
+            </collection>
+<!--           评论-->
+           <collection property="commentList"  column="id" ofType="com.qkm.TTMS.entity.MovieComment" select="getComments">
+               <result property="peopleComment" column="people_comment"/>
+               <result property="peopleNickname" column="people_nickname"/>
+               <result property="peopleIcon" column="people_icon"/>
+               <result property="peopleScore" column="people_score"/>
+            </collection>
+<!--             演员-->
+        <collection property="movieActorList" column="id" ofType="com.qkm.TTMS.entity.MovieActor" select="getActors">
+            <result property="actorPicture" column="actor_picture"/>
+            <result property="actorName" column="actor_name"/>
+            <result property="roleName" column="role_ame"/>
+        </collection>
+<!--        导演-->
+        <collection property="directorList" column="id"  ofType="com.qkm.TTMS.entity.MovieDirector" select="getDirectors">
+            <result property="directorName" column="director_name"/>
+            <result property="directorPicture" column="director_picture"/>
+            <result property="movieRoleName" column="movie_role_name"/>
+        </collection>
+<!--        视频-->
+        <collection property="movieVideoList" column="id"  ofType="com.qkm.TTMS.entity.MovieVideo" select="getVideos">
+            <result property="movieVideo" column="movie_video"/>
+        </collection>
+<!--        编剧-->
+        <collection property="writerList" column="id"  ofType="com.qkm.TTMS.entity.MovieWriter" select="getWriters">
+            <result property="screenwriterPicture" column="screenwriter_picture"/>
+            <result property="screenwriterName" column="screenwriter_name"/>
+        </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -30,8 +54,43 @@
         movie_start,movie_minute,movie_brief,
         movie_score,movie_money
     </sql>
-    <select id="getMovies" resultMap="BaseResultMap">
---         select m.* ,m_p.movie_id mi ,m_p.movie_picture mp,mc.movie_comment mC ,mc.movie_icon mi, mc.comment_people_nickname mn , mc.people_score pc from movie m join movie_picture m_p on m_p.movie_id = m.id join movie_comment mc on m.id = mc.movie_id
-     select * from movie;
+<!--    查找正在热映电影-->
+    <select id="getMoviesOn" resultMap="BaseResultMap">
+        select *  from movie where movie_status = 1 order by day_money desc
+    </select>
+
+    <!--    查找即将上映电影-->
+    <select id="getMoviesSoon" resultMap="BaseResultMap">
+        select *  from movie where movie_status = 2 order by movie_start desc
+    </select>
+
+    <!--    查找热播电影-->
+    <select id="getMoviesHot" resultMap="BaseResultMap">
+        select *  from movie where movie_status = 3
+    </select>
+
+<!--   制片人-->
+    <select id="getProducers" resultType="com.qkm.TTMS.entity.MovieProducer">
+          select * from movie_producer where movie_id = #{id}
+    </select>
+    <!--           评论-->
+    <select id="getComments" resultType="com.qkm.TTMS.entity.MovieComment">
+        select * from movie_comment where movie_id = #{id}
+    </select>
+<!--    导演-->
+    <select id="getDirectors" resultType="com.qkm.TTMS.entity.MovieDirector">
+        select * from movie_director where movie_id = #{id}
+    </select>
+<!--    演员-->
+    <select id="getActors" resultType="com.qkm.TTMS.entity.MovieActor">
+        select * from movie_actor where movie_id = #{id}
+    </select>
+<!--    编剧-->
+    <select id="getWriters" resultType="com.qkm.TTMS.entity.MovieWriter">
+        select * from movie_writer where movie_id = #{id}
+    </select>
+<!--    视频-->
+    <select id="getVideos" resultType="com.qkm.TTMS.entity.MovieVideo">
+        select * from movie_video where movie_id = #{id}
     </select>
 </mapper>

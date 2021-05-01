@@ -110,14 +110,6 @@
                        class="layui-input">
             </div>
         </div>
-<!--        <div class="layui-form-item" hidden>-->
-<!--            <label class="layui-form-label">影院ID:</label>-->
-<!--            <div class="layui-input-inline">-->
-<!--                <input type="text" name="hallName" lay-verify="required" placeholder="影院ID"-->
-<!--                       autocomplete="off"-->
-<!--                       class="layui-input">-->
-<!--            </div>-->
-<!--        </div>-->
         <div class="layui-form-item">
             <label class="layui-form-label">影厅类型:</label>
             <div class="layui-input-block">
@@ -156,10 +148,11 @@
         </div>
     </form>
     <form class="layui-form" id="edit_hall_form" action="">
+        <input id="edit_id" hidden value="" ></input>
         <div class="layui-form-item">
             <label class="layui-form-label">影厅名称:</label>
             <div class="layui-input-inline">
-                <input type="text" name="hallName" required lay-verify="required" placeholder="请输入影厅名称"
+                <input id="edit_hallName" type="text" name="hallName" required lay-verify="required" placeholder="请输"
                        autocomplete="off"
                        class="layui-input">
             </div>
@@ -167,25 +160,25 @@
         <div class="layui-form-item">
             <label class="layui-form-label">影厅类型:</label>
             <div class="layui-input-inline">
-                <select name="hallType" lay-verify="" style=":display:block;">
-                    <option value="0">请选择一个类型</option>
-                    <option value="3D厅">3D厅</option>
-                    <option value="激光厅">激光厅</option>
-                    <option value="长安第一巨幕">长安第一巨幕</option>
+                <select id="edit_movieType" name="movieType" lay-verify="" style=":display:block;">
+                    <option class="select_movieType" value="0">请选择一个类型</option>
+                    <option class="select_movieType" value="3D厅">3D厅</option>
+                    <option class="select_movieType" value="激光厅">激光厅</option>
+                    <option class="select_movieType" value="长安第一巨幕">长安第一巨幕</option>
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">行数：</label>
             <div class="layui-input-inline">
-                <input type="text" name="seatLine" required lay-verify="required" placeholder="请输入行数" autocomplete="off"
+                <input id="edit_seatLine" type="text" name="seatLine" required lay-verify="required" placeholder="请输入行数" autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">列数:</label>
             <div class="layui-input-inline">
-                <input type="text" name="seatColumn" required lay-verify="required" placeholder="请输入列数"
+                <input id="edit_seatColumn" type="text" name="seatColumn" required lay-verify="required" placeholder="请输入列数"
                        autocomplete="off"
                        class="layui-input">
             </div>
@@ -284,7 +277,6 @@
 <script>
     layui.use('form', function(){
         var form = layui.form;
-
         //监听提交
         form.on('submit(formDemo)', function(data){
             // layer.msg(JSON.stringify(data.field));
@@ -293,7 +285,7 @@
         });
     });
 
-        $.ajax({
+    $.ajax({
             url: '/getHalls',
             type: 'get',
             dataType: 'json',
@@ -302,6 +294,7 @@
                 var str = ``
                 for (var i = 0; i < data.length; i++) {
                     str+= `<form class=\"hall\">
+                        <input hidden value="${data[i].id}"></input>
                         <p class=\"hall_name hall_p\">${data[i].hallName}</p>
                         <p class="hall_sort hall_p\">${data[i].movieType}</p>
                         <p class=\"hall_line hall_p\">${data[i].seatLine}行</p>
@@ -336,7 +329,7 @@
         console.log(JSON.stringify(o))
         var fd = JSON.stringify(o)
         $.ajax({
-            url: 'addHall',
+            url: '/addHall',
             type: 'post',
             data: fd,
             dataType: 'json',
@@ -349,14 +342,15 @@
 
                 var str = `
                     <form class=\"hall\">
+                        <input hidden value="${data.id}"></input>
                         <p class=\"hall_name hall_p\">${data.hallName}</p>
                         <p class="hall_sort hall_p\">${data.movieType}</p>
                         <p class=\"hall_line hall_p\">${data.seatLine}行</p>
                         <p class=\"hall_column hall_p\">${data.seatColumn}列</p>
                         <p class="hall_operate">
-                        <button type="reset" class="edit_hall">编辑</button>
-                        <button type="reset" class="delete_hall">删除</button>
-                    </p>
+                        <button type=\"reset\" class=\"edit_hall\">编辑</button>
+                        <button type=\"reset\" class=\"delete_hall\">删除</button>
+                        </p>
                     </form>`
                 var parent = $('.all_hall').eq(1);
                 parent.append(str)
@@ -366,6 +360,9 @@
             }
         })
     })
+
+
+
     // $('#new_hall_form').on('submit', e => {
     //     e.preventDefault()
     //     const formData = $('#new_hall_form').serializeArray()

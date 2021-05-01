@@ -7,8 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TTMS</title>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="../猫眼电影/font_2447382_jrs1x1qhzt9/iconfont.css">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/iconfont.css}">
     <style>
         .clearfix::before,
         .clearfix::after {
@@ -18,9 +18,18 @@
         }
 
 
+        @font-face {
+            font-family: 'iconfont';
+            src: url('../static/css/icon/iconfont.eot');
+            src: url('../static/css/icon/iconfont.eot?#iefix') format('embedded-opentype'),
+            url('../static/css/icon/iconfont.woff2') format('woff2'),
+            url('../static/css/icon/iconfont.woff') format('woff'),
+            url('../static/css/icon/iconfont.ttf') format('truetype'),
+            url('../static/css/icon/iconfont.svg#iconfont') format('svg');
+        }
 
         .iconfont {
-            font-family: "iconfont" !important;
+            /*font-family: "iconfont" !important;*/
             font-size: 16px;
             font-style: normal;
             -webkit-font-smoothing: antialiased;
@@ -28,10 +37,10 @@
         }
 
         body {
-           /* background-image: linear-gradient(to bottom right,#a8ff78,#78ffd6); */
+
            background-attachment: fixed;
            background-size: cover;
-           /* background-color: lemonchiffon; */
+
         }
 
         .head .top {
@@ -102,22 +111,19 @@
             text-decoration: none;
         }
 
-        /* .head .top .nav-right .search{
-            height: 180px;
-            float: left;
-        } */
+
         .head .top .nav-right .search input {
 
             display: block;
             height: 20px;
             line-height: 20px;
             width: 220px;
-            /* padding: 0 40px 0 20px; */
+
             border: 1px solid #ccc;
             font-size: 14px;
-            /* border-radius: 30px; */
+
             background-color: #faf8fa;
-            /* overflow: hidden; */
+
             color: #333;
             margin-top: 28px;
             margin-left: 40px;
@@ -156,8 +162,6 @@
         .contents-left {
             width: 810px;
 
-            /* height: 2036px; */
-            /* background-color: darkgrey;   */
         }
 
         .contents-left .contents-body {
@@ -206,8 +210,7 @@
             height: 35px;
             color: crimson;
             box-shadow: 1px 1px 5px silver;
-            /* border:1px solid gray ; */
-            /* border-color: grey; */
+
         }
         .contents-left .contents-body .imgg button:hover{
             background-color: crimson;
@@ -216,7 +219,7 @@
         .contents-right {
             width: 610px;
             float: right;
-            /* background-color: khaki; */
+
             position: relative;
             top: -606px;
         }
@@ -242,7 +245,7 @@
         .contents-right .panel .tuwen .wen {
             width: 250px;
             height: 75px;
-            /* border:rgb(122, 101, 101) 1px solid; */
+
             position: relative;
             left: 120px;
             top: -78px;
@@ -263,8 +266,7 @@
         }
 
         .contents-right .panel .tuwen .wen p .span2 {
-            /* height: 75px;
-            line-height: 75px; */
+
             font-size: 15px;
             color: crimson;
         }
