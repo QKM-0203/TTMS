@@ -8,4 +8,5 @@ public interface MovieSer {
     List<Movie> getMoviesOn();
     List<Movie> getMoviesSoon();
     List<Movie> getMoviesHot();
+    Movie getMovieById(Long id);
 }

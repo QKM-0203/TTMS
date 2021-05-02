@@ -34,6 +34,9 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6380
+#    databases: [ 0,1,2,3,4] # 要使用的库，会根据此处填写的库生成redisTemplate
+#    timeout: 60s
+#    lettuce: # lettuce基于netty，线程安全，支持并发
   messages:
     basename: i18n.login
   thymeleaf:

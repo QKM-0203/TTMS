@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.List;
-
 import lombok.Data;
 
 /**
@@ -23,10 +21,10 @@ public class AreaCinemas implements Serializable {
     private Long id;
 
     /**
-     * 区的id
+     * 区的名字
      */
-    @TableField(value = "area_id")
-    private Long areaId;
+    @TableField(value = "area_name")
+    private String areaName;
 
     /**
      * 电影院的名称
@@ -35,7 +33,7 @@ public class AreaCinemas implements Serializable {
     private String cinemaName;
 
     /**
-     * 
+     * 电影院的照片
      */
     @TableField(value = "cinema_picture")
     private String cinemaPicture;
@@ -43,13 +41,25 @@ public class AreaCinemas implements Serializable {
     /**
      * 影院的地址
      */
-    @TableField(value = "movie_address")
-    private String movieAddress;
+    @TableField(value = "cinema_address")
+    private String cinemaAddress;
 
     /**
-     * 该影院的所有电影
+     * 电影院赚的钱
      */
-    private List<Movie> movieList;
+    @TableField(value = "cinema_money")
+    private Long cinemaMoney;
+
+    /**
+     * 电影院的电话号码
+     */
+    @TableField(value = "cinema_number")
+    private Long cinemaNumber;
+
+    /**
+     * 电影院某部电影的最低价格
+     */
+    private Double lawMoney;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

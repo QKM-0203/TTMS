@@ -29,4 +29,9 @@ public class MovieSerImpl implements MovieSer {
     public List<Movie> getMoviesHot() {
         return movieMapper.getMoviesHot();
     }
+
+    @Override
+    public Movie getMovieById(Long id) {
+        return movieMapper.getMovieByMovieId(id);
+    }
 }

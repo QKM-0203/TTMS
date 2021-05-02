@@ -93,4 +93,7 @@
     <select id="getVideos" resultType="com.qkm.TTMS.entity.MovieVideo">
         select * from movie_video where movie_id = #{id}
     </select>
+    <select id="getMovieByMovieId" resultMap="BaseResultMap">
+        select *  from movie where id = #{id}
+    </select>
 </mapper>

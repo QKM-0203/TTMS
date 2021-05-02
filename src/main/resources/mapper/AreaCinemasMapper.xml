@@ -6,14 +6,20 @@
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.AreaCinemas">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="areaId" column="area_id" jdbcType="BIGINT"/>
+            <result property="areaName" column="area_name" jdbcType="VARCHAR"/>
             <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
             <result property="cinemaPicture" column="cinema_picture" jdbcType="VARCHAR"/>
-            <result property="movieAddress" column="cinema_address" jdbcType="VARCHAR"/>
+            <result property="cinemaAddress" column="cinema_address" jdbcType="VARCHAR"/>
+            <result property="cinemaMoney" column="cinema_money" jdbcType="BIGINT"/>
+            <result property="lawMoney" column="lm" jdbcType="FLOAT" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,area_id,cinema_name,
-        cinema_picture,movie_address
+        id,area_name,cinema_name,
+        cinema_picture,cinema_address,cinema_money
     </sql>
+
+    <select id="getCinemaMoviesByCinemaId" resultMap="BaseResultMap">
+        select *,cm.movie_lowMoney lm  from area_cinemas ac join cinema_movies cm on ac.id = cm.cinema_id where ac.area_name = #{areaName} and cm.movie_id = #{movieId}
+    </select>
 </mapper>
