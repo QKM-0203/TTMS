@@ -7,18 +7,48 @@
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.UserOrder">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="orderDate" column="order_date" jdbcType="TIMESTAMP"/>
             <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
             <result property="movieName" column="movie_name" jdbcType="VARCHAR"/>
-            <result property="orderMoney" column="order_money" jdbcType="INTEGER"/>
+            <result property="orderMoney" column="order_money" jdbcType="BIGINT"/>
             <result property="cinemaId" column="cinema_id" jdbcType="BIGINT"/>
-            <result property="ticketMoney" column="ticket_money" jdbcType="INTEGER"/>
-            <result property="movieTime" column="movie_start_time" jdbcType="TIMESTAMP"/>
+            <result property="ticketMoney" column="ticket_money" jdbcType="FLOAT"/>
+            <result property="movieStartTime" column="movie_start_time" jdbcType="TIMESTAMP"/>
+            <result property="orderStatus" column="order_status" jdbcType="VARCHAR"/>
+            <result property="hallName" column="hall_name" jdbcType="VARCHAR"/>
+            <collection property="hallSeatList" ofType="com.qkm.TTMS.entity.HallSeat">
+                <result property="seatLine" column="seat_line" jdbcType="INTEGER"/>
+                <result property="seatColumn" column="seat_column" jdbcType="INTEGER"/>
+            </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,order_date,
-        cinema_name,movie_name,order_money,
-        cinema_id,ticket_money,movie_time
+        id,user_id,cinema_name,
+        movie_name,order_money,cinema_id,
+        ticket_money,movie_start_time,order_status,
+        hall_name
     </sql>
+    <select id="getAllByCinemaId" resultType="com.qkm.TTMS.entity.UserOrder">
+        select
+        <include refid="Base_Column_List"/>
+        from user_order
+        where
+        cinema_id = #{cinemaId,jdbcType=NUMERIC}
+    </select>
+    <select id="getAllByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>,hs.seat_line,hs.seat_column
+        from user_order uo  join hall_seat hs on order_id = uo.id
+        where
+        user_id = #{userId,jdbcType=NUMERIC}
+    </select>
+    <delete id="delById">
+        delete
+        from user_order
+        where  id = #{id,jdbcType=NUMERIC}
+    </delete>
+    <update id="updateOrderStatusById">
+        update user_order
+        set order_status = #{orderStatus,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
 </mapper>

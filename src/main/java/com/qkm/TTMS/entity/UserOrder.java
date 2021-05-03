@@ -30,12 +30,6 @@ public class UserOrder implements Serializable {
     private Long userId;
 
     /**
-     * 下单的时间
-     */
-    @TableField(value = "order_date")
-    private Date orderDate;
-
-    /**
      * 电影院的名字
      */
     @TableField(value = "cinema_name")
@@ -51,7 +45,7 @@ public class UserOrder implements Serializable {
      * 订单的总钱数
      */
     @TableField(value = "order_money")
-    private Integer orderMoney;
+    private Long orderMoney;
 
     /**
      * 电影院的id
@@ -63,20 +57,44 @@ public class UserOrder implements Serializable {
      * 一张票的钱
      */
     @TableField(value = "ticket_money")
-    private Integer ticketMoney;
+    private Double ticketMoney;
 
     /**
      * 电影的开始时间
      */
-    @TableField(value = "movie_time")
-    private Date movieTime;
+    @TableField(value = "movie_start_time")
+    private Date movieStartTime;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+    /**
+     * 订单状态/未支付or已支付
+     */
+    @TableField(value = "order_status")
+    private String orderStatus;
+
+    /**
+     * 演出厅的名字
+     */
+    @TableField(value = "hall_name")
+    private String hallName;
+
+    /**
+     * 订单的座位
+     */
+    private List<HallSeat> hallSeatList;
 
 
     /**
-     * 选择的座位信息/已被选择的座位
+     * 电影的类型
      */
-    private List<HallSeat> hallSeatList;
+    @TableField(value = "movie_type")
+    private String movieType;
+
+    /**
+     * 电影的时长
+     */
+    @TableField(value = "movie_time")
+    private Integer movieTime;
+
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }

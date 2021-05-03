@@ -1,26 +1,36 @@
 package com.qkm.TTMS.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.qkm.TTMS.entity.AreaCinemas;
+import com.qkm.TTMS.entity.MovieHall;
+import com.qkm.TTMS.entity.MovieUser;
+import com.qkm.TTMS.entity.MovieUserRoles;
 import com.qkm.TTMS.mapper.AreaCinemasMapper;
+import com.qkm.TTMS.mapper.MovieUserMapper;
+import com.qkm.TTMS.mapper.MovieUserRolesMapper;
+import com.qkm.TTMS.service.AreaCinemaSer;
+import com.qkm.TTMS.service.impl.AreaCinemaSerImpl;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class CinemaCon {
 
-    private final RedisTemplate<String,Object> redisTemplate;
-
+    private final MovieUserRolesMapper movieUserRolesMapper;
+    private final MovieUserMapper movieUserMapper;
     private final AreaCinemasMapper areaCinemasMapper;
 
-    public CinemaCon(AreaCinemasMapper areaCinemasMapper, RedisTemplate<String, Object> redisTemplate) {
+    private final AreaCinemaSerImpl areaCinemaSerImpl;
+
+    public CinemaCon(AreaCinemaSerImpl areaCinemaSerImpl, AreaCinemasMapper areaCinemasMapper, MovieUserMapper movieUserMapper, MovieUserRolesMapper movieUserRolesMapper) {
+        this.areaCinemaSerImpl = areaCinemaSerImpl;
+
         this.areaCinemasMapper = areaCinemasMapper;
-        this.redisTemplate = redisTemplate;
+        this.movieUserMapper = movieUserMapper;
+        this.movieUserRolesMapper = movieUserRolesMapper;
     }
 
     /**
@@ -29,24 +39,71 @@ public class CinemaCon {
      * @param movieId
      * @return
      */
-    @GetMapping("/getCinemasByArea")
-    public List<AreaCinemas> getCinemas(@Param("areaName")String areaName, @Param("movieId")Long movieId){
-        List<AreaCinemas> cinemaMoviesByCinemaId = areaCinemasMapper.getCinemaMoviesByCinemaId(areaName, movieId);
-        redisTemplate.opsForValue().set(areaName,cinemaMoviesByCinemaId);
-        return cinemaMoviesByCinemaId;
+    @GetMapping("/getAreaCinemas")
+    public List<AreaCinemas> getAreaCinemas(@Param("areaName")String areaName, @Param("movieId")Long movieId){
+        return areaCinemaSerImpl.getCinemaMoviesByCinemaId(areaName, movieId);
     }
 
 
     /**
-     * 获取某个电影院信息
-     * @param areaName
-     * @param movieId
+     * 获取所有电影院的信息
      * @return
      */
-    @GetMapping("/getPlanBymovieIdAndAreaName")
-    public void getCinema(@Param("areaName")String areaName, @Param("movieId")Long movieId){
-        List<AreaCinemas> cinemasList = ( List<AreaCinemas>)redisTemplate.opsForValue().get(areaName);
-
+    @GetMapping("/getCinemas")
+    public List<AreaCinemas> getCinemas(){
+        return areaCinemaSerImpl.getAll();
     }
+
+    /**
+     * 删除电影院
+     * @param cinemaId
+     * @return
+     */
+    @GetMapping("/delCinemas")
+    public int delCinemas(@RequestParam("cinemaId") Long cinemaId){
+        return areaCinemaSerImpl.deleteById(cinemaId);
+    }
+
+    /**
+     * 增加电影院
+     * @param areaCinemas
+     * @return
+     */
+    @PostMapping("/addCinemas")
+    public int addCinemas(@RequestBody AreaCinemas areaCinemas){
+       return  areaCinemasMapper.insert(areaCinemas);
+    }
+
+    /**
+     * 编辑电影院
+     * @param areaCinemas
+     * @return
+     */
+
+    @PostMapping("/editCinema")
+    public int updateCinema(AreaCinemas areaCinemas){
+        return areaCinemasMapper.updateById(areaCinemas);
+    }
+
+    /**
+     * 为影院添加管理人员
+     * @param movieUser
+     * @return
+     */
+    @PostMapping("/addAdmin")
+    public Long addAdmin(@RequestBody MovieUser movieUser){
+        int insert = movieUserMapper.insert(movieUser);
+        MovieUserRoles movieUserRoles = new MovieUserRoles();
+        movieUserRoles.setUserId(movieUser.getId());
+        movieUserRoles.setRoleId(1);
+        movieUserRolesMapper.insert(movieUserRoles);
+        return  movieUser.getId();
+    }
+
+
+
+
+
+
 
 }

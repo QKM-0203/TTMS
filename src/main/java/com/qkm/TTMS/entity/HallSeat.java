@@ -38,6 +38,11 @@ public class HallSeat implements Serializable {
     @TableField(value = "movie_plan_id")
     private Long moviePlanId;
 
+    /**
+     * 订单id
+     */
+    @TableField(value = "order_id")
+    private Long orderId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

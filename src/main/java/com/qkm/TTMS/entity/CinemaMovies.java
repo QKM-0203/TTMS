@@ -36,7 +36,7 @@ public class CinemaMovies implements Serializable {
      * 电影的最低价格
      */
     @TableField(value = "movie_lowMoney")
-    private Double movieLowmoney;
+    private Double movieLowMoney;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

@@ -28,30 +28,49 @@ public class HallCon {
     }
 
 
+    /**
+     * 获取某个影院的所有演出厅
+     * @param cinemaId
+     * @return
+     */
     @GetMapping("/getHalls")
-    public String getHalls(Long cinemaId){
-        List<MovieHall> halls = hallService.getHalls(cinemaId);
-        return JSON.toJSONString(halls);
+    public List<MovieHall> getHalls(Long cinemaId){
+        return  hallService.getHalls(cinemaId);
     }
 
 
+    /**
+     * 增加演出厅
+     * @param movieHall
+     * @return
+     */
     @PostMapping("/addHall")
-    public String addHall(@RequestBody MovieHall movieHall){
+    public long addHall(@RequestBody MovieHall movieHall){
         Long i = hallService.addHall(movieHall);
-        return JSON.toJSONString(i);
+        return movieHall.getId();
     }
 
+    /**
+     * 删除演出厅
+     * @param id
+     * @return
+     */
     @GetMapping("/delHall")
-    public String delHall( @RequestParam("id") String id){
-        int i = hallService.delHall(Long.parseLong(id));
-        return JSON.toJSONString(i);
+    public int delHall( @RequestParam("id") String id){
+        return  hallService.delHall(Long.parseLong(id));
+
     }
 
 
+    /**
+     * 编辑演出厅
+     * @param movieHall
+     * @return
+     */
     @PostMapping("/editHall")
-    public String updateHall(MovieHall movieHall){
-        int i = hallService.updateHall(movieHall);
-        return  JSON.toJSONString(i);
+    public int updateHall(MovieHall movieHall){
+        return  hallService.updateHall(movieHall);
+
     }
 
 }

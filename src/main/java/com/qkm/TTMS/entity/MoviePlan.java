@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @TableName(value ="movie_plan")
 @Data
-public class MoviePlan implements Serializable {
+public class MoviePlan implements Serializable,Comparable<MoviePlan> {
     /**
      * 主键
      */
@@ -47,11 +47,13 @@ public class MoviePlan implements Serializable {
     @TableField(value = "cinema_movie_id")
     private Long cinemaMovieId;
 
+
+
     /**
-     * 该时间段对应的演出厅id
+     * 该时间段对应的演出厅信息
      */
     @TableField(value = "hall_id")
-    private Long hallId;
+    private MovieHall hall;
 
     /**
      * 某个时间段的钱
@@ -61,4 +63,16 @@ public class MoviePlan implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public int compareTo(MoviePlan o) {
+        if (this.getMovieStartTime().compareTo(o.getMovieStartTime()) == 1 ) {
+            return 1;
+        } else if (this.getMovieStartTime().compareTo(o.getMovieStartTime()) == -1) {
+            return -1;
+        } else {
+            //如果当天的开始时间相同就按计划id进行排序
+            return this.getId().compareTo(o.getId());
+        }
+    }
 }

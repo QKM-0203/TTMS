@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import lombok.Data;
  */
 @TableName(value ="movie")
 @Data
-public class Movie implements Serializable {
+public class Movie implements Serializable{
     /**
      * 
      */
@@ -63,13 +64,13 @@ public class Movie implements Serializable {
      * 电影的票房
      */
     @TableField(value = "movie_money")
-    private Double movieMoney;
+    private Long movieMoney;
 
     /**
      * 电影的当天的票房
      */
     @TableField(value = "day_money")
-    private Double dayMoney;
+    private Long dayMoney;
 
 
     /**
@@ -77,6 +78,24 @@ public class Movie implements Serializable {
      */
     @TableField(value = "want_look")
     private Long  wantLook;
+
+    /**
+     * 电影的类型
+     */
+    @TableField(value = "movie_type")
+    private String movieType;
+
+    /**
+     * 电影的上映地区
+     */
+    @TableField(value = "movie_area")
+    private String  movieArea;
+
+    /**
+     * 电影的海报
+     */
+    @TableField(value = "movie_head")
+    private String  movieHead;
 
 
     /**
@@ -115,4 +134,10 @@ public class Movie implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+
+
+
+
+
 }

@@ -15,4 +15,34 @@
         id,cinema_id,movie_id,
         movie_lowMoney
     </sql>
+    <select id="getIdByCinemaIdAndMovieId" resultType="Long">
+        select id from cinema_moveis where cinema_id = #{cinemaId} and movie_id = #{movieId}
+    </select>
+    <select id="getListMovieIdByCinemaId" resultType="java.lang.Long">
+        select movie_id from cinema_moveis where cinema_id = #{cinemaId}
+    </select>
+    <delete id="deleteByCinemaIdAndMovieId">
+        delete
+        from cinema_movies
+        where cinema_id = #{cinemaId,jdbcType=NUMERIC}
+          AND movie_id = #{movieId,jdbcType=NUMERIC}
+    </delete>
+    <delete id="deleteByMovieId">
+        delete
+        from cinema_movies
+        where movie_id = #{movieId,jdbcType=NUMERIC}
+    </delete>
+    <update id="setMovieLowMoneyByCinemaIdAndMovieId">
+        update cinema_movies
+        set movie_lowMoney = #{movieLowmoney,jdbcType=DECIMAL}
+        where cinema_id = #{cinemaId,jdbcType=NUMERIC}
+          AND movie_id = #{movieId,jdbcType=NUMERIC}
+    </update>
+    <select id="getAllByCinemaId" resultType="com.qkm.TTMS.entity.CinemaMovies">
+        select
+        <include refid="Base_Column_List"/>
+        from cinema_movies
+        where
+        cinema_id = #{cinemaId,jdbcType=NUMERIC} and movie_lowMoney is not null  order by movie_lowMoney asc limit 1
+    </select>
 </mapper>

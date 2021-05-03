@@ -13,4 +13,7 @@
     <sql id="Base_Column_List">
         id,user_id,role_id
     </sql>
+    <delete id="delByUserId">
+        delete from movie_user_roles where user_id = #{userId}
+    </delete>
 </mapper>

@@ -13,7 +13,11 @@
             <result property="movieBrief" column="movie_brief" jdbcType="VARCHAR"/>
             <result property="movieScore" column="movie_score" jdbcType="FLOAT"/>
             <result property="movieMoney" column="movie_money" jdbcType="BIGINT"/>
-            <result property="dayMoney" column="day_money" jdbcType="FLOAT"/>
+            <result property="movieType" column="movie_type" jdbcType="VARCHAR"/>
+            <result property="movieArea" column="movie_area" jdbcType="VARCHAR"/>
+            <result property="movieHead" column="movie_head" jdbcType="VARCHAR"/>
+            <result property="wantLook" column="want_look" jdbcType="BIGINT"/>
+            <result property="dayMoney" column="day_money" jdbcType="BIGINT"/>
 <!--            制片人-->
             <collection property="producerList" javaType="java.util.ArrayList" column="id" ofType="com.qkm.TTMS.entity.MovieProducer" select="getProducers">
                 <result property="producerName" column="producer_name"/>
@@ -52,16 +56,19 @@
     <sql id="Base_Column_List">
         id,movie_name,movie_status,
         movie_start,movie_minute,movie_brief,
-        movie_score,movie_money
+        movie_score,movie_money,movie_type,movie_area,movie_head
     </sql>
-<!--    查找正在热映电影-->
+    <update id="updateMoney">
+        update movie set movie_money = movie_money + money where movie_name = #{movieName}
+    </update>
+    <!--    查找正在热映电影-->
     <select id="getMoviesOn" resultMap="BaseResultMap">
         select *  from movie where movie_status = 1 order by day_money desc
     </select>
 
     <!--    查找即将上映电影-->
     <select id="getMoviesSoon" resultMap="BaseResultMap">
-        select *  from movie where movie_status = 2 order by movie_start desc
+        select *  from movie where movie_status = 2 order by movie_start asc
     </select>
 
     <!--    查找热播电影-->
@@ -75,7 +82,7 @@
     </select>
     <!--           评论-->
     <select id="getComments" resultType="com.qkm.TTMS.entity.MovieComment">
-        select * from movie_comment where movie_id = #{id}
+        select * from movie_comment where movie_id = #{id} limit 10
     </select>
 <!--    导演-->
     <select id="getDirectors" resultType="com.qkm.TTMS.entity.MovieDirector">
@@ -92,5 +99,8 @@
 <!--    视频-->
     <select id="getVideos" resultType="com.qkm.TTMS.entity.MovieVideo">
         select * from movie_video where movie_id = #{id}
+    </select>
+    <select id="getMovieByMovieId" resultMap="BaseResultMap">
+        select *  from movie where id = #{id}
     </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.qkm.TTMS.config;
 
 import com.alibaba.fastjson.JSON;
 import com.qkm.TTMS.entity.MovieUser;
+import com.qkm.TTMS.entity.PeopleWant;
 import com.qkm.TTMS.mapper.MovieUserMapper;
 import com.qkm.TTMS.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -23,11 +25,12 @@ import java.util.Map;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    @Autowired
-    private UserService userService;
 
-    public SecurityConfig(MovieUserMapper movieUserMapper) {
+    private final UserService userService;
+
+    public SecurityConfig(MovieUserMapper movieUserMapper, UserService userService) {
         this.movieUserMapper = movieUserMapper;
+        this.userService = userService;
     }
 
     @Bean//加密模式，记住这个验证时是加密验证的，那么存的时候也要加密后再存，
@@ -59,13 +62,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //前后端分离,成功的Json
                 .successHandler((req, resp, authentication) -> {
                     String accounts = req.getParameter("accounts");
-                    Long cinemaIdByAccounts = movieUserMapper.getCinemaIdByAccounts(accounts);
-
+                    MovieUser allByAccounts = movieUserMapper.getAllByAccounts(accounts);
                     Object principal = authentication.getPrincipal();
                     HashMap<String, Object> stringObjectHashMap = new HashMap<>();
                     stringObjectHashMap.put("privilege",principal);
                     stringObjectHashMap.put("sign","1");
-                    stringObjectHashMap.put("cinemaId",cinemaIdByAccounts);
+                    stringObjectHashMap.put("nickName",allByAccounts.getNickname());
+                    stringObjectHashMap.put("icon",allByAccounts.getIcon());
+                    stringObjectHashMap.put("cinemaId",allByAccounts.getCinemaId());
                     resp.setContentType("application/json;charset=utf-8");
                     PrintWriter out = resp.getWriter();
 

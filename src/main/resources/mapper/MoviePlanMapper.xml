@@ -6,12 +6,12 @@
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MoviePlan">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="movieStartTime" column="movie_start_time" jdbcType="DATE"/>
-            <result property="movieEndTime" column="movie_end_time" jdbcType="DATE"/>
-            <result property="planDate" column="plan_date" jdbcType="TIMESTAMP"/>
+            <result property="movieStartTime" column="movie_start_time" jdbcType="TIMESTAMP"/>
+            <result property="movieEndTime" column="movie_end_time" jdbcType="TIMESTAMP"/>
+            <result property="planDate" column="plan_date" jdbcType="DATE"/>
             <result property="cinemaMovieId" column="cinema_movie_id" jdbcType="BIGINT"/>
-            <result property="hallId" column="hall_id" jdbcType="BIGINT"/>
             <result property="ticketMoney" column="ticket_money" jdbcType="INTEGER"/>
+            <association property="hall" column="hall_id" javaType="com.qkm.TTMS.entity.MovieHall" select="getHall"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -19,4 +19,18 @@
         plan_date,cinema_movie_id,hall_id,
         ticket_money
     </sql>
+    <select id="getMoviePlan" resultMap="BaseResultMap">
+        select *  from movie_plan mp ,cinema_movies cm where cm.movie_id = #{movieId} and cm.cinema_id = #{cinemaId}
+            and mp.cinema_movie_id = cm.id and mp.movie_start_time >= NOW()
+               group by mp.plan_date ,mp.id having mp.plan_date >= CURDATE()
+                   order by mp.plan_date asc
+    </select>
+    <select id="getHall" resultType="com.qkm.TTMS.entity.MovieHall">
+        select * from movie_hall where id = #{hall_id}
+    </select>
+    <delete id="deleteByCinemaMovieId">
+        delete
+        from movie_plan
+        where cinema_movie_id = #{cinemaMovieId,jdbcType=NUMERIC}
+    </delete>
 </mapper>

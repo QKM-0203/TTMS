@@ -31,13 +31,33 @@
     </sql>
 
 
-    <select id="getByaccounts" resultMap="BaseResultMap">
+    <select id="getByAccounts" resultMap="BaseResultMap">
         select m_u.*,m_u_r.role_id rid , m_r.role_name rname from movie_user m_u join movie_user_roles m_u_r on m_u.id = m_u_r.user_id join TTMS.movie_role m_r on m_r.role_id = m_u_r.role_id where accounts = #{accounts}
 
     </select>
-    <select id="getCinemaIdByAccounts" resultType="Long">
-        select cinema_id
-        from movie_user
-        where accounts = #{accounts,jdbcType=VARCHAR}
+
+    <select id="getAllByAccounts" resultType="com.qkm.TTMS.entity.MovieUser">
+        select *  from  where accounts = #{accounts}
     </select>
+
+
+    <select id="getAdminByCinemaId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from movie_user
+        where
+        cinema_id != 0 and cinema_id != -1 and cinema_id != -2
+    </select>
+    <select id="getSellByCinemaId" resultType="com.qkm.TTMS.entity.MovieUser">
+        select
+        <include refid="Base_Column_List"/>
+        from movie_user
+        where
+        cinema_id == 0
+    </select>
+    <delete id="delById">
+        delete
+        from movie_user
+        where id = #{id,jdbcType=NUMERIC}
+    </delete>
 </mapper>

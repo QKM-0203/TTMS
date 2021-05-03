@@ -14,8 +14,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 
 
-
-
     /**
      * 不用经过Service操作直接返回试图.
      * @param registry
@@ -51,4 +49,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         hierarchy.setHierarchy("ROLE_admin > ROLE_sell > ROLE_user");
         return hierarchy;
     }
+
+
+
 }

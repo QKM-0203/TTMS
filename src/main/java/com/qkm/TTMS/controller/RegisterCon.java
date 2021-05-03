@@ -17,8 +17,10 @@ import java.util.*;
 public class RegisterCon {
 
     private final UserSer userSer;
-
     private final SecurityConfig securityConfig;
+    private final MovieUserRolesMapper movieUserRolesMapper;
+    private final PeopleWantMapper peopleWantMapper;
+
 
     public RegisterCon(UserSer userSer, SecurityConfig securityConfig, MovieUserRolesMapper movieUserRolesMapper, PeopleWantMapper peopleWantMapper) {
         this.userSer = userSer;
@@ -27,42 +29,33 @@ public class RegisterCon {
         this.peopleWantMapper = peopleWantMapper;
     }
 
-    private final MovieUserRolesMapper movieUserRolesMapper;
 
 
     @PostMapping("/register")
     public String addUser(MovieUser user){
         user.setCreateTime(new Date());
         user.setPassword(securityConfig.encode().encode(user.getPassword()));
-        int sign = userSer.addUser(user);
-        if(sign == 1){
+        //普通用户
+        user.setCinemaId(-1L);
+        try{
             MovieUserRoles movieUserRoles = new MovieUserRoles();
-            System.out.println();
             movieUserRoles.setUserId(user.getId());
             movieUserRoles.setRoleId(2);
             movieUserRolesMapper.insert(movieUserRoles);
             return JSON.toJSONString("注册成功");
-        }else{
+        }catch (Exception e){
             return JSON.toJSONString("注册失败,帐号已经注册");
         }
 
     }
 
 
-    @GetMapping("/seat")
-    public String buy(){
-        Map<String, Object> map = new HashMap<>();
-        map.put("name","qkm");
-       return JSON.toJSONString(map);
-    }
 
-
-    private final PeopleWantMapper peopleWantMapper;
 
     @GetMapping("/wl")
-    public String Wl(){
+    public  List<Long> Wl(){
         List<Long> longs = peopleWantMapper.selectMovieIdByAccounts("123@qq.com");
-        return JSON.toJSONString(longs);
+        return longs;
     }
 
 

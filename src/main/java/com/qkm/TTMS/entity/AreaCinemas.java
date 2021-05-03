@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -60,6 +62,13 @@ public class AreaCinemas implements Serializable {
      * 电影院某部电影的最低价格
      */
     private Double lawMoney;
+
+    /**
+     * 电影院里面的某部电影Id
+     */
+    private Long movieId;
+
+
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
