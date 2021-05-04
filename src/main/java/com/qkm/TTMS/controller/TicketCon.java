@@ -5,15 +5,14 @@ import com.qkm.TTMS.entity.AreaCinemas;
 import com.qkm.TTMS.entity.HallSeat;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.entity.UserOrder;
+import com.qkm.TTMS.mapper.HallSeatMapper;
 import com.qkm.TTMS.service.impl.AreaCinemaSerImpl;
 import com.qkm.TTMS.service.impl.MovieSerImpl;
 import com.qkm.TTMS.service.impl.SeatSerImpl;
+import com.qkm.TTMS.service.impl.UserOrderImpl;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -23,14 +22,15 @@ import java.util.Map;
 @RestController
 public class TicketCon {
 
-    private final MovieSerImpl movieSer;
 
-    public TicketCon(AreaCinemaSerImpl areaCinemaSerImpl, SeatSerImpl seatSerImpl, MovieSerImpl movieSer) {
-        this.areaCinemaSerImpl = areaCinemaSerImpl;
+    @Autowired
+    private  UserOrderImpl userOrderImpl;
+    private final HallSeatMapper hallSeatMapper;
+    public TicketCon(SeatSerImpl seatSerImpl, HallSeatMapper hallSeatMapper) {
         this.seatSerImpl = seatSerImpl;
-        this.movieSer = movieSer;
+        this.hallSeatMapper = hallSeatMapper;
     }
-    private final AreaCinemaSerImpl areaCinemaSerImpl;
+
 
     private final SeatSerImpl seatSerImpl;
 
@@ -69,6 +69,29 @@ public class TicketCon {
         return Map;
     }
 
+
+    /**
+     * 退票
+     * @param hallSeats
+     * @return
+     */
+    public int backTicket(@RequestBody List<HallSeat> hallSeats){
+        int i = 1;
+        for (HallSeat hallSeat : hallSeats) {
+            i = hallSeatMapper.delByOrderIdAndSeatColumnAndSeatLine(hallSeat.getOrderId(),hallSeat.getSeatColumn(),hallSeat.getSeatLine());
+        }
+        return i;
+    }
+
+
+
+    /**
+     * 退订单
+     */
+    public int backOrder(@RequestBody UserOrder userOrder){
+        hallSeatMapper.delByOrderId(userOrder.getId());
+      return  userOrderImpl.updateOrderStatusById("退款成功",userOrder.getId());
+    }
 
 
 }

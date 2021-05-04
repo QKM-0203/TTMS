@@ -21,7 +21,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
     private final UserOrderMapper userOrderMapper;
     /**
      * 针对redis数据失效事件，进行数据处理
-     * @param message
+     * @param
      * @param pattern
      */
     @Override

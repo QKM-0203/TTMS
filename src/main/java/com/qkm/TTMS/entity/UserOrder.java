@@ -66,7 +66,7 @@ public class UserOrder implements Serializable {
     private Date movieStartTime;
 
     /**
-     * 订单状态/未支付or已支付
+     * 订单状态/未支付or已支付or退款
      */
     @TableField(value = "order_status")
     private String orderStatus;

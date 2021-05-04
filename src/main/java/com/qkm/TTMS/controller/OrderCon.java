@@ -13,27 +13,29 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @RestController
 public class OrderCon {
 
 
-    @Autowired
-    private HallSeatMapper hallSeatMapper;
+    private final HallSeatMapper hallSeatMapper;
     private final RedisTemplate<String,Object> redisTemplate;
     private final AreaCinemaSerImpl areaCinemaSer;
     private final MovieSerImpl movieSer;
     private final SeatSerImpl seatSerImpl;
     private final UserOrderImpl userOrderImpl;
 
-    public OrderCon(UserOrderImpl userOrderImpl, SeatSerImpl seatSerImpl, AreaCinemaSerImpl areaCinemaSer, MovieSerImpl movieSer, RedisTemplate<String, Object> redisTemplate) {
+    public OrderCon(UserOrderImpl userOrderImpl, SeatSerImpl seatSerImpl, AreaCinemaSerImpl areaCinemaSer, MovieSerImpl movieSer, RedisTemplate<String, Object> redisTemplate, HallSeatMapper hallSeatMapper) {
         this.userOrderImpl = userOrderImpl;
         this.seatSerImpl = seatSerImpl;
         this.areaCinemaSer = areaCinemaSer;
         this.movieSer = movieSer;
         this.redisTemplate = redisTemplate;
+        this.hallSeatMapper = hallSeatMapper;
     }
 
     /**
@@ -53,6 +55,20 @@ public class OrderCon {
             seatSerImpl.saveSeat(hallSeat);
         }
         return userOrder.getId();
+    }
+
+    /**
+     * 获取订单剩余时间
+     */
+    @GetMapping("/getOrederTime")
+    public Map<String,Object> getOrderTime(@RequestParam("orderId")Long orderId){
+
+        Long expire = redisTemplate.getExpire("order" + orderId);
+        UserOrder userOrder = (UserOrder)redisTemplate.opsForValue().get("order" + orderId);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("time",expire);
+        map.put("order",userOrder);
+        return  map;
     }
 
     /**
