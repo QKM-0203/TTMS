@@ -71,7 +71,7 @@ public class UserCon {
     /**
      * 删除管理员或者售票员
      */
-    @GetMapping("/delUser")
+    @DeleteMapping("/delUser")
     public int delUser(Long userid){
         try{
             movieUserRolesMapper.delByUserId(userid);
@@ -86,14 +86,16 @@ public class UserCon {
     /**
      * 编辑个人信息
      */
-    @GetMapping("/editSelf")
+    @PutMapping("/editSelf")
     public int edit(MovieUser movieUser){
       return  movieUserMapper.updateById(movieUser);
     }
 
+
     /**
      * 得到个人信息
      */
+    @GetMapping("/getSelf")
     public MovieUser getInformation(@RequestParam("accounts") String accounts){
        return userSer.getAllByAccounts(accounts);
     }

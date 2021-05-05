@@ -10,10 +10,7 @@ import com.qkm.TTMS.service.impl.CinemaMoviesSerImpl;
 import com.qkm.TTMS.service.impl.MovieSerImpl;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -121,7 +118,7 @@ public class MovieCon {
      * 经理增加电影
      *
      */
-    @GetMapping("/ManageAddMovie")
+    @PostMapping("/ManageAddMovie")
     public int ManageAddMovie(@RequestBody Movie movie) {
         return movieSerImpl.addMovie(movie);
     }
@@ -130,7 +127,7 @@ public class MovieCon {
     /**
      * 经理编辑电影,例如将上映电影改成热播电影,或者将即将上映改成正在上映电影
      */
-    @GetMapping("/editMovie")
+    @PutMapping("/editMovie")
     public int editMovie(@RequestBody Movie movie,@RequestParam("cinemaId")long cinemaId) {
         return movieSerImpl.editMovie(movie,cinemaId);
     }
@@ -166,7 +163,7 @@ public class MovieCon {
     /**
      * 管理员增加电影
      */
-    @GetMapping("/adminAddMovies")
+    @PostMapping("/adminAddMovies")
     public int AdminAddMovie(@RequestBody Movie movie,@RequestParam("cinemaId")Long cinemaId){
         try {
             movieSerImpl.addMovie(movie);
@@ -184,7 +181,7 @@ public class MovieCon {
     /**
      * 管理员删除电影,只能删除自己影院的电影
      */
-    @GetMapping("/AdminDelMovie")
+    @DeleteMapping("/AdminDelMovie")
     public int AdminDelMovie(@RequestParam("movieId") Long movieId,@RequestParam("cinemaId")Long cinemaId){
         movieMapper.deleteById(movieId);
         return cinemaMoviesSer.deleteByCinemaIdAndMovieId(cinemaId,movieId);

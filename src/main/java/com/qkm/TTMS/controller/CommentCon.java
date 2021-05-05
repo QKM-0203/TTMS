@@ -4,6 +4,7 @@ import com.qkm.TTMS.entity.MovieComment;
 import com.qkm.TTMS.mapper.MovieCommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Repository
@@ -20,6 +21,7 @@ public class CommentCon {
      * @param movieComment
      * @return
      */
+    @PostMapping("/addComment")
     public int addComment(@RequestBody MovieComment movieComment){
          return movieCommentMapper.insert(movieComment);
     }

@@ -19,14 +19,14 @@ import java.util.regex.Pattern;
 @RestController
 public class SearchCon {
 
-    @Autowired
-    private CinemaMoviesSerImpl cinemaMoviesSer;
+    private final CinemaMoviesSerImpl cinemaMoviesSer;
     private final AreaCinemaSerImpl areaCinemaSerImpl;
     private final MovieSerImpl movieSerImpl;
 
-    public SearchCon(MovieSerImpl movieSerImpl, AreaCinemaSerImpl areaCinemaSerImpl) {
+    public SearchCon(MovieSerImpl movieSerImpl, AreaCinemaSerImpl areaCinemaSerImpl, CinemaMoviesSerImpl cinemaMoviesSer) {
         this.movieSerImpl = movieSerImpl;
         this.areaCinemaSerImpl = areaCinemaSerImpl;
+        this.cinemaMoviesSer = cinemaMoviesSer;
     }
 
     /**

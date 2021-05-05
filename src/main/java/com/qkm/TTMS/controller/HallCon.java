@@ -55,7 +55,7 @@ public class HallCon {
      * @param id
      * @return
      */
-    @GetMapping("/delHall")
+    @DeleteMapping("/delHall")
     public int delHall( @RequestParam("id") String id){
         return  hallService.delHall(Long.parseLong(id));
 
@@ -67,7 +67,7 @@ public class HallCon {
      * @param movieHall
      * @return
      */
-    @PostMapping("/editHall")
+    @PutMapping("/editHall")
     public int updateHall(MovieHall movieHall){
         return  hallService.updateHall(movieHall);
 

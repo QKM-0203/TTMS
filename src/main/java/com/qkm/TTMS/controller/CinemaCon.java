@@ -59,7 +59,7 @@ public class CinemaCon {
      * @param cinemaId
      * @return
      */
-    @GetMapping("/delCinemas")
+    @DeleteMapping("/delCinemas")
     public int delCinemas(@RequestParam("cinemaId") Long cinemaId){
         return areaCinemaSerImpl.deleteById(cinemaId);
     }
@@ -80,7 +80,7 @@ public class CinemaCon {
      * @return
      */
 
-    @PostMapping("/editCinema")
+    @PutMapping("/editCinema")
     public int updateCinema(AreaCinemas areaCinemas){
         return areaCinemasMapper.updateById(areaCinemas);
     }

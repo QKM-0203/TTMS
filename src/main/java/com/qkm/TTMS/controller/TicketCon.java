@@ -23,12 +23,12 @@ import java.util.Map;
 public class TicketCon {
 
 
-    @Autowired
-    private  UserOrderImpl userOrderImpl;
+    private final UserOrderImpl userOrderImpl;
     private final HallSeatMapper hallSeatMapper;
-    public TicketCon(SeatSerImpl seatSerImpl, HallSeatMapper hallSeatMapper) {
+    public TicketCon(SeatSerImpl seatSerImpl, HallSeatMapper hallSeatMapper, UserOrderImpl userOrderImpl) {
         this.seatSerImpl = seatSerImpl;
         this.hallSeatMapper = hallSeatMapper;
+        this.userOrderImpl = userOrderImpl;
     }
 
 
@@ -75,6 +75,7 @@ public class TicketCon {
      * @param hallSeats
      * @return
      */
+    @DeleteMapping("/delTicket")
     public int backTicket(@RequestBody List<HallSeat> hallSeats){
         int i = 1;
         for (HallSeat hallSeat : hallSeats) {
@@ -88,6 +89,7 @@ public class TicketCon {
     /**
      * 退订单
      */
+    @DeleteMapping("/delOrder")
     public int backOrder(@RequestBody UserOrder userOrder){
         hallSeatMapper.delByOrderId(userOrder.getId());
       return  userOrderImpl.updateOrderStatusById("退款成功",userOrder.getId());

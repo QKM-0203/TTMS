@@ -76,7 +76,7 @@ public class OrderCon {
      * @param userOrder
      * @return
      */
-    @GetMapping("/saveMoney")
+    @PostMapping("/saveMoney")
     public int saveMoney(@RequestBody UserOrder userOrder){
         //存票房
         int i1 = movieSer.updateMoney(userOrder.getOrderMoney(), userOrder.getMovieName());
@@ -110,7 +110,7 @@ public class OrderCon {
     /**
      * 删除自己的订单
      */
-    @GetMapping("/delOrdersBySelf")
+    @DeleteMapping("/delOrdersBySelf")
     public int delOrdersBySelf(@RequestParam("orderId")Long orderId){
         int i = hallSeatMapper.delByOrderId(orderId);
         int i1 = userOrderImpl.delById(orderId);

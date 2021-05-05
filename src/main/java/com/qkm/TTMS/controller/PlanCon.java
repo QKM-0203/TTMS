@@ -75,7 +75,7 @@ public class PlanCon {
      * @param planId
      * @return
      */
-    @GetMapping("/delPlan")
+    @DeleteMapping("/delPlan")
     public int addPlan(@RequestParam("planId")Long  planId){
        return moviePlanMapper.deleteById(planId);
     }
@@ -110,7 +110,7 @@ public class PlanCon {
      * @param moviePlan
      * @return
      */
-    @PostMapping("/editPlan")
+    @PutMapping("/editPlan")
     public int updatePlan(MoviePlan moviePlan){
        return moviePlanMapper.updateById(moviePlan);
     }
@@ -121,6 +121,7 @@ public class PlanCon {
      * @param cinemaId
      * @param movieId
      */
+    @PostMapping("/setLowMoney")
    public int setLawMoney(@RequestParam("lowMoney")Double lowMoney,@RequestParam("cinemaId")Long cinemaId,@RequestParam("movieId") Long movieId){
       return  cinemaMoviesSer.setMovieLowMoneyByCinemaIdAndMovieId(lowMoney,cinemaId,movieId);
    }
