@@ -20,7 +20,7 @@
         cinema_picture,cinema_address,cinema_money
     </sql>
     <update id="updateMoney">
-        update area_cinemas set cinema_money = cinema_money + money where id = #{cinemaId}
+        update area_cinemas set cinema_money = cinema_money + #{money} where id = #{cinemaId}
     </update>
 
     <select id="getCinemaMoviesByCinemaId" resultMap="BaseResultMap">

@@ -10,7 +10,7 @@
             <result property="movieEndTime" column="movie_end_time" jdbcType="TIMESTAMP"/>
             <result property="planDate" column="plan_date" jdbcType="DATE"/>
             <result property="cinemaMovieId" column="cinema_movie_id" jdbcType="BIGINT"/>
-            <result property="ticketMoney" column="ticket_money" jdbcType="INTEGER"/>
+            <result property="ticketMoney" column="ticket_money" jdbcType="FLOAT"/>
             <association property="hall" column="hall_id" javaType="com.qkm.TTMS.entity.MovieHall" select="getHall"/>
     </resultMap>
 
@@ -19,18 +19,45 @@
         plan_date,cinema_movie_id,hall_id,
         ticket_money
     </sql>
+
     <select id="getMoviePlan" resultMap="BaseResultMap">
         select *  from movie_plan mp ,cinema_movies cm where cm.movie_id = #{movieId} and cm.cinema_id = #{cinemaId}
             and mp.cinema_movie_id = cm.id and mp.movie_start_time >= NOW()
                group by mp.plan_date ,mp.id having mp.plan_date >= CURDATE()
                    order by mp.plan_date asc
     </select>
+
     <select id="getHall" resultType="com.qkm.TTMS.entity.MovieHall">
         select * from movie_hall where id = #{hall_id}
     </select>
+
+
+    <select id="selectListCMId" resultType="java.lang.Long">
+        SELECT id
+        from   movie_plan
+        WHERE cinema_movie_id  IN
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <select id="selectCMId" resultType="java.lang.Long">
+        SELECT id
+        from   movie_plan
+        WHERE cinema_movie_id  = #{cinemaMovieId}
+    </select>
+
     <delete id="deleteByCinemaMovieId">
         delete
         from movie_plan
         where cinema_movie_id = #{cinemaMovieId,jdbcType=NUMERIC}
+    </delete>
+
+    <delete id="deleteByCinemaMovieIds">
+        delete
+        from movie_plan
+        where cinema_movie_id IN
+        <foreach collection="cinemaMovieId" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </delete>
 </mapper>

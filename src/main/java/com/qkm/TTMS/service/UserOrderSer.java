@@ -11,5 +11,6 @@ public interface UserOrderSer {
     List<UserOrder> getAllByUserId( Long userId);
     int delById(Long id);
     int updateOrderStatusById(String orderStatus, Long id);
-
+    int deleteByCinemaId( Long cinemaId);
+    int insertAll(UserOrder userOrder);
 }

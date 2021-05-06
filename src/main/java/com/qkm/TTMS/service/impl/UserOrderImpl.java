@@ -19,7 +19,7 @@ public class UserOrderImpl implements UserOrderSer {
 
     @Override
     public int saveOrder(UserOrder userOrder) {
-        return userOrderMapper.insert(userOrder);
+        return userOrderMapper.insertAll(userOrder);
     }
 
     @Override
@@ -40,6 +40,16 @@ public class UserOrderImpl implements UserOrderSer {
     @Override
     public int updateOrderStatusById(String orderStatus, Long id) {
         return userOrderMapper.updateOrderStatusById(orderStatus, id);
+    }
+
+    @Override
+    public int deleteByCinemaId(Long cinemaId) {
+        return userOrderMapper.deleteByCinemaId(cinemaId);
+    }
+
+    @Override
+    public int insertAll(UserOrder userOrder) {
+        return userOrderMapper.insertAll(userOrder);
     }
 
 

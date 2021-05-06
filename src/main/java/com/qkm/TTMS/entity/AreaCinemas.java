@@ -56,7 +56,7 @@ public class AreaCinemas implements Serializable {
      * 电影院的电话号码
      */
     @TableField(value = "cinema_number")
-    private Long cinemaNumber;
+    private String cinemaNumber;
 
     /**
      * 电影院某部电影的最低价格

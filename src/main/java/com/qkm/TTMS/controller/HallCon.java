@@ -1,13 +1,9 @@
 package com.qkm.TTMS.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.qkm.TTMS.entity.MovieHall;
-import com.qkm.TTMS.mapper.MovieHallMapper;
 import com.qkm.TTMS.service.impl.HallServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -30,11 +26,11 @@ public class HallCon {
 
     /**
      * 获取某个影院的所有演出厅
-     * @param cinemaId
+     * @Param cinemaId
      * @return
      */
     @GetMapping("/getHalls")
-    public List<MovieHall> getHalls(Long cinemaId){
+    public List<MovieHall> getHalls(@RequestParam("cinemaId") Long cinemaId){
         return  hallService.getHalls(cinemaId);
     }
 
@@ -56,9 +52,8 @@ public class HallCon {
      * @return
      */
     @DeleteMapping("/delHall")
-    public int delHall( @RequestParam("id") String id){
+    public int delHall(@RequestParam("id") String id){
         return  hallService.delHall(Long.parseLong(id));
-
     }
 
 
@@ -68,9 +63,8 @@ public class HallCon {
      * @return
      */
     @PutMapping("/editHall")
-    public int updateHall(MovieHall movieHall){
+    public int updateHall(@RequestBody MovieHall movieHall){
         return  hallService.updateHall(movieHall);
-
     }
 
 }

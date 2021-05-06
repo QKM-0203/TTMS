@@ -19,6 +19,10 @@ public interface UserOrderMapper extends BaseMapper<UserOrder> {
     int delById(@Param("id") Long id);
 
     int updateOrderStatusById(@Param("orderStatus") String orderStatus, @Param("id") Long id);
+
+    int deleteByCinemaId(@Param("cinemaId") Long cinemaId);
+
+    int insertAll(UserOrder userOrder);
 }
 
 

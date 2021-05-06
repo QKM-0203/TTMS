@@ -1,9 +1,7 @@
 package com.qkm.TTMS.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.qkm.TTMS.entity.AreaCinemas;
 import com.qkm.TTMS.entity.Movie;
-import com.qkm.TTMS.entity.MovieHall;
 import com.qkm.TTMS.entity.MoviePlan;
 import com.qkm.TTMS.mapper.MoviePlanMapper;
 import com.qkm.TTMS.service.impl.AreaCinemaSerImpl;
@@ -11,7 +9,6 @@ import com.qkm.TTMS.service.impl.CinemaMoviesSerImpl;
 import com.qkm.TTMS.service.impl.MoviePlanSerImpl;
 import com.qkm.TTMS.service.impl.MovieSerImpl;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;

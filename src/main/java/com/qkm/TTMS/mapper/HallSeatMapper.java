@@ -17,6 +17,8 @@ public interface HallSeatMapper extends BaseMapper<HallSeat> {
     int delByOrderId(@Param("orderId") Long orderId);
 
     int delByOrderIdAndSeatColumnAndSeatLine(@Param("orderId") Long orderId, @Param("seatColumn") Integer seatColumn, @Param("seatLine") Integer seatLine);
+
+    int deleteByMoviePlanIds(@Param("moviePlanIds") List<Long> moviePlanIds);
 }
 
 

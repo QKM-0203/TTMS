@@ -12,9 +12,11 @@ public interface MovieSer {
     Movie getMovieById(Long id);
     Movie getMovieByStatus(int status,long movieId);
     List<Movie> getMovies();
+    List<Movie> getOnAndSoonMovies();
     List<Movie> getMoviesLikes();
    int addMovie(Movie movie);
    int editMovie(Movie movie,long cinemaId);
    int  updateMoney(Long money, String movieName);
+    List<Movie> selectMovieByListId(@Param("listId")List<Long> listId);
 
 }

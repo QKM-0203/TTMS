@@ -3,16 +3,13 @@ package com.qkm.TTMS.controller;
 import com.qkm.TTMS.entity.HallSeat;
 import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.HallSeatMapper;
-import com.qkm.TTMS.mapper.UserOrderMapper;
 import com.qkm.TTMS.service.impl.AreaCinemaSerImpl;
 import com.qkm.TTMS.service.impl.MovieSerImpl;
 import com.qkm.TTMS.service.impl.SeatSerImpl;
 import com.qkm.TTMS.service.impl.UserOrderImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +40,7 @@ public class OrderCon {
      * @param
      * @retur
      */
-    @GetMapping("/saveOrder")
+    @PostMapping("/saveOrder")
     public Long saveOrder(@RequestBody UserOrder userOrder){
         //存订单
         userOrderImpl.saveOrder(userOrder);

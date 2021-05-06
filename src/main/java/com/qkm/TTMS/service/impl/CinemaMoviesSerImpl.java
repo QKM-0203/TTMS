@@ -47,4 +47,14 @@ public class CinemaMoviesSerImpl implements CinemaMoviesSer {
     public CinemaMovies getAllByCinemaId(Long cinemaId) {
         return cinemaMoviesMapper.getAllByCinemaId(cinemaId);
     }
+
+    @Override
+    public int deleteByCinemaId(Long cinemaId) {
+        return cinemaMoviesMapper.deleteByCinemaId(cinemaId);
+    }
+
+    @Override
+    public List<Long> getListIdByCinemaId(long cinemaId) {
+        return cinemaMoviesMapper.getListIdByCinemaId(cinemaId);
+    }
 }

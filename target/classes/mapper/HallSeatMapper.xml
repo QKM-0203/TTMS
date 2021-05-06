@@ -31,4 +31,12 @@
           AND seat_column = #{seatColumn,jdbcType=NUMERIC}
           AND seat_line = #{seatLine,jdbcType=NUMERIC}
     </delete>
+    <delete id="deleteByMoviePlanIds">
+        delete
+        from hall_seat
+        where movie_plan_id IN
+        <foreach collection="moviePlanIds" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

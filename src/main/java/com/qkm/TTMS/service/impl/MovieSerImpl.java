@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.mapper.CinemaMoviesMapper;
+import com.qkm.TTMS.mapper.HallSeatMapper;
 import com.qkm.TTMS.mapper.MovieMapper;
 import com.qkm.TTMS.service.MovieSer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +16,9 @@ import java.util.List;
 
 @Repository
 public class MovieSerImpl implements MovieSer {
+
+    @Autowired
+    private  HallSeatMapper hallSeatMapper;
     private final MoviePlanSerImpl moviePlanSer;
     private final RedisTemplate<String,Object>  redisTemplate;
     private final MovieMapper movieMapper;
@@ -96,6 +101,15 @@ public class MovieSerImpl implements MovieSer {
     }
 
     @Override
+    public List<Movie> getOnAndSoonMovies(){
+        HashMap<String, List<Movie>> movieMap = (HashMap<String, List<Movie>>) redisTemplate.opsForValue().get("movies::movieList");
+        List<Movie> on = movieMap.get("on");
+        on.addAll(movieMap.get("soon"));
+        return  on;
+    }
+
+
+    @Override
     public List<Movie> getMoviesLikes() {
         HashMap<String, List<Movie>> movieMap = (HashMap<String, List<Movie>>) redisTemplate.opsForValue().get("movies::movieList");
         return movieMap.get("soon");
@@ -130,11 +144,9 @@ public class MovieSerImpl implements MovieSer {
     public int editMovie(Movie movie,long cinemaId) {
         Movie movieByMovieId = movieMapper.getMovieByMovieId(movie.getId());
         if(movie.getMovieStatus() == 3 && movieByMovieId.getMovieStatus().equals(1)){
-            long idByCinemaIdAndMovieId = cinemaMoviesSer.getIdByCinemaIdAndMovieId(cinemaId, movie.getId());
-            int i1 = moviePlanSer.deleteByCinemaMovieId(idByCinemaIdAndMovieId);
-            int i = cinemaMoviesSer.deleteByMovieId(movie.getId());
-            redisTemplate.delete("movies::movieList");
-            return  1;
+             areaCinemaSer.delCinema(cinemaId,movie.getId());
+             redisTemplate.delete("movies::movieList");
+             return  1;
         }else{
             redisTemplate.delete("movies::movieList");
             return movieMapper.updateById(movie);
@@ -148,6 +160,11 @@ public class MovieSerImpl implements MovieSer {
 
 
 
+    }
+
+    @Override
+    public List<Movie> selectMovieByListId(List<Long> listId) {
+        return movieMapper.selectMovieByListId(listId);
     }
 
 

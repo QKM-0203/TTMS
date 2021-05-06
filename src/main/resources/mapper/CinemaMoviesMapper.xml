@@ -8,7 +8,7 @@
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="cinemaId" column="cinema_id" jdbcType="BIGINT"/>
             <result property="movieId" column="movie_id" jdbcType="BIGINT"/>
-            <result property="movieLowmoney" column="movie_lowMoney" jdbcType="FLOAT"/>
+            <result property="movieLowMoney" column="movie_lowMoney" jdbcType="DOUBLE"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -16,10 +16,11 @@
         movie_lowMoney
     </sql>
     <select id="getIdByCinemaIdAndMovieId" resultType="Long">
-        select id from cinema_moveis where cinema_id = #{cinemaId} and movie_id = #{movieId}
+        select id from cinema_movies where cinema_id = #{cinemaId} and movie_id = #{movieId}
     </select>
+
     <select id="getListMovieIdByCinemaId" resultType="java.lang.Long">
-        select movie_id from cinema_moveis where cinema_id = #{cinemaId}
+        select movie_id from cinema_movies where cinema_id = #{cinemaId}
     </select>
     <delete id="deleteByCinemaIdAndMovieId">
         delete
@@ -45,4 +46,12 @@
         where
         cinema_id = #{cinemaId,jdbcType=NUMERIC} and movie_lowMoney is not null  order by movie_lowMoney asc limit 1
     </select>
+    <select id="getListIdByCinemaId" resultType="java.lang.Long">
+        select id from cinema_movies where cinema_id = #{cinemaId}
+    </select>
+    <delete id="deleteByCinemaId">
+        delete
+        from cinema_movies
+        where cinema_id = #{cinemaId,jdbcType=NUMERIC}
+    </delete>
 </mapper>

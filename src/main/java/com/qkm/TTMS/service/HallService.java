@@ -9,4 +9,6 @@ public interface HallService {
     List<MovieHall> getHalls(Long cinemaId);
     int  updateHall(MovieHall movieHall);
     Long  addHall( MovieHall movieHall);
+    int deleteByCinemaId( Long cinemaId);
+
 }

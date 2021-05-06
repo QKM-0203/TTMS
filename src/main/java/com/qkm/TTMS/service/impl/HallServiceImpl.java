@@ -1,6 +1,5 @@
 package com.qkm.TTMS.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qkm.TTMS.entity.MovieHall;
 import com.qkm.TTMS.mapper.MovieHallMapper;
@@ -73,5 +72,10 @@ public class HallServiceImpl implements HallService {
             return 0L;
         }
 
+    }
+
+    @Override
+    public int deleteByCinemaId(Long cinemaId) {
+        return movieHallMapper.deleteByCinemaId(cinemaId);
     }
 }

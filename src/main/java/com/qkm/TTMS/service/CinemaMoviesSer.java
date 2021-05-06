@@ -12,4 +12,7 @@ public interface CinemaMoviesSer {
     List<Long> getListMovieIdByCinemaId(Long cinemaId);
     int setMovieLowMoneyByCinemaIdAndMovieId(Double movieLowMoney,Long cinemaId,Long movieId);
     CinemaMovies getAllByCinemaId( Long cinemaId);
+    int deleteByCinemaId( Long cinemaId);
+    List<Long> getListIdByCinemaId(@Param("cinemaId")long cinemaId);
+
 }

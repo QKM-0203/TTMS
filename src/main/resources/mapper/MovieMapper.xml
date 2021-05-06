@@ -59,7 +59,7 @@
         movie_score,movie_money,movie_type,movie_area,movie_head
     </sql>
     <update id="updateMoney">
-        update movie set movie_money = movie_money + money where movie_name = #{movieName}
+        update movie set movie_money = movie_money + #{money} where movie_name = #{movieName}
     </update>
     <!--    查找正在热映电影-->
     <select id="getMoviesOn" resultMap="BaseResultMap">
@@ -102,5 +102,11 @@
     </select>
     <select id="getMovieByMovieId" resultMap="BaseResultMap">
         select *  from movie where id = #{id}
+    </select>
+    <select id="selectMovieByListId"  resultMap="BaseResultMap">
+        select  * from movie where id IN
+        <foreach collection="listId" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </select>
 </mapper>

@@ -59,7 +59,7 @@ public class MoviePlan implements Serializable,Comparable<MoviePlan> {
      * 某个时间段的钱
      */
     @TableField(value = "ticket_money")
-    private Integer ticketMoney;
+    private Float ticketMoney;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

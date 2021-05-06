@@ -1,14 +1,9 @@
 package com.qkm.TTMS.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.qkm.TTMS.config.RedisConfig;
 import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.entity.Movie;
-import com.qkm.TTMS.entity.MovieVideo;
 import com.qkm.TTMS.mapper.*;
-import com.qkm.TTMS.service.impl.CinemaMoviesSerImpl;
-import com.qkm.TTMS.service.impl.MovieSerImpl;
-import org.apache.ibatis.annotations.Param;
+import com.qkm.TTMS.service.impl.*;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,18 +16,19 @@ import java.util.List;
 public class MovieCon {
 
 
-
-
+    private final AreaCinemaSerImpl areaCinemaSer;
     private final MovieMapper movieMapper;
     private final CinemaMoviesMapper cinemaMoviesMapper;
     private final CinemaMoviesSerImpl cinemaMoviesSer;
     private final MovieSerImpl movieSerImpl;
 
-    public MovieCon(MovieSerImpl movieSerImpl, CinemaMoviesSerImpl cinemaMoviesSer, MovieMapper movieMapper, CinemaMoviesMapper cinemaMoviesMapper) {
+    public MovieCon(MovieSerImpl movieSerImpl, CinemaMoviesSerImpl cinemaMoviesSer, MovieMapper movieMapper, CinemaMoviesMapper cinemaMoviesMapper, AreaCinemaSerImpl areaCinemaSer) {
         this.movieSerImpl = movieSerImpl;
         this.cinemaMoviesSer = cinemaMoviesSer;
         this.movieMapper = movieMapper;
         this.cinemaMoviesMapper = cinemaMoviesMapper;
+
+        this.areaCinemaSer = areaCinemaSer;
     }
 
     /**
@@ -77,7 +73,7 @@ public class MovieCon {
                 }
             }
         });
-        return  movies.subList(0,101);
+        return  movies.subList(0,10);
     }
 
     /**
@@ -104,12 +100,12 @@ public class MovieCon {
     
     /**
      * 获取电影具体信息
-     * @param status
-     * @param movieId
+     * @RequestParam status
+     * @RequestParam movieId
      * @return
      */
     @GetMapping("/getSpecificMovie")
-    public Movie getSpecific(@Param("status") int status,@Param("movieId") long movieId) {
+    public Movie getSpecific(@RequestParam("status") int status,@RequestParam("movieId") long movieId) {
         return movieSerImpl.getMovieByStatus(status, movieId);
     }
 
@@ -154,9 +150,9 @@ public class MovieCon {
      * 管理员获取电影院所有的上映和即将上映电影
      */
     @GetMapping("/adminGetMovies")
-    public List<Movie> getMovies(@RequestParam("movieId")Long movieId,@RequestParam("cinemaId")Long cinemaId){
+    public List<Movie> getMovies(@RequestParam("cinemaId")Long cinemaId){
         List<Long> listByCinemaId = cinemaMoviesSer.getListMovieIdByCinemaId(cinemaId);
-        return movieMapper.selectBatchIds(listByCinemaId);
+        return movieSerImpl.selectMovieByListId(listByCinemaId);
     }
 
 
@@ -183,8 +179,8 @@ public class MovieCon {
      */
     @DeleteMapping("/AdminDelMovie")
     public int AdminDelMovie(@RequestParam("movieId") Long movieId,@RequestParam("cinemaId")Long cinemaId){
-        movieMapper.deleteById(movieId);
-        return cinemaMoviesSer.deleteByCinemaIdAndMovieId(cinemaId,movieId);
+        areaCinemaSer.delCinema(cinemaId,movieId);
+        return movieMapper.deleteById(movieId);
     }
 
 //    /**

@@ -36,7 +36,10 @@
     </select>
     <select id="getAllByUserId" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List"/>,hs.seat_line,hs.seat_column
+            uo.id,user_id,cinema_name,
+            movie_name,order_money,cinema_id,
+            ticket_money,movie_start_time,order_status,
+            hall_name,hs.seat_line,hs.seat_column
         from user_order uo  join hall_seat hs on order_id = uo.id
         where
         user_id = #{userId,jdbcType=NUMERIC}
@@ -51,4 +54,23 @@
         set order_status = #{orderStatus,jdbcType=VARCHAR}
         where id = #{id,jdbcType=NUMERIC}
     </update>
+    <delete id="deleteByCinemaId">
+        delete
+        from user_order
+        where cinema_id = #{cinemaId,jdbcType=NUMERIC}
+    </delete>
+    <insert id="insertAll">
+        insert into user_order
+        (id, user_id, cinema_name,
+         movie_name, order_money, cinema_id,
+         ticket_money, movie_start_time, order_status,
+         hall_name,  movie_type,
+         movie_time)
+        values (#{id,jdbcType=NUMERIC}, #{userId,jdbcType=NUMERIC}, #{cinemaName,jdbcType=VARCHAR},
+                #{movieName,jdbcType=VARCHAR}, #{orderMoney,jdbcType=NUMERIC}, #{cinemaId,jdbcType=NUMERIC},
+                #{ticketMoney,jdbcType=DECIMAL}, #{movieStartTime,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=VARCHAR},
+                #{hallName,jdbcType=VARCHAR}, #{movieType,jdbcType=VARCHAR},
+                #{movieTime,jdbcType=NUMERIC})
+
+    </insert>
 </mapper>

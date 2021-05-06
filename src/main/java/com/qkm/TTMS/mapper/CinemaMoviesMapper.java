@@ -18,6 +18,8 @@ public interface CinemaMoviesMapper extends BaseMapper<CinemaMovies> {
    int  deleteByMovieId(@Param("movieId") Long movieId);
    int setMovieLowMoneyByCinemaIdAndMovieId(@Param("movieLowMoney") Double movieLowMoney, @Param("cinemaId") Long cinemaId, @Param("movieId") Long movieId);
    CinemaMovies getAllByCinemaId(@Param("cinemaId") Long cinemaId);
+   int deleteByCinemaId(@Param("cinemaId") Long cinemaId);
+   List<Long> getListIdByCinemaId(@Param("cinemaId")long cinemaId);
 }
 
 
