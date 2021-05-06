@@ -94,6 +94,12 @@ public class MovieUser implements Serializable{
     @TableField(value = "cinema_id")
     private Long cinemaId;
 
+    /**
+     *售货员id
+     */
+    @TableField(value = "sell_id")
+    private int sellId;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 

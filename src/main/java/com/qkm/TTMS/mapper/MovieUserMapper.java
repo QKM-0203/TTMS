@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface MovieUserMapper extends BaseMapper<MovieUser> {
     MovieUser getByAccounts(@Param("accounts") String accounts);
     MovieUser getAllByAccounts(@Param("accounts") String accounts);
-   List<MovieUser> getAdminByCinemaId(@Param("cinemaId") Long cinemaId);
+   List<MovieUser> getAdminByCinemaId();
    List<MovieUser> getSellByCinemaId(@Param("cinemaId") Long cinemaId);
     int delById(@Param("id") Long id);
 }

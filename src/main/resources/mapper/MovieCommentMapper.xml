@@ -17,4 +17,9 @@
         id,movie_id,people_comment,
         people_nickname,people_icon,people_score
     </sql>
+    <delete id="deleteByMovieId">
+        delete
+        from movie_comment
+        where movie_id = #{movieId,jdbcType=NUMERIC}
+    </delete>
 </mapper>

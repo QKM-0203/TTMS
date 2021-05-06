@@ -46,14 +46,14 @@
         <include refid="Base_Column_List"/>
         from movie_user
         where
-        cinema_id != 0 and cinema_id != -1 and cinema_id != -2
+        cinema_id is not null and sell_id is null and cinema_id != -2
     </select>
     <select id="getSellByCinemaId" resultType="com.qkm.TTMS.entity.MovieUser">
         select
         <include refid="Base_Column_List"/>
         from movie_user
         where
-        cinema_id == 0
+        cinema_id = #{cinemaId}
     </select>
     <delete id="delById">
         delete

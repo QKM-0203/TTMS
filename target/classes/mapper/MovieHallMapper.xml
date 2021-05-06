@@ -17,4 +17,9 @@
         id,cinema_id,seat_line,
         seat_column,hall_name,movie_type
     </sql>
+    <delete id="deleteByCinemaId">
+        delete
+        from movie_hall
+        where cinema_id = #{cinemaId,jdbcType=NUMERIC}
+    </delete>
 </mapper>

@@ -50,11 +50,16 @@ public class AreaCinemaSerImpl implements AreaCinemaSer {
     }
 
     @Override
-    public int updateMoney(Long money, Long cinemaId) {
+    public int addMoney(Long money, Long cinemaId) {
 
-            return areaCinemasMapper.updateMoney(money, cinemaId);
+            return areaCinemasMapper.addMoney(money, cinemaId);
 
 
+    }
+
+    @Override
+    public int downMoney(Long money, Long cinemaId) {
+        return areaCinemasMapper.downMoney(money, cinemaId);
     }
 
     @Override

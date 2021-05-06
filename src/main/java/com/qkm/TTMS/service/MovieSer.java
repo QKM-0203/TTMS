@@ -16,7 +16,8 @@ public interface MovieSer {
     List<Movie> getMoviesLikes();
    int addMovie(Movie movie);
    int editMovie(Movie movie,long cinemaId);
-   int  updateMoney(Long money, String movieName);
+   int  addMoney(Long money, Long movieId);
+   int  downMoney(Long money, Long movieId);
     List<Movie> selectMovieByListId(@Param("listId")List<Long> listId);
 
 }

@@ -20,7 +20,7 @@ public class UserOrder implements Serializable {
     /**
      * 主键也是订单号
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
 
     /**
@@ -94,6 +94,13 @@ public class UserOrder implements Serializable {
      */
     @TableField(value = "movie_time")
     private Integer movieTime;
+
+
+    /**
+     * 电影的id
+     */
+    @TableId(value = "movie_id")
+    private Long movieId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

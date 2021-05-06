@@ -35,7 +35,7 @@
     </delete>
     <update id="setMovieLowMoneyByCinemaIdAndMovieId">
         update cinema_movies
-        set movie_lowMoney = #{movieLowmoney,jdbcType=DECIMAL}
+        set movie_lowMoney = #{movieLowMoney,jdbcType=DECIMAL}
         where cinema_id = #{cinemaId,jdbcType=NUMERIC}
           AND movie_id = #{movieId,jdbcType=NUMERIC}
     </update>

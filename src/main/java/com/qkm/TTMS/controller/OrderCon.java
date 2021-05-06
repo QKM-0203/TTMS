@@ -49,6 +49,7 @@ public class OrderCon {
         List<HallSeat> hallSeatList = userOrder.getHallSeatList();
         for (HallSeat hallSeat : hallSeatList) {
             hallSeat.setOrderId(userOrder.getId());
+            System.out.println(hallSeat.getOrderId());
             seatSerImpl.saveSeat(hallSeat);
         }
         return userOrder.getId();
@@ -76,12 +77,23 @@ public class OrderCon {
     @PostMapping("/saveMoney")
     public int saveMoney(@RequestBody UserOrder userOrder){
         //存票房
-        int i1 = movieSer.updateMoney(userOrder.getOrderMoney(), userOrder.getMovieName());
+        int i1 = movieSer.addMoney(userOrder.getOrderMoney(), userOrder.getMovieId());
         //存电影院赚的钱
-        int i2 = areaCinemaSer.updateMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());
+        int i2 = areaCinemaSer.addMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());
         userOrderImpl.updateOrderStatusById("已支付",userOrder.getId());
         return i1;
 
+    }
+
+    /**
+     * 退订单
+     */
+    @DeleteMapping("/delOrder")
+    public int backOrder(@RequestBody UserOrder userOrder){
+        movieSer.downMoney(userOrder.getOrderMoney(), userOrder.getMovieId());
+        areaCinemaSer.downMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());
+        hallSeatMapper.delByOrderId(userOrder.getId());
+        return  userOrderImpl.updateOrderStatusById("退款成功",userOrder.getId());
     }
 
 

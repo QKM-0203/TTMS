@@ -108,7 +108,7 @@ public class PlanCon {
      * @return
      */
     @PutMapping("/editPlan")
-    public int updatePlan(MoviePlan moviePlan){
+    public int updatePlan(@RequestBody  MoviePlan moviePlan){
        return moviePlanMapper.updateById(moviePlan);
     }
 

@@ -23,8 +23,8 @@ public class UserSerImpl implements UserSer {
     }
 
     @Override
-    public List<MovieUser> getAdmins(Long cinemaId) {
-        return userMapper.getAdminByCinemaId(cinemaId);
+    public List<MovieUser> getAdmins() {
+        return userMapper.getAdminByCinemaId();
     }
 
     @Override

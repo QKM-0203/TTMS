@@ -60,8 +60,8 @@ public class TicketCon {
 //    }
 
 
-    @GetMapping("/getSeatAndOrder")
-    public Map<String,Object> getOrder(@RequestBody UserOrder userOrder, @Param("planId") Long planId){
+    @PostMapping("/getSeatAndOrder")
+    public Map<String,Object> getOrder(@RequestBody UserOrder userOrder, @RequestParam("planId") Long planId){
         List<HallSeat> seatByPlanId = seatSerImpl.getSeatByPlanId(planId);
         HashMap<String, Object> Map = new HashMap<String, Object>();
         Map.put("seat",seatByPlanId);
@@ -86,14 +86,6 @@ public class TicketCon {
 
 
 
-    /**
-     * 退订单
-     */
-    @DeleteMapping("/delOrder")
-    public int backOrder(@RequestBody UserOrder userOrder){
-        hallSeatMapper.delByOrderId(userOrder.getId());
-      return  userOrderImpl.updateOrderStatusById("退款成功",userOrder.getId());
-    }
 
 
 }

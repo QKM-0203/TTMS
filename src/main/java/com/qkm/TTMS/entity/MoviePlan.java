@@ -47,6 +47,12 @@ public class MoviePlan implements Serializable,Comparable<MoviePlan> {
     @TableField(value = "cinema_movie_id")
     private Long cinemaMovieId;
 
+    /**
+     * 该时间段对应的演出厅id
+     */
+    @TableField(value = "hall_id")
+    private Long hallId;
+
 
 
     /**

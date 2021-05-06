@@ -4,6 +4,7 @@ import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.mapper.*;
 import com.qkm.TTMS.service.impl.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,19 +17,31 @@ import java.util.List;
 public class MovieCon {
 
 
+    private final MovieCommentMapper movieCommentMapper;
+    private final MovieDirectorMapper movieDirectorMapper;
+    private final MovieWriterMapper movieWriterMapper;
+    private final MovieActorMapper movieActorMapper;
+    private final MovieProducerMapper movieProducerMapper;
+    private final MovieVideoMapper movieVideoMapper;
     private final AreaCinemaSerImpl areaCinemaSer;
     private final MovieMapper movieMapper;
     private final CinemaMoviesMapper cinemaMoviesMapper;
     private final CinemaMoviesSerImpl cinemaMoviesSer;
     private final MovieSerImpl movieSerImpl;
 
-    public MovieCon(MovieSerImpl movieSerImpl, CinemaMoviesSerImpl cinemaMoviesSer, MovieMapper movieMapper, CinemaMoviesMapper cinemaMoviesMapper, AreaCinemaSerImpl areaCinemaSer) {
+    public MovieCon(MovieSerImpl movieSerImpl, CinemaMoviesSerImpl cinemaMoviesSer, MovieMapper movieMapper, CinemaMoviesMapper cinemaMoviesMapper, AreaCinemaSerImpl areaCinemaSer, MovieCommentMapper movieCommentMapper, MovieDirectorMapper movieDirectorMapper, MovieWriterMapper movieWriterMapper, MovieActorMapper movieActorMapper, MovieProducerMapper movieProducerMapper, MovieVideoMapper movieVideoMapper) {
         this.movieSerImpl = movieSerImpl;
         this.cinemaMoviesSer = cinemaMoviesSer;
         this.movieMapper = movieMapper;
         this.cinemaMoviesMapper = cinemaMoviesMapper;
 
         this.areaCinemaSer = areaCinemaSer;
+        this.movieCommentMapper = movieCommentMapper;
+        this.movieDirectorMapper = movieDirectorMapper;
+        this.movieWriterMapper = movieWriterMapper;
+        this.movieActorMapper = movieActorMapper;
+        this.movieProducerMapper = movieProducerMapper;
+        this.movieVideoMapper = movieVideoMapper;
     }
 
     /**
@@ -73,7 +86,7 @@ public class MovieCon {
                 }
             }
         });
-        return  movies.subList(0,10);
+        return  movies.subList(0,9);
     }
 
     /**
@@ -161,17 +174,13 @@ public class MovieCon {
      */
     @PostMapping("/adminAddMovies")
     public int AdminAddMovie(@RequestBody Movie movie,@RequestParam("cinemaId")Long cinemaId){
-        try {
+
             movieSerImpl.addMovie(movie);
             CinemaMovies cinemaMovies = new CinemaMovies();
             cinemaMovies.setCinemaId(cinemaId);
             cinemaMovies.setMovieId(movie.getId());
             cinemaMoviesMapper.insert(cinemaMovies);
             return 1;
-        }catch (Exception e){
-            return 0;
-        }
-
     }
 
     /**
@@ -180,6 +189,12 @@ public class MovieCon {
     @DeleteMapping("/AdminDelMovie")
     public int AdminDelMovie(@RequestParam("movieId") Long movieId,@RequestParam("cinemaId")Long cinemaId){
         areaCinemaSer.delCinema(cinemaId,movieId);
+        movieActorMapper.deleteByMovieId(movieId);
+        movieCommentMapper.deleteByMovieId(movieId);
+        movieDirectorMapper.deleteByMovieId(movieId);
+        movieVideoMapper.deleteByMovieId(movieId);
+        movieWriterMapper.deleteByMovieId(movieId);
+        movieProducerMapper.deleteByMovieId(movieId);
         return movieMapper.deleteById(movieId);
     }
 

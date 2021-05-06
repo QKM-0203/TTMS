@@ -58,8 +58,12 @@
         movie_start,movie_minute,movie_brief,
         movie_score,movie_money,movie_type,movie_area,movie_head
     </sql>
-    <update id="updateMoney">
-        update movie set movie_money = movie_money + #{money} where movie_name = #{movieName}
+    <update id="addMoney">
+        update movie set movie_money = movie_money + #{money} where movie_Id = #{movieId}
+    </update>
+
+    <update id="downMoney">
+        update movie set movie_money = movie_money - #{money} where movie_Id = #{movieId}
     </update>
     <!--    查找正在热映电影-->
     <select id="getMoviesOn" resultMap="BaseResultMap">
@@ -82,7 +86,7 @@
     </select>
     <!--           评论-->
     <select id="getComments" resultType="com.qkm.TTMS.entity.MovieComment">
-        select * from movie_comment where movie_id = #{id} limit 10
+        select * from movie_comment where movie_id = #{id} <!--limit 10-->
     </select>
 <!--    导演-->
     <select id="getDirectors" resultType="com.qkm.TTMS.entity.MovieDirector">

@@ -17,8 +17,7 @@ import java.util.List;
 @Repository
 public class MovieSerImpl implements MovieSer {
 
-    @Autowired
-    private  HallSeatMapper hallSeatMapper;
+    private final HallSeatMapper hallSeatMapper;
     private final MoviePlanSerImpl moviePlanSer;
     private final RedisTemplate<String,Object>  redisTemplate;
     private final MovieMapper movieMapper;
@@ -26,13 +25,14 @@ public class MovieSerImpl implements MovieSer {
     private final AreaCinemaSerImpl areaCinemaSer;
     private final CinemaMoviesMapper cinemaMoviesMapper;
 
-    public MovieSerImpl(MovieMapper movieMapper, RedisTemplate<String, Object> redisTemplate, CinemaMoviesSerImpl cinemaMoviesSer, MoviePlanSerImpl moviePlanSer, AreaCinemaSerImpl areaCinemaSer, CinemaMoviesMapper cinemaMoviesMapper) {
+    public MovieSerImpl(MovieMapper movieMapper, RedisTemplate<String, Object> redisTemplate, CinemaMoviesSerImpl cinemaMoviesSer, MoviePlanSerImpl moviePlanSer, AreaCinemaSerImpl areaCinemaSer, CinemaMoviesMapper cinemaMoviesMapper, HallSeatMapper hallSeatMapper) {
         this.movieMapper = movieMapper;
         this.redisTemplate = redisTemplate;
         this.cinemaMoviesSer = cinemaMoviesSer;
         this.moviePlanSer = moviePlanSer;
         this.areaCinemaSer = areaCinemaSer;
         this.cinemaMoviesMapper = cinemaMoviesMapper;
+        this.hallSeatMapper = hallSeatMapper;
     }
 
     @Override
@@ -155,11 +155,16 @@ public class MovieSerImpl implements MovieSer {
     }
 
     @Override
-    public int updateMoney(Long money, String movieName) {
-        return  movieMapper.updateMoney(money, movieName);
+    public int addMoney(Long money, Long movieId) {
+        return  movieMapper.addMoney(money, movieId);
 
 
 
+    }
+
+    @Override
+    public int downMoney(Long money, Long movieId) {
+        return movieMapper.downMoney(money,movieId);
     }
 
     @Override

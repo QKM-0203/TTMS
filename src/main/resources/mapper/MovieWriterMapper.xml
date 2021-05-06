@@ -15,4 +15,9 @@
         id,movie_id,screenwriter_picture,
         screenwriter_name
     </sql>
+    <delete id="deleteByMovieId">
+        delete
+        from movie_writer
+        where movie_id = #{movieId,jdbcType=NUMERIC}
+    </delete>
 </mapper>

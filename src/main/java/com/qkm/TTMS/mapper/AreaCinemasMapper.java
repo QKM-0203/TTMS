@@ -20,7 +20,8 @@ public interface AreaCinemasMapper extends BaseMapper<AreaCinemas> {
     List<Long> getListID();
     List<AreaCinemas> getAll();
     int deleteById(@Param("cinemaId") Long cinemaId);
-    int updateMoney(@Param("money")Long money,@Param("cinemaId") Long cinemaId);
+    int addMoney(@Param("money")Long money,@Param("cinemaId") Long cinemaId);
+    int downMoney(@Param("money")Long money,@Param("cinemaId") Long cinemaId);
     List<AreaCinemas> getAllByAreaName(@Param("cinemaName") String cinemaName);
 }
 

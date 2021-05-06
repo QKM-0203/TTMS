@@ -25,16 +25,15 @@ public class UserCon {
 
     /**
      * 经理得到所有的管理员
-     * @param cinemaId
      * @return
      */
     @GetMapping("/getAdmins")
-    public List<MovieUser> getAdmins(@RequestParam("cinemaId")Long cinemaId){
-       return  userSer.getAdmins(cinemaId);
+    public List<MovieUser> getAdmins(){
+       return  userSer.getAdmins();
     }
 
     /**
-     * 管理员得到所有的售票员和管理员
+     * 管理员得到所有的售票员和管理员,sellId为1则是售票员,否则是管理员
      * @param cinemaId
      * @return
      */
@@ -51,20 +50,16 @@ public class UserCon {
      */
     @PostMapping("/addUser")
     public Long addUser(@RequestBody MovieUser movieUser){
-        try{
             int i = userSer.addUser(movieUser);
             MovieUserRoles movieUserRoles = new MovieUserRoles();
             movieUserRoles.setUserId(movieUser.getId());
-            if(movieUser.getCinemaId() == 0){
+            if(movieUser.getSellId() == 1){
                 movieUserRoles.setRoleId(4);
             }else{
                 movieUserRoles.setRoleId(1);
             }
             movieUserRolesMapper.insert(movieUserRoles);
             return movieUser.getId();
-        }catch (Exception e){
-            return 0L;
-        }
     }
 
 
@@ -73,13 +68,9 @@ public class UserCon {
      */
     @DeleteMapping("/delUser")
     public int delUser(Long userid){
-        try{
             movieUserRolesMapper.delByUserId(userid);
             userSer.delById(userid);
             return  1;
-        }catch (Exception e){
-            return 0;
-        }
     }
 
 
@@ -87,7 +78,7 @@ public class UserCon {
      * 编辑个人信息
      */
     @PutMapping("/editSelf")
-    public int edit(MovieUser movieUser){
+    public int edit(@RequestBody MovieUser movieUser){
       return  movieUserMapper.updateById(movieUser);
     }
 

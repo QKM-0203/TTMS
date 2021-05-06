@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface UserSer {
      int addUser(MovieUser user);
-     List<MovieUser> getAdmins(Long cinemaId);
+     List<MovieUser> getAdmins();
      List<MovieUser> getSells(Long cinemaId);
      int delById( Long id);
      MovieUser getAllByAccounts( String accounts);

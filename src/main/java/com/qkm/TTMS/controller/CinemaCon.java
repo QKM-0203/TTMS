@@ -43,7 +43,7 @@ public class CinemaCon {
     }
 
     /**
-     * 获取某个区的所有电影院信息
+     * 获取某个区的含有某部电影的所有电影院信息
      * @param areaName
      * @param movieId
      * @return
@@ -97,7 +97,7 @@ public class CinemaCon {
      */
 
     @PutMapping("/editCinema")
-    public int updateCinema(AreaCinemas areaCinemas){
+    public int updateCinema(@RequestBody AreaCinemas areaCinemas){
         return areaCinemasMapper.updateById(areaCinemas);
     }
 

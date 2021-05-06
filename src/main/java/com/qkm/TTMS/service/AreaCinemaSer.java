@@ -12,7 +12,8 @@ public interface AreaCinemaSer {
     List<Long> getListID();
     List<AreaCinemas> getAll();
     int deleteById(Long cinemaId);
-    int updateMoney(Long money, Long cinemaId);
+    int addMoney(Long money, Long cinemaId);
+    int downMoney(Long money, Long cinemaId);
     List<AreaCinemas> getAllByAreaName( String cinemaName);
 
     int delCinema(Long cinemaId,Long movieId);

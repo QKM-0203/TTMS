@@ -17,7 +17,7 @@ public class MovieActor implements Serializable {
     /**
      * 
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
 
     /**

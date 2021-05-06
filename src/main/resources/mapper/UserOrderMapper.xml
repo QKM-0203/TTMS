@@ -59,7 +59,7 @@
         from user_order
         where cinema_id = #{cinemaId,jdbcType=NUMERIC}
     </delete>
-    <insert id="insertAll">
+    <insert id="insertAll" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
         insert into user_order
         (id, user_id, cinema_name,
          movie_name, order_money, cinema_id,
