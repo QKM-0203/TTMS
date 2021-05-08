@@ -4,7 +4,6 @@ import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.mapper.*;
 import com.qkm.TTMS.service.impl.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +33,6 @@ public class MovieCon {
         this.cinemaMoviesSer = cinemaMoviesSer;
         this.movieMapper = movieMapper;
         this.cinemaMoviesMapper = cinemaMoviesMapper;
-
         this.areaCinemaSer = areaCinemaSer;
         this.movieCommentMapper = movieCommentMapper;
         this.movieDirectorMapper = movieDirectorMapper;
@@ -195,6 +193,7 @@ public class MovieCon {
         movieVideoMapper.deleteByMovieId(movieId);
         movieWriterMapper.deleteByMovieId(movieId);
         movieProducerMapper.deleteByMovieId(movieId);
+
         return movieMapper.deleteById(movieId);
     }
 

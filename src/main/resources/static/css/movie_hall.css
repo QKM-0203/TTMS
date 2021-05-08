@@ -109,13 +109,13 @@
 .hall_name{
   display: inline-block;
   text-align: center;
-  width:182px;
+  width:172px;
 }
 
 .hall_sort{
   display: inline-block;
   text-align: center;
-  width:182px;
+  width:162px;
 }
 
 .hall_line{
@@ -127,13 +127,13 @@
 .hall_column{
   display: inline-block;
   text-align: center;
-  width:182px;
+  width:162px;
 }
 
 .hall_operate{
   display: inline-block;
   text-align: center;
-  width:182px;
+  width:162px;
 }
 
 

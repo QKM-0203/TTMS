@@ -26,11 +26,13 @@ $('#cancel_new_hall').on("click", function () {
   $('#edit_hall_form').css({ "display": "none" })
 })
 
-window.onload = function(){
+$('.all_hall').eq(1).onchange = function(){
+  console.log('点击按钮')
 
 // 功能：点击影厅删除按钮，删除影厅
 
   var a = $('.delete_hall')
+  console.log(a)
   a.each(function () {
     $(this).on('click', function () {
       // 删除按钮所在的一行

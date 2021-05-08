@@ -21,7 +21,7 @@ public class Movie implements Serializable{
     /**
      * 
      */
-    @TableId(value = "id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Long id;
 
     /**
@@ -130,6 +130,11 @@ public class Movie implements Serializable{
      */
      private  List<MovieVideo> movieVideoList;
 
+
+    /**
+     * 电影的所有图集
+     */
+    private  List<MoviePicture> moviePictureList;
 
 
     @TableField(exist = false)
