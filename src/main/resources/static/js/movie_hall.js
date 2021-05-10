@@ -66,42 +66,81 @@ $('.all_hall').eq(1).onchange = function(){
    * 功能：编辑当前影厅
   */
 
-  $('.edit_hall').each(function () {
-    $(this).on("click", function () {
-      // $('#edit_hall_form').remove($('#edit_d'))
-      var parent = $(this).parent().parent()
-      // 影厅id
-      var id = parent.children()[0].value
-      var hallName = parent.children()[1].innerHTML
-      var movieType = parent.children()[2].innerHTML
-      var seatLine = parent.children()[3].innerHTML
-      var seatColumn = parent.children()[4].innerHTML
+  function a(){
+    console.log('test')
+  }
 
-      $('#edit_id')[0].value = 111
-      $('#edit_hallName')[0].value = hallName
-      $('#edit_seatLine')[0].value = seatLine
-      $('#edit_seatColumn')[0].value = seatColumn
-      // console.log($('#edit_seatColumn')[0])
-      console.log($('#edit_id')[0])
-      console.log($('#edit_id')[0].value)
-      var str =  `<input id="edit_d" hidden value="${id}" ></input>`
-      $('#edit_hall_form').append(str)
+  function edit_hall(t){
+    console.log('编辑')
+    var parent = $(this).parent().parent()
+    // 影厅id
+    var id = parent.children()[0].value
+    var hallName = parent.children()[1].innerHTML
+    var movieType = parent.children()[2].innerHTML
+    var seatLine = parent.children()[3].innerHTML
+    var seatColumn = parent.children()[4].innerHTML
 
-      $('.select_movieType').each(function(){
-        if(( $(this) )[0].value == movieType){
-          if( ( $(this) )[0].value == movieType){
-            ( $(this) )[0].selected=true;
-          }
-        }
-      })
+    $('#float_box').css({ "display": "block" })
+    $('#new_hall_form').css({ "display": "none" })
+    $('#edit_hall_form').css({ "display": "block" })
 
-      $('#float_box').css({ "display": "block" })
-      $('#new_hall_form').css({ "display": "none" })
-      $('#edit_hall_form').css({ "display": "block" })
+    $('#edit_id')[0].value = 111
+    $('#edit_hallName')[0].value = hallName
+    $('#edit_seatLine')[0].value = seatLine
+    $('#edit_seatColumn')[0].value = seatColumn
+    // console.log($('#edit_seatColumn')[0])
+    // console.log($('#edit_id')[0])
+    // console.log($('#edit_id')[0].value)
+    // var str =  `<input id="edit_d" hidden value="${id}" ></input>`
+    // $('#edit_hall_form').append(str)
+    //
+    // $('.select_movieType').each(function(){
+    //   if(( $(this) )[0].value == movieType){
+    //     if( ( $(this) )[0].value == movieType){
+    //       ( $(this) )[0].selected=true;
+    //     }
+    //   }
+    // })
 
-      // $('#edit_hall_form').remove($('#edit_d'))
-    })
-  })
+
+  }
+
+  // $('.edit_hall').each(function () {
+  //   $(this).on("click", function () {
+  //     // $('#edit_hall_form').remove($('#edit_d'))
+  //     var parent = $(this).parent().parent()
+  //     // 影厅id
+  //     var id = parent.children()[0].value
+  //     var hallName = parent.children()[1].innerHTML
+  //     var movieType = parent.children()[2].innerHTML
+  //     var seatLine = parent.children()[3].innerHTML
+  //     var seatColumn = parent.children()[4].innerHTML
+  //
+  //     $('#edit_id')[0].value = 111
+  //     $('#edit_hallName')[0].value = hallName
+  //     $('#edit_seatLine')[0].value = seatLine
+  //     $('#edit_seatColumn')[0].value = seatColumn
+  //     // console.log($('#edit_seatColumn')[0])
+  //     console.log($('#edit_id')[0])
+  //     console.log($('#edit_id')[0].value)
+  //     var str =  `<input id="edit_d" hidden value="${id}" ></input>`
+  //     $('#edit_hall_form').append(str)
+  //
+  //     $('.select_movieType').each(function(){
+  //       if(( $(this) )[0].value == movieType){
+  //         if( ( $(this) )[0].value == movieType){
+  //           ( $(this) )[0].selected=true;
+  //         }
+  //       }
+  //     })
+  //
+  //     $('#float_box').css({ "display": "block" })
+  //     $('#new_hall_form').css({ "display": "none" })
+  //     $('#edit_hall_form').css({ "display": "block" })
+  //
+  //     // $('#edit_hall_form').remove($('#edit_d'))
+  //   })
+  // })
 
   // 功能：处理提交编辑影厅表单数据
 // 未完成
@@ -173,3 +212,76 @@ $('#cancel_edit_hall').on("click", function () {
 /*
  * 功能：修改当前影厅内容并提交
  */
+
+
+$('#new_hall_form').on('submit', e => {
+  e.preventDefault()
+  const formData = $('#new_hall_form').serializeArray()
+  var o = {}
+  $.each(formData, function () {
+    if (o[this.name]) {
+      if (!o[this.name].push) {
+        o[this.name] = [o[this.name]];
+      }
+      o[this.name].push(this.value || '');
+    } else {
+      o[this.name] = this.value || '';
+    }
+  })
+  o.cinemaId = 2
+  console.log(o)
+  console.log(JSON.stringify(o))
+  var fd = JSON.stringify(o)
+  $.ajax({
+    url: '/addHall',
+    type: 'post',
+    data: fd,
+    dataType: 'json',
+    contentType: 'application/json;charset=UTF-8',
+    catch: false,      //清除上次请求的缓存
+    // async: false,   //同步
+    success: data => {
+      // data = JSON.parse(data)
+      console.log(data)
+
+      var str = `
+                    <form class=\"hall\">
+                        <input hidden value="${data.id}"></input>
+                        <p class=\"hall_name hall_p\">${data.hallName}</p>
+                        <p class="hall_sort hall_p\">${data.movieType}</p>
+                        <p class=\"hall_line hall_p\">${data.seatLine}行</p>
+                        <p class=\"hall_column hall_p\">${data.seatColumn}列</p>
+                        <p class="hall_operate">
+                        <button type=\"reset\" onclick=\"edit_hall()\" class=\"edit_hall\">编辑</button>
+                        <button type=\"reset\" class=\"delete_hall\">删除</button>
+                        </p>
+                    </form>`
+      var parent = $('.all_hall').eq(1);
+      parent.append(str)
+      $('#float_box').css({ "display": "none" })
+      $('#new_hall_form').css({ "display": "none" })
+      $('#edit_hall_form').css({ "display": "none" })
+
+
+      $('.delete_hall').each(function () {
+        $(this).on("click", function () {
+          console.log('删除按钮所在的一行')
+          // 删除按钮所在的一行
+          var parent = $(this).parent().parent()
+          // 影厅id
+          var id = parent.children()[0]
+
+          // 测试代码
+          parent.remove()
+        })
+      })
+      $('#cancel_edit_hall').on('click', function () {
+        $('#float_box').css({ "display": "none" })
+        $('#new_hall_form').css({ "display": "none" })
+        $('#edit_hall_form').css({ "display": "none" })
+      })
+
+    }
+  })
+})
+

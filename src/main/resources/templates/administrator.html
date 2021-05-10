@@ -283,7 +283,7 @@
             //     console.log(JSON.stringify(data.field))
             // return false;
         });
-    });
+    })
 
     $.ajax({
             url: '/getHalls',
@@ -296,11 +296,11 @@
                     str+= `<form class=\"hall\">
                         <input hidden value="${data[i].id}"></input>
                         <p class=\"hall_name hall_p\">${data[i].hallName}</p>
-                        <p class="hall_sort hall_p\">${data[i].movieType}</p>
+                        <p class=\"hall_sort hall_p\">${data[i].movieType}</p>
                         <p class=\"hall_line hall_p\">${data[i].seatLine}行</p>
                         <p class=\"hall_column hall_p\">${data[i].seatColumn}列</p>
                         <p class="hall_operate">
-                        <button type="reset" class="edit_hall">编辑</button>
+                        <button type="reset" onclick=\"edit_hall(this)\" class="edit_hall">编辑</button>
                         <button type="reset" class="delete_hall">删除</button>
                     </p></form>`
 
@@ -310,57 +310,6 @@
 
             }
         })
-
-    $('#new_hall_form').on('submit', e => {
-        e.preventDefault()
-        const formData = $('#new_hall_form').serializeArray()
-        var o = {}
-        $.each(formData, function () {
-            if (o[this.name]) {
-                if (!o[this.name].push) {
-                    o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-            } else {
-                o[this.name] = this.value || '';
-            }
-        })
-        // console.log(o)
-        // console.log(JSON.stringify(o))
-        var fd = JSON.stringify(o)
-        $.ajax({
-            url: '/addHall',
-            type: 'post',
-            data: fd,
-            dataType: 'json',
-            contentType: 'application/json;charset=UTF-8',
-            catch: false,      //清除上次请求的缓存
-            // async: false,   //同步
-            success: data => {
-                // data = JSON.parse(data)
-                console.log(data)
-
-                var str = `
-                    <form class=\"hall\">
-                        <input hidden value="${data.id}"></input>
-                        <p class=\"hall_name hall_p\">${data.hallName}</p>
-                        <p class="hall_sort hall_p\">${data.movieType}</p>
-                        <p class=\"hall_line hall_p\">${data.seatLine}行</p>
-                        <p class=\"hall_column hall_p\">${data.seatColumn}列</p>
-                        <p class="hall_operate">
-                        <button type=\"reset\" class=\"edit_hall\">编辑</button>
-                        <button type=\"reset\" class=\"delete_hall\">删除</button>
-                        </p>
-                    </form>`
-                var parent = $('.all_hall').eq(1);
-                parent.append(str)
-                $('#float_box').css({ "display": "none" })
-                $('#new_hall_form').css({ "display": "none" })
-                $('#edit_hall_form').css({ "display": "none" })
-            }
-        })
-    })
-
 
 
     // $('#new_hall_form').on('submit', e => {

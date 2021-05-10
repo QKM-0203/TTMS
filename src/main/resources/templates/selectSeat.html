@@ -4,193 +4,219 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/selectSeat.css}" >
+    <link rel="stylesheet" href="./css/selectSeat.css">
     <title>选座</title>
 </head>
 <body>
-
-    <div class="header">1</div>
-    <div class="container" id="app">
-        <div class="order-progress-bar">
-            <div class="step first done">
-                <span class="step-num">1</span>
-                <div class="bar">1</div>
-                <span class="step-text">选择影片场次</span>
-            </div>
-            <div class="step done">
-                <span class="step-num">2</span>
-                <div class="bar">1</div>
-                <span class="step-text">选择座位</span>
-            </div>
-            <div class="step">
-                <span class="step-num">3</span>
-                <div class="bar">1</div>
-                <span class="step-text">14分钟内付款</span>
-            </div>
-            <div class="step last">
-                <span class="step-num">4</span>
-                <div class="bar">1</div>
-                <span class="step-text">影院取票</span>
-            </div>
+<div class="header"></div>
+<div class="container" id="app">
+    <div class="order-progress-bar">
+        <div class="step first done">
+            <span class="step-num">1</span>
+            <div class="bar"></div>
+            <span class="step-text">选择影片场次</span>
         </div>
-        <div class="main clearfix">
-            <div class="hall">
-                <div class="seat-example">
-                    <div class="selectable-example example">
-                        <img th:src="@{/img/selectable.jpg}" />
-                        <span>可选座位</span>
-                    </div>
-                    <div class="sold-example example">
-                        <img th:src="@{/img/sold.jpg}" />
-                        <span>已售座位</span>
-                    </div>
-                    <div class="selected-example example">
-                        <img th:src="@{/img/selected.jpg}" />
-                        <span>已选座位</span>
-                    </div>
-                </div>
-                <div class="seats-block">
-                    <div class="row-id-container">
-
-                    </div>
-                    <div class="seats-contain">
-                        <div class="screen-contain" style="left: 0;">
-                            <div class="screen"><img th:src="@{/imgage/screen.jpg}"  ></div>
-                            <div class="screen">银幕中央</div>
-                            <div class="c-screen-line"></div>
-                        </div>
-                        <div class="seats-wrapper">
-
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="side">
-                <div class="movie-info clearfix">
-                    <div class="poster">
-                        <img src="./img/poster.jpg" alt="">
-                    </div>
-                    <div class="content">
-                        <p class="name text-ellipsis">你的婚礼</p>
-                        <div class="info-item">
-                            <span>类型：</span>
-                            <span class="value">爱情，剧情</span>
-                        </div>
-                        <div class="info-item">
-                            <span>时长：</span>
-                            <span class="value">115分钟</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="show-info">
-                    <div class="info-item">
-                        <span>影院：</span>
-                        <span class="value text-ellipsis">香港未来主题影院</span>
-                    </div>
-                    <div class="info-item">
-                        <span>影厅：</span>
-                        <span class="value text-ellipsis">VIP8号城堡厅</span>
-                    </div>
-                    <div class="info-item">
-                        <span>版本：</span>
-                        <span class="value text-ellipsis">国语2D</span>
-                    </div>
-                    <div class="info-item">
-                        <span>场次：</span>
-                        <span class="value text-ellipsis screen1">周五 4月30 14：10</span>
-                    </div>
-                    <div class="info-item">
-                        <span>票价：</span>
-                        <span class="value text-ellipsis">￥<span class="ticketPrice">34.9</span>/张</span>
-                    </div>
-                </div>
-                <div class="ticket-info">
-                    <div class="no-ticket" >
-                        <p class="buy-limit">座位：一次最多选4个座位</p>
-                        <p class="no-selected">
-                            请
-                            <span>点击左侧</span>
-                            座位选择图
-                        </p>
-                    </div>
-                    <div class="has-ticket">
-                        <span class="text">座位：</span>
-
-                        <div class="ticket-contain"  >
-                            <div class="ticketDemo">
-                                <img th:src="@{/img/ticket.png}"  style="position: absolute;">
-                                <span class="ticket" ><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
-                            </div>
-                            <div class="ticketDemo">
-                                <img th:src="@{/img/ticket.png}"  style="position: absolute;">
-                                <span class="ticket" ><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
-                            </div>
-                            <div class="ticketDemo">
-                                <img th:src="@{/img/ticket.png}"  style="position: absolute;">
-                                <span class="ticket" ><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
-                            </div>
-                            <div class="ticketDemo">
-                                <img th:src="@{/img/ticket.png}"  style="position: absolute;">
-                                <span class="ticket" ><span class="ticketRow"></span>排<span class="ticketCol"></span>座</span>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="total-price">
-                        <span>总价：</span>
-                        <span class="price">
-                            ￥<span class="allPrice">0</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="confirm-order">
-                    <div class="iLoginComp">
-                        <div class="iLoginComp-wrapper">
-                            <div class="iLoginComp-phone-num-wrapper">
-                                <input class="iLoginComp-phone-num-input" id="phoneNumInput" type="text"  placeholder="输入手机号"/>
-                            </div>
-                            <div class="iLoginComp-verify-code-wrapper">
-                                <input class="iLoginComp-code-input" id="codeInput" type="text" placeholder="填写验证码"/>
-                                <div class="iLoginComp-send-verify-code-text" id="sendCodeBtn">获取验证码</div>
-                            </div>
-                            <div class="iLoginComp-opBtn-wrapper">
-                                <button class="iLoginComp-cancel-btn-wrapper" id="cancelLogin">
-                                    取消
-                                  </button>
-                                <button class="iLoginComp-login-btn-wrapper" id="iLoginBtn"   style="display:none;">
-                                    确认选座
-                                  </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="step done">
+            <span class="step-num">2</span>
+            <div class="bar"></div>
+            <span class="step-text">选择座位</span>
         </div>
-        <div class="modal-container">
-
+        <div class="step">
+            <span class="step-num">3</span>
+            <div class="bar"></div>
+            <span class="step-text">14分钟内付款</span>
+        </div>
+        <div class="step last">
+            <span class="step-num">4</span>
+            <div class="bar"></div>
+            <span class="step-text">影院取票</span>
         </div>
     </div>
-    <div style="height: 50px;">1</div>
-    <div class="footer">1</div>
-    <script>
+    <div class="main clearfix">
+        <div class="hall">
+            <div class="seat-example">
+                <div class="selectable-example example">
+                    <img src="./img/selectable.jpg" alt="">
+                    <span>可选座位</span>
+                </div>
+                <div class="sold-example example">
+                    <img src="./img/sold.jpg" alt="">
+                    <span>已售座位</span>
+                </div>
+                <div class="selected-example example">
+                    <img src="./img/selected.jpg" alt="">
+                    <span>已选座位</span>
+                </div>
+            </div>
+            <div class="seats-block">
+                <div class="row-id-container">
+                    <!-- <% for(int i=1;i<=list.i;i++){%>
+                        <span class="row-id">i</span>
+                    <% } %>  -->
+                </div>
+                <div class="seats-containter">
+                    <div class="screen-containter" style="left: 0;">
+                        <div class="screen"><img src="./img/screen.jpg" alt="" ></div>
+                        <div class="screen">银幕中央</div>
+                        <div class="c-screen-line"></div>
+                    </div>
+                    <div class="seats-wrapper" id="seat-map">
 
-            window.addEventListener('message', function (e) {  // 监听 message 事件
-                alert(1);
-                // if (e.origin !== "/buy") {  // 验证消息来源地址
-                //     return;
-                // }
-                console.log(e);
-            });
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="side">
+            <div class="movie-info clearfix">
+                <div class="poster">
+                    <img src="./img/poster.jpg" alt="">
+                </div>
+                <div class="content">
+                    <p class="name text-ellipsis">你的婚礼</p>
+                    <div class="info-item">
+                        <span>类型：</span>
+                        <span class="value">爱情，剧情</span>
+                    </div>
+                    <div class="info-item">
+                        <span>时长：</span>
+                        <span class="value">115分钟</span>
+                    </div>
+                </div>
+            </div>
+            <div class="show-info">
+                <div class="info-item">
+                    <span>影院：</span>
+                    <span class="value text-ellipsis">香港未来主题影院</span>
+                </div>
+                <div class="info-item">
+                    <span>影厅：</span>
+                    <span class="value text-ellipsis">VIP8号城堡厅</span>
+                </div>
+                <div class="info-item">
+                    <span>版本：</span>
+                    <span class="value text-ellipsis">国语2D</span>
+                </div>
+                <div class="info-item">
+                    <span>场次：</span>
+                    <span class="value text-ellipsis screen1">周五 4月30 14：10</span>
+                </div>
+                <div class="info-item">
+                    <span>票价：</span>
+                    <span class="value text-ellipsis">￥<p class="ticketPrice">34.9</p>/张</span>
+                </div>
+            </div>
+            <div class="ticket-info">
+                <!-- <div class="no-ticket" >
+                    <p class="buy-limit">座位：一次最多选4个座位</p>
+                    <p class="no-selected">
+                        请
+                        <span>点击左侧</span>
+                        座位选择图
+                    </p>
+                </div> -->
+                <div class="has-ticket">
+                    <span class="text">座位：</span>
+                    <ul class="ticket-containter"   id="selected-seats" >
+                    </ul>>
+                </div>
+                <div class="total-price">
+                    <span>总价：</span>
+                    <span class="price">
+                            ￥<p class="allPrice" id="total">0</p>
+                        </span>
+                </div>
+            </div>
+            <div class="confirm-order">
+                <div class="iLoginComp">
+                    <div class="iLoginComp-wrapper">
+                        <!-- <div class="iLoginComp-phone-num-wrapper">
+                            <input class="iLoginComp-phone-num-input" id="phoneNumInput" type="text" maxlength="11" placeholder="输入手机号">
+                        </div>
+                        <div class="iLoginComp-verify-code-wrapper">
+                            <input class="iLoginComp-code-input" id="codeInput" type="text" placeholder="填写验证码">
+                            <div class="iLoginComp-send-verify-code-text" id="sendCodeBtn">获取验证码</div>
+                        </div> -->
+                        <div class="iLoginComp-opbtn-wrapper">
+                            <button class="iLoginComp-cancel-btn-wrapper" id="cancelLogin">
+                                取消
+                            </button>
+                            <button class="iLoginComp-login-btn-wrapper" id="iloginBtn" data-act="confirm-click" data-bid="b_0a0ep6pp" style="display:none;">
+                                确认选座
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-container">
 
-        // window.addEventListener("message", receiveMessage, false);
-        // function receiveMessage(event){
-        //     // if (event.origin !== "/buy") return;
-        //     console.log(JSON.parse(event));    // {data: 1}
-        // }
+    </div>
+</div>
+<div style="height: 50px;"></div>
+<div class="footer"></div>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/jquery.seat-charts.min.js"></script>
+<script>
+    // var aData = localStorage.getItem("aPageData");
+    // if(aData){
+    //     // doSomething(aData);     // 当能获取到数据时就说明是从A页面跳转过来的
+    //     var data = JSON.parse(aData);
+    //     // function(data){
+    // var str = "";
+    // //方法中传入的参数data为后台获取的数据
+    // for(a in data.i) //data.data指的是数组，数组里是8个对象，i为数组的索引
+    // {
+    //     srt+="<div class=\"row\">";
+    //     for(b in data.j){
+    //         str+="<span class=\"seat selectable\">"
+    //         for(c in data.sold){
+    //             if(a==list.sold.i&&b==list.sold.j){
+    //                 str+="<img class=\"img\" src=\"./img/sold.png\">";
+    //             }
+    //             else{
+    //                 str+="<img class=\"img\" src=\"./img/selectable.png\">";
+    //             }
+    //         }
+    //         srt+="</span>";
+    //     }
+    //     srt+="</div>";
 
-    </script>
+    // }
+    // $(".seats-wrapper").append(str);
+    // // }
+    //     console.log(data);
+    //     localStorage.removeItem("aPageData");
+    // }else{
+    //     window.addEventListener("message", receiveMessage, false);
+    // }
+    // function receiveMessage(event){
+    //   if (event.origin !== "http://a.com") return;
+    //   console.log(JSON.parse(event.data));    // {data: 1}
+    //   var str = "";
+    //   for(a in data.i) //data.data指的是数组，数组里是8个对象，i为数组的索引
+    //     {
+    //         srt+="<div class=\"row\">";
+    //         for(b in data.j){
+    //             str+="<span class=\"seat selectable\">"
+    //             for(c in data.sold){
+    //                 if(a==list.sold.i&&b==list.sold.j){
+    //                     str+="<img class=\"img\" src=\"./img/sold.jpg\">";
+    //                 }
+    //                 else{
+    //                     str+="<img class=\"img\" src=\"./img/selectable.jpg\">";
+    //                 }
+    //             }
+    //             srt+="</span>";
+    //         }
+    //         srt+="</div>";
 
+    //     }
+    //     $(".seats-wrapper").append(str);
+
+    // }
+    // window.addEventListener("message", receiveMessage, false);
+</script>
+<script src="./js/selectSeat.js"></script>
 </body>
 </html>

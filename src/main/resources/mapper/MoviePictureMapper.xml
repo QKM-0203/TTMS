@@ -13,4 +13,9 @@
     <sql id="Base_Column_List">
         id,movie_id,movie_picture
     </sql>
+    <delete id="deleteByMovieId">
+        delete
+        from movie_picture
+        where movie_id = #{movieId,jdbcType=NUMERIC}
+    </delete>
 </mapper>

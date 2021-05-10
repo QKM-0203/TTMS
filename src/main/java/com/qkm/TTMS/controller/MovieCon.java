@@ -4,6 +4,7 @@ import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.mapper.*;
 import com.qkm.TTMS.service.impl.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class MovieCon {
 
 
+    private final MoviePictureMapper moviePictureMapper;
     private final MovieCommentMapper movieCommentMapper;
     private final MovieDirectorMapper movieDirectorMapper;
     private final MovieWriterMapper movieWriterMapper;
@@ -28,7 +30,7 @@ public class MovieCon {
     private final CinemaMoviesSerImpl cinemaMoviesSer;
     private final MovieSerImpl movieSerImpl;
 
-    public MovieCon(MovieSerImpl movieSerImpl, CinemaMoviesSerImpl cinemaMoviesSer, MovieMapper movieMapper, CinemaMoviesMapper cinemaMoviesMapper, AreaCinemaSerImpl areaCinemaSer, MovieCommentMapper movieCommentMapper, MovieDirectorMapper movieDirectorMapper, MovieWriterMapper movieWriterMapper, MovieActorMapper movieActorMapper, MovieProducerMapper movieProducerMapper, MovieVideoMapper movieVideoMapper) {
+    public MovieCon(MovieSerImpl movieSerImpl, CinemaMoviesSerImpl cinemaMoviesSer, MovieMapper movieMapper, CinemaMoviesMapper cinemaMoviesMapper, AreaCinemaSerImpl areaCinemaSer, MovieCommentMapper movieCommentMapper, MovieDirectorMapper movieDirectorMapper, MovieWriterMapper movieWriterMapper, MovieActorMapper movieActorMapper, MovieProducerMapper movieProducerMapper, MovieVideoMapper movieVideoMapper, MoviePictureMapper moviePictureMapper) {
         this.movieSerImpl = movieSerImpl;
         this.cinemaMoviesSer = cinemaMoviesSer;
         this.movieMapper = movieMapper;
@@ -40,6 +42,7 @@ public class MovieCon {
         this.movieActorMapper = movieActorMapper;
         this.movieProducerMapper = movieProducerMapper;
         this.movieVideoMapper = movieVideoMapper;
+        this.moviePictureMapper = moviePictureMapper;
     }
 
     /**
@@ -193,7 +196,7 @@ public class MovieCon {
         movieVideoMapper.deleteByMovieId(movieId);
         movieWriterMapper.deleteByMovieId(movieId);
         movieProducerMapper.deleteByMovieId(movieId);
-
+        moviePictureMapper.deleteByMovieId(movieId);
         return movieMapper.deleteById(movieId);
     }
 

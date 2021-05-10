@@ -22,7 +22,7 @@
     width: 100%;
     margin: 40px 0;
     text-align: center;
-    
+
 }
 .order-progress-bar .step {
     float: left;
@@ -116,22 +116,21 @@
     line-height: 29px;
     text-align: center;
 }
- .seats-container {
+.seats-container {
     margin-left: 50px;
     overflow: auto;
     position: relative;
     padding-top: 112px;
 }
- .screen-container {
+.screen-container {
     display: inline-block;
     position: absolute;
     top: 0;
     bottom: 0;
     z-index: -1;
 }
- .seats-wrapper {
+.seats-wrapper {
     display: inline-block;
-    min-width: 550px;
     margin: 15px 20px 20px 105px;
 }
 .seats-block .row {
@@ -145,13 +144,13 @@
     width: 30px;
     height: 26px;
     margin: 0 5px;
-
+    /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAaCAYAAACgoey0AAAAAXNSR0IArs4c6QAAAY9JREFUSA3tVs1qg0AQ3l1/i5eCFC8+QSC0+BQ999QeC32t9lLovac8RQwk6BOUXLzVitFE0/mEDVIiJsbkUgeM7jjzfd/OjpvlrGZhGL6uVqvnsix5zX3yoxBia5rm22g0etkL5vt+WRTFtm8DJrDrpKI+wExJXd3VyzMw/1axf5YDpe6IqRSPUJZlGdQdmN4eBixgAps4nmRGRUyOCTneXddlnHOWJEkv5CAFFjCBTeOP2Wz2CXI+nU7vqZkmnudVAXBuNptKpWVZGHa2OI4ZdTPTNK3CIB42n89TarYHQWpuHcfJoEqaqqqViFNKDhKUV5ICGxy2bQt6d4cfU1EUQ5LKO4KQ3NWQW5+MxAEXCbraNZd8can7QHypSrOh1EOpz1YBtQkZOw+2zK67V1teI7FhGGy9XjfpavWDWNf1xrhGYtpTGa5z2f/6jmkZFPwff0VR1H0xj1yL5XKJhv3hQRDoaZriILClKz8S5+hwIk3ptHNTHTtowBeLxXWe5/2d8vZIoi4X4/H4myZY/AJMWAAq2pF/7QAAAABJRU5ErkJggg==) no-repeat;
+    background-position: 0 1px; */
 }
 
 .has-ticket{
     width: 300px;
-    height: 50px;
-    display: none;
+    min-height: 50px;
 }
 
 .seats-block .row {
@@ -159,7 +158,7 @@
     margin-bottom: 10px;
     text-align: center;
 }
- .screen {
+.screen {
     width: 550px;
     padding-top: 15px;
     text-align: center;
@@ -168,7 +167,7 @@
     position: relative;
     margin: 0 auto;
 }
- .c-screen-line {
+.c-screen-line {
     width: 0;
     border-left: 1px dashed #e5e5e5;
     position: absolute;
@@ -202,9 +201,8 @@
     width: 115px;
     height: 158px;
     border: 2px solid #fff;
-    /*错误*/
-    -webkit-box-shadow: 0 2px 7px 0;
-    box-shadow: 0 2px 7px 0;
+    -webkit-box-shadow: 0 2px 7px 0 hsl(0deg 0% 53% / 50%);
+    box-shadow: 0 2px 7px 0 hsl(0deg 0% 53% / 50%);
     float: left;
 }
 .side .movie-info .content {
@@ -344,12 +342,13 @@
     margin-top: 1em;
     padding-bottom: .6em;
     border-bottom: 1px solid #e5e5e5;
+    /* width: 100%; */
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
-.iLoginComp-wrapper .iLoginComp-opBtn-wrapper{
+.iLoginComp-wrapper .iLogincomp-opbtn-wrapper {
     margin-top: 45px;
 }
 .iLoginComp-wrapper .iLoginComp-code-input, .iLoginComp-wrapper .iLoginComp-phone-num-input {
@@ -403,7 +402,7 @@ button, input, select, textarea {
     margin-top: 20px;
     border: 1px solid #e5e5e5;
 }
-.iLoginComp-wrapper .iLoginComp-login-btn-wrapper, .iLoginComp-wrapper .iLoginComp-login-btn-wrapper.iLoginComp-active {
+.iLoginComp-wrapper .iLoginComp-login-btn-wrapper, .iLoginComp-wrapper .iLoginComp-login-btn-wrapper.iLogincomp-active {
     -webkit-box-shadow: 0 2px 10px -2px #f03d37;
     box-shadow: 0 2px 10px -2px #f03d37;
     background-color: #f03d37;
@@ -425,8 +424,9 @@ button, input, select, textarea {
 .footer {
     background-color: #262426;
     padding: 56px 0;
-    margin: 82px auto ;
+    margin: 0 auto;
     min-width: 1200px;
+    margin-top: 82px;
     height: 262px;
     position: relative;
 }
@@ -441,9 +441,97 @@ button, input, select, textarea {
     padding: 0;
     margin: 0;
 }
-.ticket-contain{
+.ticket-containter{
     width: 340px;
 }
 .ticketDemo{
     display: none;
+}
+
+
+div.seatCharts-seat {
+    color: #fff;
+    cursor: pointer;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+div.seatCharts-row {
+    height: 35px;
+}
+
+div.seatCharts-seat.available {
+    background-image:url(../img/selectable.jpg);
+}
+
+div.seatCharts-seat.focused {
+    background-image:url(../img/selectable.jpg);
+}
+
+div.seatCharts-seat.selected {
+    background-image:url(../img/selected.jpg);
+}
+
+div.seatCharts-seat.unavailable {
+    background-image: url(../img/sold.jpg);
+}
+
+div.seatCharts-container {
+    margin-left: calc(50% - 38px);
+    margin-left:-webkit-calc(50% - 38px);
+    margin-left:-moz-calc(50% - 38px);
+    /* margin-left: 50%; */
+    transform: translateX(-50%);
+}
+
+div.seatCharts-legend {
+    padding-left: 0px;
+    position: absolute;
+    bottom: 16px;
+}
+
+ul.seatCharts-legendList {
+    padding-left: 0px;
+}
+
+.seatCharts-legendItem {
+    float: left;
+    width: 90px;
+    margin-top: 10px;
+    line-height: 2;
+}
+
+span.seatCharts-legendDescription {
+    margin-left: 5px;
+    line-height: 30px;
+}
+#selected-seats {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: none;
+    width: 250px;
+}
+
+#selected-seats li {
+    float: left;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    background-image: url(../img/ticket.jpg);
+    margin: 6px;
+    font-size: 14px;
+    text-align: center;
+    color: #f03d37;
+    list-style-type: none;
+}
+div.seatCharts-cell {
+    height: 26px;
+    width: 30px;
+    line-height: 25px;
+    margin: 3px;
+    float: left;
+    text-align: center;
+    outline: none;
+    font-size: 13px;
 }

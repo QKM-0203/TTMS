@@ -32,6 +32,12 @@ public class MovieVideo implements Serializable {
     @TableField(value = "movie_video")
     private String movieVideo;
 
+    /**
+     * 视频的标题
+     */
+    @TableField(value = "video_title")
+    private String videoTitle;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }
