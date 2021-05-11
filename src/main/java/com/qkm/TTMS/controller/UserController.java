@@ -4,20 +4,20 @@ import com.qkm.TTMS.entity.MovieUser;
 import com.qkm.TTMS.entity.MovieUserRoles;
 import com.qkm.TTMS.mapper.MovieUserMapper;
 import com.qkm.TTMS.mapper.MovieUserRolesMapper;
-import com.qkm.TTMS.service.impl.UserSerImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.qkm.TTMS.service.MovieUserService;
+import com.qkm.TTMS.service.impl.MovieUserServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class UserCon {
+public class UserController {
 
     private final MovieUserMapper movieUserMapper;
     private final MovieUserRolesMapper movieUserRolesMapper;
-    private final UserSerImpl userSer;
+    private final MovieUserService userSer;
 
-    public UserCon(UserSerImpl userSer, MovieUserRolesMapper movieUserRolesMapper, MovieUserMapper movieUserMapper) {
+    public UserController(MovieUserService userSer, MovieUserRolesMapper movieUserRolesMapper, MovieUserMapper movieUserMapper) {
         this.userSer = userSer;
         this.movieUserRolesMapper = movieUserRolesMapper;
         this.movieUserMapper = movieUserMapper;
@@ -68,7 +68,6 @@ public class UserCon {
      */
     @DeleteMapping("/delUser")
     public int delUser(Long userid){
-            movieUserRolesMapper.delByUserId(userid);
             userSer.delById(userid);
             return  1;
     }

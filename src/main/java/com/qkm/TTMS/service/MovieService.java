@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface MovieSer {
+public interface MovieService {
     List<Movie> getMoviesOn();
     List<Movie> getMoviesSoon();
     List<Movie> getMoviesHot();

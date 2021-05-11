@@ -2,22 +2,20 @@ package com.qkm.TTMS.service.impl;
 
 import com.qkm.TTMS.entity.AreaCinemas;
 import com.qkm.TTMS.mapper.*;
-import com.qkm.TTMS.service.AreaCinemaSer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import com.qkm.TTMS.service.AreaCinemaService;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 @Repository
-public class AreaCinemaSerImpl implements AreaCinemaSer {
+public class AreaCinemaServiceImpl implements AreaCinemaService {
 
 
     private final HallSeatMapper hallSeatMapper;
-    private final MoviePlanSerImpl moviePlanSer;
-    private final CinemaMoviesSerImpl cinemaMoviesSer;
+    private final MoviePlanServiceImpl moviePlanSer;
+    private final CinemaMoviesServiceImpl cinemaMoviesSer;
     private final AreaCinemasMapper areaCinemasMapper;
 
-    public  AreaCinemaSerImpl(AreaCinemasMapper areaCinemasMapper, HallSeatMapper hallSeatMapper, MoviePlanSerImpl moviePlanSer, CinemaMoviesSerImpl cinemaMoviesSer) {
+    public AreaCinemaServiceImpl(AreaCinemasMapper areaCinemasMapper, HallSeatMapper hallSeatMapper, MoviePlanServiceImpl moviePlanSer, CinemaMoviesServiceImpl cinemaMoviesSer) {
         this.areaCinemasMapper = areaCinemasMapper;
 
         this.hallSeatMapper = hallSeatMapper;

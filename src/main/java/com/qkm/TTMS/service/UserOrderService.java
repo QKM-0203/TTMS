@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface UserOrderSer {
+public interface UserOrderService {
     int saveOrder(UserOrder userOrder);
     List<UserOrder> getAllByCinemaId(@Param("cinemaId") Long cinemaId);
     List<UserOrder> getAllByUserId( Long userId);

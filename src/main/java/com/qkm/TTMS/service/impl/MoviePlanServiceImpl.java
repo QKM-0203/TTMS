@@ -2,17 +2,16 @@ package com.qkm.TTMS.service.impl;
 
 import com.qkm.TTMS.entity.MoviePlan;
 import com.qkm.TTMS.mapper.MoviePlanMapper;
-import com.qkm.TTMS.service.MoviePlanSer;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.qkm.TTMS.service.MoviePlanService;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class MoviePlanSerImpl implements MoviePlanSer {
+public class MoviePlanServiceImpl implements MoviePlanService {
     private final MoviePlanMapper moviePlanMapper;
 
-    public MoviePlanSerImpl(MoviePlanMapper moviePlanMapper) {
+    public MoviePlanServiceImpl(MoviePlanMapper moviePlanMapper) {
         this.moviePlanMapper = moviePlanMapper;
     }
 

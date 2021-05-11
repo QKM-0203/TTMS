@@ -15,7 +15,6 @@ import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 public class UserService implements UserDetailsService {
 
     private final MovieUserMapper movieUserMapper;

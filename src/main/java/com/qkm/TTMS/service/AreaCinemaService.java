@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface AreaCinemaSer {
+public interface AreaCinemaService {
     List<AreaCinemas> getCinemaMoviesByCinemaId( String areaName, Long movieId);
     AreaCinemas getAllById(Long id);
     List<Long> getListID();

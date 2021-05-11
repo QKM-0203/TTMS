@@ -5,25 +5,22 @@ import com.qkm.TTMS.config.SecurityConfig;
 import com.qkm.TTMS.entity.*;
 import com.qkm.TTMS.mapper.MovieUserRolesMapper;
 import com.qkm.TTMS.mapper.PeopleWantMapper;
-import com.qkm.TTMS.service.UserSer;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.qkm.TTMS.service.MovieUserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
-@RestController //返回的是JSON对像,不是JSON字符串
-public class RegisterCon {
+@RestController //自动将JSON对新象转为字符串
+public class RegisterController {
 
-    private final UserSer userSer;
     private final SecurityConfig securityConfig;
     private final MovieUserRolesMapper movieUserRolesMapper;
     private final PeopleWantMapper peopleWantMapper;
 
 
-    public RegisterCon(UserSer userSer, SecurityConfig securityConfig, MovieUserRolesMapper movieUserRolesMapper, PeopleWantMapper peopleWantMapper) {
-        this.userSer = userSer;
+    public RegisterController( SecurityConfig securityConfig, MovieUserRolesMapper movieUserRolesMapper, PeopleWantMapper peopleWantMapper) {
         this.securityConfig = securityConfig;
         this.movieUserRolesMapper = movieUserRolesMapper;
         this.peopleWantMapper = peopleWantMapper;
@@ -52,11 +49,11 @@ public class RegisterCon {
 
 
 
-    @GetMapping("/wl")
-    public  List<Long> Wl(){
-        List<Long> longs = peopleWantMapper.selectMovieIdByAccounts("123@qq.com");
-        return longs;
-    }
+//    @GetMapping("/wl")
+//    public  List<Long> Wl(){
+//        List<Long> longs = peopleWantMapper.selectMovieIdByAccounts("123@qq.com");
+//        return longs;
+//    }
 
 
 

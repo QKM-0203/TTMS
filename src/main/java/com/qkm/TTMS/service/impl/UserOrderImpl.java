@@ -2,14 +2,13 @@ package com.qkm.TTMS.service.impl;
 
 import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.UserOrderMapper;
-import com.qkm.TTMS.service.UserOrderSer;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.qkm.TTMS.service.UserOrderService;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class UserOrderImpl implements UserOrderSer {
+public class UserOrderImpl implements UserOrderService {
 
     private final UserOrderMapper userOrderMapper;
 

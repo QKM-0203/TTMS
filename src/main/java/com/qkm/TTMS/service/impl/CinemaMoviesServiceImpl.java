@@ -2,17 +2,17 @@ package com.qkm.TTMS.service.impl;
 
 import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.mapper.CinemaMoviesMapper;
-import com.qkm.TTMS.service.CinemaMoviesSer;
+import com.qkm.TTMS.service.CinemaMoviesService;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class CinemaMoviesSerImpl implements CinemaMoviesSer {
+public class CinemaMoviesServiceImpl implements CinemaMoviesService {
 
     private final CinemaMoviesMapper cinemaMoviesMapper;
 
-    public CinemaMoviesSerImpl(CinemaMoviesMapper cinemaMoviesMapper) {
+    public CinemaMoviesServiceImpl(CinemaMoviesMapper cinemaMoviesMapper) {
         this.cinemaMoviesMapper = cinemaMoviesMapper;
     }
 

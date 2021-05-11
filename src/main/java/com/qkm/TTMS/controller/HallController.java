@@ -1,25 +1,20 @@
 package com.qkm.TTMS.controller;
 
 import com.qkm.TTMS.entity.MovieHall;
+import com.qkm.TTMS.service.HallService;
 import com.qkm.TTMS.service.impl.HallServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class HallCon {
+public class HallController {
 
 
-//    @PostMapping("/addHall")
-//    public String addHall(@RequestBody JSONObject json){
-//        System.out.println(json);
-//        System.out.println(JSON.toJSONString(json));
-//        return JSON.toJSONString(json);
-//    }
 
-    private final HallServiceImpl hallService;
+    private final HallService hallService;
 
-    public HallCon(HallServiceImpl hallService) {
+    public HallController(HallServiceImpl hallService) {
         this.hallService = hallService;
     }
 

@@ -1,13 +1,11 @@
 package com.qkm.TTMS.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.mapper.CinemaMoviesMapper;
 import com.qkm.TTMS.mapper.HallSeatMapper;
 import com.qkm.TTMS.mapper.MovieMapper;
-import com.qkm.TTMS.service.MovieSer;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.qkm.TTMS.service.MovieService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,17 +13,17 @@ import java.util.HashMap;
 import java.util.List;
 
 @Repository
-public class MovieSerImpl implements MovieSer {
+public class MovieServiceImpl implements MovieService {
 
     private final HallSeatMapper hallSeatMapper;
-    private final MoviePlanSerImpl moviePlanSer;
+    private final MoviePlanServiceImpl moviePlanSer;
     private final RedisTemplate<String,Object>  redisTemplate;
     private final MovieMapper movieMapper;
-    private final CinemaMoviesSerImpl cinemaMoviesSer;
-    private final AreaCinemaSerImpl areaCinemaSer;
+    private final CinemaMoviesServiceImpl cinemaMoviesSer;
+    private final AreaCinemaServiceImpl areaCinemaSer;
     private final CinemaMoviesMapper cinemaMoviesMapper;
 
-    public MovieSerImpl(MovieMapper movieMapper, RedisTemplate<String, Object> redisTemplate, CinemaMoviesSerImpl cinemaMoviesSer, MoviePlanSerImpl moviePlanSer, AreaCinemaSerImpl areaCinemaSer, CinemaMoviesMapper cinemaMoviesMapper, HallSeatMapper hallSeatMapper) {
+    public MovieServiceImpl(MovieMapper movieMapper, RedisTemplate<String, Object> redisTemplate, CinemaMoviesServiceImpl cinemaMoviesSer, MoviePlanServiceImpl moviePlanSer, AreaCinemaServiceImpl areaCinemaSer, CinemaMoviesMapper cinemaMoviesMapper, HallSeatMapper hallSeatMapper) {
         this.movieMapper = movieMapper;
         this.redisTemplate = redisTemplate;
         this.cinemaMoviesSer = cinemaMoviesSer;

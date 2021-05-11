@@ -1,45 +1,34 @@
 package com.qkm.TTMS.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.qkm.TTMS.entity.*;
 import com.qkm.TTMS.mapper.*;
-import com.qkm.TTMS.service.AreaCinemaSer;
-import com.qkm.TTMS.service.impl.AreaCinemaSerImpl;
-import com.qkm.TTMS.service.impl.CinemaMoviesSerImpl;
+import com.qkm.TTMS.service.AreaCinemaService;
+import com.qkm.TTMS.service.CinemaMoviesService;
+import com.qkm.TTMS.service.HallService;
+import com.qkm.TTMS.service.UserOrderService;
+import com.qkm.TTMS.service.impl.AreaCinemaServiceImpl;
+import com.qkm.TTMS.service.impl.CinemaMoviesServiceImpl;
 import com.qkm.TTMS.service.impl.HallServiceImpl;
 import com.qkm.TTMS.service.impl.UserOrderImpl;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
-public class CinemaCon {
+public class CinemaController {
 
-    private final HallServiceImpl hallService;
-    private final HallSeatMapper hallSeatMapper;
-    private final MoviePlanMapper moviePlanMapper;
-    private final UserOrderImpl userOrder;
 
-    private final CinemaMoviesSerImpl cinemaMoviesSer;
     private final MovieUserRolesMapper movieUserRolesMapper;
     private final MovieUserMapper movieUserMapper;
     private final AreaCinemasMapper areaCinemasMapper;
 
-    private final AreaCinemaSerImpl areaCinemaSerImpl;
+    private final AreaCinemaService areaCinemaSer;
 
-    public CinemaCon(AreaCinemaSerImpl areaCinemaSerImpl, AreaCinemasMapper areaCinemasMapper, MovieUserMapper movieUserMapper, MovieUserRolesMapper movieUserRolesMapper, CinemaMoviesSerImpl cinemaMoviesSer, UserOrderImpl userOrder, MoviePlanMapper moviePlanMapper, HallSeatMapper hallSeatMapper, HallServiceImpl hallService) {
-        this.areaCinemaSerImpl = areaCinemaSerImpl;
-
+    public CinemaController(AreaCinemaServiceImpl areaCinemaSer, AreaCinemasMapper areaCinemasMapper, MovieUserMapper movieUserMapper, MovieUserRolesMapper movieUserRolesMapper) {
+        this.areaCinemaSer = areaCinemaSer;
         this.areaCinemasMapper = areaCinemasMapper;
         this.movieUserMapper = movieUserMapper;
         this.movieUserRolesMapper = movieUserRolesMapper;
-        this.cinemaMoviesSer = cinemaMoviesSer;
-        this.userOrder = userOrder;
-        this.moviePlanMapper = moviePlanMapper;
-        this.hallSeatMapper = hallSeatMapper;
-        this.hallService = hallService;
     }
 
     /**
@@ -50,7 +39,7 @@ public class CinemaCon {
      */
     @GetMapping("/getAreaCinemas")
     public List<AreaCinemas> getAreaCinemas(@RequestParam("areaName")String areaName, @RequestParam("movieId")Long movieId){
-        return areaCinemaSerImpl.getCinemaMoviesByCinemaId(areaName, movieId);
+        return areaCinemaSer.getCinemaMoviesByCinemaId(areaName, movieId);
     }
 
 
@@ -60,7 +49,7 @@ public class CinemaCon {
      */
     @GetMapping("/getCinemas")
     public List<AreaCinemas> getCinemas(){
-        return areaCinemaSerImpl.getAll();
+        return areaCinemaSer.getAll();
     }
 
     /**
@@ -70,14 +59,7 @@ public class CinemaCon {
      */
     @DeleteMapping("/delCinemas")
     public int delCinemas(@RequestParam("cinemaId") Long cinemaId){
-        List<Long> listIdByCinemaId = cinemaMoviesSer.getListIdByCinemaId(cinemaId);
-        List<Long> moviePlans = moviePlanMapper.selectListCMId(listIdByCinemaId);
-        hallSeatMapper.deleteByMoviePlanIds(moviePlans);
-        moviePlanMapper.deleteByCinemaMovieIds(listIdByCinemaId);
-        cinemaMoviesSer.deleteByCinemaId(cinemaId);
-        userOrder.deleteByCinemaId(cinemaId);
-        hallService.deleteByCinemaId(cinemaId);
-        return areaCinemaSerImpl.deleteById(cinemaId);
+        return areaCinemaSer.deleteById(cinemaId);
     }
 
     /**

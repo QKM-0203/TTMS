@@ -2,16 +2,16 @@ package com.qkm.TTMS.service.impl;
 
 import com.qkm.TTMS.entity.MovieUser;
 import com.qkm.TTMS.mapper.MovieUserMapper;
-import com.qkm.TTMS.service.UserSer;
+import com.qkm.TTMS.service.MovieUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserSerImpl implements UserSer {
+public class MovieUserServiceImpl implements MovieUserService {
     private final MovieUserMapper userMapper;
 
-    public UserSerImpl(MovieUserMapper userMapper) {
+    public MovieUserServiceImpl(MovieUserMapper userMapper) {
         this.userMapper = userMapper;
     }
 

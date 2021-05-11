@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface MoviePlanSer {
+public interface MoviePlanService {
     List<MoviePlan> getMoviePlan(Long movieId,Long cinemaId);
     int deleteByCinemaMovieId( Long cinemaMovieId);
     int deleteByCinemaMovieIds(List<Long> cinemaMovieId);

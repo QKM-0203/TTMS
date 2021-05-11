@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Repository
-public class CommentCon {
+public class CommentController {
 
     private final MovieCommentMapper movieCommentMapper;
 
-    public CommentCon(MovieCommentMapper movieCommentMapper) {
+    public CommentController(MovieCommentMapper movieCommentMapper) {
         this.movieCommentMapper = movieCommentMapper;
     }
 

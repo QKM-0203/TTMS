@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public interface UserSer {
+
+public interface MovieUserService {
      int addUser(MovieUser user);
      List<MovieUser> getAdmins();
      List<MovieUser> getSells(Long cinemaId);

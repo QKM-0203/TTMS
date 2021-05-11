@@ -3,8 +3,10 @@ package com.qkm.TTMS.controller;
 import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.mapper.*;
+import com.qkm.TTMS.service.AreaCinemaService;
+import com.qkm.TTMS.service.CinemaMoviesService;
+import com.qkm.TTMS.service.MovieService;
 import com.qkm.TTMS.service.impl.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,35 +16,21 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-public class MovieCon {
+public class MovieController {
 
 
-    private final MoviePictureMapper moviePictureMapper;
-    private final MovieCommentMapper movieCommentMapper;
-    private final MovieDirectorMapper movieDirectorMapper;
-    private final MovieWriterMapper movieWriterMapper;
-    private final MovieActorMapper movieActorMapper;
-    private final MovieProducerMapper movieProducerMapper;
-    private final MovieVideoMapper movieVideoMapper;
-    private final AreaCinemaSerImpl areaCinemaSer;
+
     private final MovieMapper movieMapper;
     private final CinemaMoviesMapper cinemaMoviesMapper;
-    private final CinemaMoviesSerImpl cinemaMoviesSer;
-    private final MovieSerImpl movieSerImpl;
+    private final CinemaMoviesService cinemaMoviesSer;
+    private final MovieService movieSer;
 
-    public MovieCon(MovieSerImpl movieSerImpl, CinemaMoviesSerImpl cinemaMoviesSer, MovieMapper movieMapper, CinemaMoviesMapper cinemaMoviesMapper, AreaCinemaSerImpl areaCinemaSer, MovieCommentMapper movieCommentMapper, MovieDirectorMapper movieDirectorMapper, MovieWriterMapper movieWriterMapper, MovieActorMapper movieActorMapper, MovieProducerMapper movieProducerMapper, MovieVideoMapper movieVideoMapper, MoviePictureMapper moviePictureMapper) {
-        this.movieSerImpl = movieSerImpl;
+    public MovieController(MovieService movieSer, CinemaMoviesService cinemaMoviesSer, MovieMapper movieMapper, CinemaMoviesMapper cinemaMoviesMapper) {
+        this.movieSer = movieSer;
         this.cinemaMoviesSer = cinemaMoviesSer;
         this.movieMapper = movieMapper;
         this.cinemaMoviesMapper = cinemaMoviesMapper;
-        this.areaCinemaSer = areaCinemaSer;
-        this.movieCommentMapper = movieCommentMapper;
-        this.movieDirectorMapper = movieDirectorMapper;
-        this.movieWriterMapper = movieWriterMapper;
-        this.movieActorMapper = movieActorMapper;
-        this.movieProducerMapper = movieProducerMapper;
-        this.movieVideoMapper = movieVideoMapper;
-        this.moviePictureMapper = moviePictureMapper;
+
     }
 
     /**
@@ -52,19 +40,13 @@ public class MovieCon {
     @Cacheable(cacheNames = "movies",key = "'movieList'")
     @GetMapping("/getMovies")
     public HashMap<String, List<Movie>> getMovies(){
-        List<Movie> moviesOn = movieSerImpl.getMoviesOn();
-        List<Movie> moviesSoon = movieSerImpl.getMoviesSoon();
-        List<Movie> moviesHot = movieSerImpl.getMoviesHot();
+        List<Movie> moviesOn = movieSer.getMoviesOn();
+        List<Movie> moviesSoon = movieSer.getMoviesSoon();
+        List<Movie> moviesHot = movieSer.getMoviesHot();
         HashMap<String,  List<Movie>> map = new HashMap<String,  List<Movie>>();
         map.put("on",moviesOn);
         map.put("soon",moviesSoon);
         map.put("hot",moviesHot);
-//        LettuceConnectionFactory jedisConnectionFactory = (LettuceConnectionFactory) redisTemplate.getConnectionFactory();
-//        assert jedisConnectionFactory != null;
-//        jedisConnectionFactory.setDatabase(2);
-//        jedisConnectionFactory.setShareNativeConnection(false);
-//        jedisConnectionFactory.resetConnection();
-//        redisTemplate.setConnectionFactory(jedisConnectionFactory);
         return  map;
     }
 
@@ -73,7 +55,7 @@ public class MovieCon {
      */
     @GetMapping("/ByScore")
      public List<Movie> getScore(){
-        List<Movie> movies = movieSerImpl.getMovies();
+        List<Movie> movies = movieSer.getMovies();
         Collections.sort(movies, new Comparator<Movie>() {
             @Override
             public int compare(Movie o1, Movie o2) {
@@ -95,7 +77,7 @@ public class MovieCon {
      */
     @GetMapping("/ByLikes")
     public List<Movie> getLikes(){
-        List<Movie> movies = movieSerImpl.getMoviesLikes();
+        List<Movie> movies = movieSer.getMoviesLikes();
         Collections.sort(movies, new Comparator<Movie>() {
             @Override
             public int compare(Movie o1, Movie o2) {
@@ -120,7 +102,7 @@ public class MovieCon {
      */
     @GetMapping("/getSpecificMovie")
     public Movie getSpecific(@RequestParam("status") int status,@RequestParam("movieId") long movieId) {
-        return movieSerImpl.getMovieByStatus(status, movieId);
+        return movieSer.getMovieByStatus(status, movieId);
     }
 
 
@@ -130,7 +112,7 @@ public class MovieCon {
      */
     @PostMapping("/ManageAddMovie")
     public int ManageAddMovie(@RequestBody Movie movie) {
-        return movieSerImpl.addMovie(movie);
+        return movieSer.addMovie(movie);
     }
 
 
@@ -139,7 +121,7 @@ public class MovieCon {
      */
     @PutMapping("/editMovie")
     public int editMovie(@RequestBody Movie movie,@RequestParam("cinemaId")long cinemaId) {
-        return movieSerImpl.editMovie(movie,cinemaId);
+        return movieSer.editMovie(movie,cinemaId);
     }
 
     /**
@@ -147,17 +129,10 @@ public class MovieCon {
      */
      @GetMapping("/AdminGetMovies")
      public List<Movie> AdminGetMovies(){
-         return movieSerImpl.getMovies();
+         return movieSer.getMovies();
      }
 
-//    /**
-//     * 经理删除电影,所有影院都没有这个电影
-//     */
-//    @GetMapping("/AdminDelMovies")
-//    public int AdminDelMovies(@RequestParam("movieId") Long movieId){
-//        cinemaMoviesMapper.deleteByMovieId(movieId);
-//        return movieMapper.deleteById(movieId);
-//    }
+
 
 
     /**
@@ -166,7 +141,7 @@ public class MovieCon {
     @GetMapping("/adminGetMovies")
     public List<Movie> getMovies(@RequestParam("cinemaId")Long cinemaId){
         List<Long> listByCinemaId = cinemaMoviesSer.getListMovieIdByCinemaId(cinemaId);
-        return movieSerImpl.selectMovieByListId(listByCinemaId);
+        return movieSer.selectMovieByListId(listByCinemaId);
     }
 
 
@@ -176,7 +151,7 @@ public class MovieCon {
     @PostMapping("/adminAddMovies")
     public int AdminAddMovie(@RequestBody Movie movie,@RequestParam("cinemaId")Long cinemaId){
 
-            movieSerImpl.addMovie(movie);
+            movieSer.addMovie(movie);
             CinemaMovies cinemaMovies = new CinemaMovies();
             cinemaMovies.setCinemaId(cinemaId);
             cinemaMovies.setMovieId(movie.getId());
@@ -189,20 +164,9 @@ public class MovieCon {
      */
     @DeleteMapping("/AdminDelMovie")
     public int AdminDelMovie(@RequestParam("movieId") Long movieId,@RequestParam("cinemaId")Long cinemaId){
-        areaCinemaSer.delCinema(cinemaId,movieId);
-        movieActorMapper.deleteByMovieId(movieId);
-        movieCommentMapper.deleteByMovieId(movieId);
-        movieDirectorMapper.deleteByMovieId(movieId);
-        movieVideoMapper.deleteByMovieId(movieId);
-        movieWriterMapper.deleteByMovieId(movieId);
-        movieProducerMapper.deleteByMovieId(movieId);
-        moviePictureMapper.deleteByMovieId(movieId);
         return movieMapper.deleteById(movieId);
     }
 
-//    /**
-//     * 管理员编辑电电影,只能编辑自己影院添加的电影
-//     */
 
 
 

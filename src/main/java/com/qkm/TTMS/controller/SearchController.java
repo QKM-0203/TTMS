@@ -3,10 +3,12 @@ package com.qkm.TTMS.controller;
 import com.qkm.TTMS.entity.AreaCinemas;
 import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.entity.Movie;
-import com.qkm.TTMS.service.impl.AreaCinemaSerImpl;
-import com.qkm.TTMS.service.impl.CinemaMoviesSerImpl;
-import com.qkm.TTMS.service.impl.MovieSerImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.qkm.TTMS.service.AreaCinemaService;
+import com.qkm.TTMS.service.CinemaMoviesService;
+import com.qkm.TTMS.service.MovieService;
+import com.qkm.TTMS.service.impl.AreaCinemaServiceImpl;
+import com.qkm.TTMS.service.impl.CinemaMoviesServiceImpl;
+import com.qkm.TTMS.service.impl.MovieServiceImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,15 +19,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
-public class SearchCon {
+public class SearchController {
 
-    private final CinemaMoviesSerImpl cinemaMoviesSer;
-    private final AreaCinemaSerImpl areaCinemaSerImpl;
-    private final MovieSerImpl movieSerImpl;
+    private final CinemaMoviesService cinemaMoviesSer;
+    private final AreaCinemaService areaCinemaSer;
+    private final MovieService movieSer;
 
-    public SearchCon(MovieSerImpl movieSerImpl, AreaCinemaSerImpl areaCinemaSerImpl, CinemaMoviesSerImpl cinemaMoviesSer) {
-        this.movieSerImpl = movieSerImpl;
-        this.areaCinemaSerImpl = areaCinemaSerImpl;
+    public SearchController(MovieService movieSer, AreaCinemaService areaCinemaSer, CinemaMoviesService cinemaMoviesSer) {
+        this.movieSer = movieSer;
+        this.areaCinemaSer = areaCinemaSer;
         this.cinemaMoviesSer = cinemaMoviesSer;
     }
 
@@ -36,7 +38,7 @@ public class SearchCon {
      */
     @GetMapping("/searchMoviesByName")
     public List<Movie> getMovies(@RequestParam("movieName")String movieName){
-        List<Movie> movies = movieSerImpl.getMovies();
+        List<Movie> movies = movieSer.getMovies();
         ArrayList<Movie> results = new ArrayList<Movie>();
         Pattern pattern = Pattern.compile(movieName);
         for(int i=0; i < movies.size(); i++) {
@@ -56,7 +58,7 @@ public class SearchCon {
      */
     @GetMapping("/searchCinemasByName")
     public List<AreaCinemas> getCinemas(@RequestParam("cinemaName")String cinemaName){
-        List<AreaCinemas> allByAreaName = areaCinemaSerImpl.getAllByAreaName(cinemaName);
+        List<AreaCinemas> allByAreaName = areaCinemaSer.getAllByAreaName(cinemaName);
         for (AreaCinemas areaCinemas : allByAreaName) {
             CinemaMovies allByCinemaId = cinemaMoviesSer.getAllByCinemaId(areaCinemas.getId());
             areaCinemas.setLawMoney(allByCinemaId.getMovieLowMoney());

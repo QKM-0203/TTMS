@@ -3,10 +3,15 @@ package com.qkm.TTMS.controller;
 import com.qkm.TTMS.entity.HallSeat;
 import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.HallSeatMapper;
-import com.qkm.TTMS.service.impl.AreaCinemaSerImpl;
-import com.qkm.TTMS.service.impl.MovieSerImpl;
-import com.qkm.TTMS.service.impl.SeatSerImpl;
+import com.qkm.TTMS.service.AreaCinemaService;
+import com.qkm.TTMS.service.MovieService;
+import com.qkm.TTMS.service.SeatService;
+import com.qkm.TTMS.service.UserOrderService;
+import com.qkm.TTMS.service.impl.AreaCinemaServiceImpl;
+import com.qkm.TTMS.service.impl.MovieServiceImpl;
+import com.qkm.TTMS.service.impl.SeatServiceImpl;
 import com.qkm.TTMS.service.impl.UserOrderImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,43 +21,59 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-public class OrderCon {
+public class OrderController {
 
 
     private final HallSeatMapper hallSeatMapper;
     private final RedisTemplate<String,Object> redisTemplate;
-    private final AreaCinemaSerImpl areaCinemaSer;
-    private final MovieSerImpl movieSer;
-    private final SeatSerImpl seatSerImpl;
-    private final UserOrderImpl userOrderImpl;
-
-    public OrderCon(UserOrderImpl userOrderImpl, SeatSerImpl seatSerImpl, AreaCinemaSerImpl areaCinemaSer, MovieSerImpl movieSer, RedisTemplate<String, Object> redisTemplate, HallSeatMapper hallSeatMapper) {
-        this.userOrderImpl = userOrderImpl;
-        this.seatSerImpl = seatSerImpl;
+    private final AreaCinemaService areaCinemaSer;
+    private final MovieService movieSer;
+    private final SeatService seatSer;
+    private final UserOrderService userOrderService;
+    public OrderController(SeatService seatSer, AreaCinemaService areaCinemaSer, MovieService movieSer, RedisTemplate<String, Object> redisTemplate, HallSeatMapper hallSeatMapper, UserOrderService userOrderService) {
+        this.seatSer = seatSer;
         this.areaCinemaSer = areaCinemaSer;
         this.movieSer = movieSer;
         this.redisTemplate = redisTemplate;
         this.hallSeatMapper = hallSeatMapper;
+        this.userOrderService = userOrderService;
     }
 
     /**
      * 前端将选的座位也要发过来
-     * @param
-     * @retur
+     * @param userOrder
+     * @param moviePlanId
+     * @return
      */
     @PostMapping("/saveOrder")
-    public Long saveOrder(@RequestBody UserOrder userOrder){
-        //存订单
-        userOrderImpl.saveOrder(userOrder);
-        redisTemplate.opsForValue().set("order"+userOrder.getId(), userOrder,  10, TimeUnit.SECONDS);
+    public Long saveOrder(@RequestBody UserOrder userOrder,@RequestParam("moviePlanId")Long moviePlanId){
+        Map<String, String> seatByRedis = seatSer.getSeatByRedis(moviePlanId);
+        redisTemplate.watch(String.valueOf(moviePlanId));
         //存座位
         List<HallSeat> hallSeatList = userOrder.getHallSeatList();
-        for (HallSeat hallSeat : hallSeatList) {
-            hallSeat.setOrderId(userOrder.getId());
-            System.out.println(hallSeat.getOrderId());
-            seatSerImpl.saveSeat(hallSeat);
+        redisTemplate.multi();
+        for(int  j = 0; j < hallSeatList.size(); j++){
+            if(seatByRedis.containsKey((String.valueOf(hallSeatList.get(j).getSeatLine()))+String.valueOf(hallSeatList.get(j).getSeatColumn()))){
+                seatByRedis.put((String.valueOf(hallSeatList.get(j).getSeatLine())) + String.valueOf(hallSeatList.get(j).getSeatColumn()),"1");
+            }
         }
-        return userOrder.getId();
+        redisTemplate.opsForHash().putAll(String.valueOf(moviePlanId),seatByRedis);
+        List<Object> exec = redisTemplate.exec();
+        if(exec != null){
+            for (HallSeat hallSeat : hallSeatList) {
+                hallSeat.setOrderId(userOrder.getId());
+                seatSer.saveSeat(hallSeat);
+            }
+            //存订单
+
+            userOrderService.saveOrder(userOrder);
+
+            redisTemplate.opsForValue().set("order"+userOrder.getId(), userOrder,  10, TimeUnit.SECONDS);
+            return userOrder.getId();
+        }else{
+            return 0L;
+        }
+
     }
 
     /**
@@ -80,7 +101,7 @@ public class OrderCon {
         int i1 = movieSer.addMoney(userOrder.getOrderMoney(), userOrder.getMovieId());
         //存电影院赚的钱
         int i2 = areaCinemaSer.addMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());
-        userOrderImpl.updateOrderStatusById("已支付",userOrder.getId());
+        userOrderService.updateOrderStatusById("已支付",userOrder.getId());
         return i1;
 
     }
@@ -93,7 +114,7 @@ public class OrderCon {
         movieSer.downMoney(userOrder.getOrderMoney(), userOrder.getMovieId());
         areaCinemaSer.downMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());
         hallSeatMapper.delByOrderId(userOrder.getId());
-        return  userOrderImpl.updateOrderStatusById("退款成功",userOrder.getId());
+        return  userOrderService.updateOrderStatusById("退款成功",userOrder.getId());
     }
 
 
@@ -104,7 +125,7 @@ public class OrderCon {
      */
     @GetMapping("/getOrders")
     public List<UserOrder> getOrders(@RequestParam("cinema_id") Long cinemaId){
-        return userOrderImpl.getAllByCinemaId(cinemaId);
+        return userOrderService.getAllByCinemaId(cinemaId);
     }
 
     /**
@@ -112,7 +133,7 @@ public class OrderCon {
      */
     @GetMapping("/getOrdersBySelf")
     public List<UserOrder> getOrdersBySelf(@RequestParam("userId") Long userId){
-        return userOrderImpl.getAllByUserId(userId);
+        return userOrderService.getAllByUserId(userId);
     }
 
 
@@ -122,7 +143,7 @@ public class OrderCon {
     @DeleteMapping("/delOrdersBySelf")
     public int delOrdersBySelf(@RequestParam("orderId")Long orderId){
         int i = hallSeatMapper.delByOrderId(orderId);
-        int i1 = userOrderImpl.delById(orderId);
+        int i1 = userOrderService.delById(orderId);
         return i1;
     }
 
