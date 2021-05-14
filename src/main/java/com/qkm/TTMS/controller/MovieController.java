@@ -3,10 +3,8 @@ package com.qkm.TTMS.controller;
 import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.mapper.*;
-import com.qkm.TTMS.service.AreaCinemaService;
 import com.qkm.TTMS.service.CinemaMoviesService;
 import com.qkm.TTMS.service.MovieService;
-import com.qkm.TTMS.service.impl.*;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,19 +14,19 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class MovieController {
 
 
 
-    private final MovieMapper movieMapper;
+
     private final CinemaMoviesMapper cinemaMoviesMapper;
     private final CinemaMoviesService cinemaMoviesSer;
     private final MovieService movieSer;
 
-    public MovieController(MovieService movieSer, CinemaMoviesService cinemaMoviesSer, MovieMapper movieMapper, CinemaMoviesMapper cinemaMoviesMapper) {
+    public MovieController(MovieService movieSer, CinemaMoviesService cinemaMoviesSer, CinemaMoviesMapper cinemaMoviesMapper) {
         this.movieSer = movieSer;
         this.cinemaMoviesSer = cinemaMoviesSer;
-        this.movieMapper = movieMapper;
         this.cinemaMoviesMapper = cinemaMoviesMapper;
 
     }
@@ -70,6 +68,11 @@ public class MovieController {
             }
         });
         return  movies.subList(0,9);
+    }
+
+    @GetMapping("/getSoonAndOn")
+    public List<Movie> getOnAndSoonMovies(){
+       return  movieSer.getOnAndSoonMovies();
     }
 
     /**
@@ -120,8 +123,8 @@ public class MovieController {
      * 经理编辑电影,例如将上映电影改成热播电影,或者将即将上映改成正在上映电影
      */
     @PutMapping("/editMovie")
-    public int editMovie(@RequestBody Movie movie,@RequestParam("cinemaId")long cinemaId) {
-        return movieSer.editMovie(movie,cinemaId);
+    public int editMovie(@RequestBody Movie movie) {
+        return movieSer.editMovie(movie);
     }
 
     /**
@@ -146,30 +149,41 @@ public class MovieController {
 
 
     /**
-     * 管理员增加电影
+     * 管理员增加电影,从经理处增加
      */
     @PostMapping("/adminAddMovies")
-    public int AdminAddMovie(@RequestBody Movie movie,@RequestParam("cinemaId")Long cinemaId){
-
-            movieSer.addMovie(movie);
+    public int AdminAddMovie(@RequestParam("movieId")Long movieId, @RequestParam("cinemaId")Long cinemaId){
             CinemaMovies cinemaMovies = new CinemaMovies();
             cinemaMovies.setCinemaId(cinemaId);
-            cinemaMovies.setMovieId(movie.getId());
+            cinemaMovies.setMovieId(movieId);
             cinemaMoviesMapper.insert(cinemaMovies);
             return 1;
     }
+
+
+//    /**
+//     * 管理员增加电影,自己增加新的
+//     */
+//    @PostMapping("/adminAddMovies")
+//    public int AdminAddMovie(@RequestBody Movie movie,@RequestParam("cinemaId")Long cinemaId){
+//
+//        CinemaMovies cinemaMovies = new CinemaMovies();
+//        cinemaMovies.setCinemaId(cinemaId);
+//        cinemaMovies.setMovieId(movie.getId());
+//        cinemaMoviesMapper.insert(cinemaMovies);
+//        return 1;
+//    }
+
+
 
     /**
      * 管理员删除电影,只能删除自己影院的电影
      */
     @DeleteMapping("/AdminDelMovie")
     public int AdminDelMovie(@RequestParam("movieId") Long movieId,@RequestParam("cinemaId")Long cinemaId){
-        return movieMapper.deleteById(movieId);
+        cinemaMoviesSer.deleteByCinemaIdAndMovieId(cinemaId,movieId);
+        return 1;
     }
-
-
-
-
 
 
 }

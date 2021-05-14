@@ -9,7 +9,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -22,10 +21,6 @@ public class SeatServiceImpl implements SeatService {
         this.redisTemplate = redisTemplate;
     }
 
-    @Override
-    public List<HallSeat> getSeatByPlanId(Long planId) {
-        return hallSeatMapper.getAllByMoviePlanId(planId);
-    }
 
     @Override
     public int saveSeat(HallSeat hallSeat) {

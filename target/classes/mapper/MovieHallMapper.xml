@@ -18,6 +18,6 @@
         seat_column,hall_name,movie_type
     </sql>
     <delete id="deleteByCinemaId">
-        delete from movie_hall where cinema_id = #{cinemaId}
+        delete from movie_hall where cinemaId = #{cinemaId}
     </delete>
 </mapper>

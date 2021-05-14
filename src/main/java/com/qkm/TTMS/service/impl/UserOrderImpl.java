@@ -46,10 +46,4 @@ public class UserOrderImpl implements UserOrderService {
         return userOrderMapper.deleteByCinemaId(cinemaId);
     }
 
-    @Override
-    public int insertAll(UserOrder userOrder) {
-        return userOrderMapper.insertAll(userOrder);
-    }
-
-
 }

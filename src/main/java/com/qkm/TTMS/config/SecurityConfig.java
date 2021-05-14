@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -21,10 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 
-@Configuration
+@Configuration(value = "securityConfig")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-
 
     private final UserService userService;
 
@@ -47,14 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final MovieUserMapper movieUserMapper;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests()
-                .antMatchers("/fail")
-                .access("hasRole('user')")
-                .antMatchers("/Head")
-                .access("permitAll")
-                .and()
-                .rememberMe()
+        http.cors().and().csrf().disable().authorizeRequests()
+                .antMatchers("/Login").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/Login")
@@ -72,7 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     stringObjectHashMap.put("cinemaId",allByAccounts.getCinemaId());
                     resp.setContentType("application/json;charset=utf-8");
                     PrintWriter out = resp.getWriter();
-
                     out.write(JSON.toJSONString(stringObjectHashMap));
                     out.flush();
                     out.close();

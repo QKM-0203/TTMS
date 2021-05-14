@@ -5,6 +5,8 @@ import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.mapper.CinemaMoviesMapper;
 import com.qkm.TTMS.mapper.HallSeatMapper;
 import com.qkm.TTMS.mapper.MovieMapper;
+import com.qkm.TTMS.service.AreaCinemaService;
+import com.qkm.TTMS.service.CinemaMoviesService;
 import com.qkm.TTMS.service.MovieService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,22 +17,13 @@ import java.util.List;
 @Repository
 public class MovieServiceImpl implements MovieService {
 
-    private final HallSeatMapper hallSeatMapper;
-    private final MoviePlanServiceImpl moviePlanSer;
     private final RedisTemplate<String,Object>  redisTemplate;
     private final MovieMapper movieMapper;
-    private final CinemaMoviesServiceImpl cinemaMoviesSer;
-    private final AreaCinemaServiceImpl areaCinemaSer;
-    private final CinemaMoviesMapper cinemaMoviesMapper;
 
-    public MovieServiceImpl(MovieMapper movieMapper, RedisTemplate<String, Object> redisTemplate, CinemaMoviesServiceImpl cinemaMoviesSer, MoviePlanServiceImpl moviePlanSer, AreaCinemaServiceImpl areaCinemaSer, CinemaMoviesMapper cinemaMoviesMapper, HallSeatMapper hallSeatMapper) {
+    public MovieServiceImpl(MovieMapper movieMapper, RedisTemplate<String, Object> redisTemplate) {
         this.movieMapper = movieMapper;
         this.redisTemplate = redisTemplate;
-        this.cinemaMoviesSer = cinemaMoviesSer;
-        this.moviePlanSer = moviePlanSer;
-        this.areaCinemaSer = areaCinemaSer;
-        this.cinemaMoviesMapper = cinemaMoviesMapper;
-        this.hallSeatMapper = hallSeatMapper;
+
     }
 
     @Override
@@ -98,13 +91,6 @@ public class MovieServiceImpl implements MovieService {
         return  on;
     }
 
-    @Override
-    public List<Movie> getOnAndSoonMovies(){
-        HashMap<String, List<Movie>> movieMap = (HashMap<String, List<Movie>>) redisTemplate.opsForValue().get("movies::movieList");
-        List<Movie> on = movieMap.get("on");
-        on.addAll(movieMap.get("soon"));
-        return  on;
-    }
 
 
     @Override
@@ -115,15 +101,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public int addMovie(Movie movie) {
-
             int insert = movieMapper.insert(movie);
-            List<Long> listID = areaCinemaSer.getListID();
-            CinemaMovies cinemaMovies = new CinemaMovies();
-            for (Long aLong : listID) {
-                cinemaMovies.setCinemaId(aLong);
-                cinemaMovies.setMovieId(movie.getId());
-                cinemaMoviesMapper.insert(cinemaMovies);
-            }
             HashMap<String, List<Movie>> movieMap = (HashMap<String, List<Movie>>) redisTemplate.opsForValue().get("movies::movieList");
             if(movieMap != null){
                 if(movie.getMovieStatus() == 2) {
@@ -139,24 +117,15 @@ public class MovieServiceImpl implements MovieService {
 
 
     @Override
-    public int editMovie(Movie movie,long cinemaId) {
-        Movie movieByMovieId = movieMapper.getMovieByMovieId(movie.getId());
-        if(movie.getMovieStatus() == 3 && movieByMovieId.getMovieStatus().equals(1)){
-             areaCinemaSer.delCinema(cinemaId,movie.getId());
-             redisTemplate.delete("movies::movieList");
-             return  1;
-        }else{
-            redisTemplate.delete("movies::movieList");
-            return movieMapper.updateById(movie);
-        }
-
+    public int editMovie(Movie movie) {
+        movieMapper.updateById(movie);
+        redisTemplate.delete("movies::movieList");
+        return  1;
     }
 
     @Override
     public int addMoney(Long money, Long movieId) {
         return  movieMapper.addMoney(money, movieId);
-
-
 
     }
 
@@ -168,6 +137,14 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> selectMovieByListId(List<Long> listId) {
         return movieMapper.selectMovieByListId(listId);
+    }
+
+    @Override
+    public List<Movie> getOnAndSoonMovies() {
+        HashMap<String, List<Movie>> movieMap = (HashMap<String, List<Movie>>) redisTemplate.opsForValue().get("movies::movieList");
+        List<Movie> on = movieMap.get("on");
+        on.addAll(movieMap.get("soon"));
+        return  on;
     }
 
 

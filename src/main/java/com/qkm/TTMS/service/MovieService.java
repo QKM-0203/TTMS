@@ -12,12 +12,12 @@ public interface MovieService {
     Movie getMovieById(Long id);
     Movie getMovieByStatus(int status,long movieId);
     List<Movie> getMovies();
-    List<Movie> getOnAndSoonMovies();
     List<Movie> getMoviesLikes();
    int addMovie(Movie movie);
-   int editMovie(Movie movie,long cinemaId);
+   int editMovie(Movie movie);
    int  addMoney(Long money, Long movieId);
    int  downMoney(Long money, Long movieId);
-    List<Movie> selectMovieByListId(@Param("listId")List<Long> listId);
+    List<Movie> selectMovieByListId(List<Long> listId);
+    List<Movie> getOnAndSoonMovies();
 
 }

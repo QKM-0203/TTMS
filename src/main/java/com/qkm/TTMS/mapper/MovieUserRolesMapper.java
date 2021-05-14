@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * @Entity com.qkm.TTMS.entity.MovieUserRoles
  */
-@Repository
+@Repository(value = "movieUserRolesMapper")
 public interface MovieUserRolesMapper extends BaseMapper<MovieUserRoles> {
     int delByUserId(@Param("userId")Long userId);
 }

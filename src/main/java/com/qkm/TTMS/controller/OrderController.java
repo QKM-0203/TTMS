@@ -3,18 +3,11 @@ package com.qkm.TTMS.controller;
 import com.qkm.TTMS.entity.HallSeat;
 import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.HallSeatMapper;
-import com.qkm.TTMS.service.AreaCinemaService;
-import com.qkm.TTMS.service.MovieService;
-import com.qkm.TTMS.service.SeatService;
-import com.qkm.TTMS.service.UserOrderService;
-import com.qkm.TTMS.service.impl.AreaCinemaServiceImpl;
-import com.qkm.TTMS.service.impl.MovieServiceImpl;
-import com.qkm.TTMS.service.impl.SeatServiceImpl;
-import com.qkm.TTMS.service.impl.UserOrderImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.qkm.TTMS.service.*;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class OrderController {
 
 
+    private CinemaMoviesService cinemaMoviesService;
     private final HallSeatMapper hallSeatMapper;
     private final RedisTemplate<String,Object> redisTemplate;
     private final AreaCinemaService areaCinemaSer;
@@ -39,8 +33,8 @@ public class OrderController {
         this.userOrderService = userOrderService;
     }
 
-    /**
-     * 前端将选的座位也要发过来
+     /**
+     * 前端将选的座位也要发过来,锁住座位,未支付状态
      * @param userOrder
      * @param moviePlanId
      * @return
@@ -59,13 +53,12 @@ public class OrderController {
         }
         redisTemplate.opsForHash().putAll(String.valueOf(moviePlanId),seatByRedis);
         List<Object> exec = redisTemplate.exec();
-        if(exec != null){
+        if(!exec.isEmpty()){
             for (HallSeat hallSeat : hallSeatList) {
                 hallSeat.setOrderId(userOrder.getId());
                 seatSer.saveSeat(hallSeat);
             }
             //存订单
-
             userOrderService.saveOrder(userOrder);
 
             redisTemplate.opsForValue().set("order"+userOrder.getId(), userOrder,  10, TimeUnit.SECONDS);
@@ -111,8 +104,21 @@ public class OrderController {
      */
     @DeleteMapping("/delOrder")
     public int backOrder(@RequestBody UserOrder userOrder){
+        Date movieStartTime = userOrder.getMovieStartTime();
+        if(movieStartTime.getTime() - new Date().getTime() < 1800000L ){
+           //电影开始半小时前不能退订单
+            return 0;
+        }
         movieSer.downMoney(userOrder.getOrderMoney(), userOrder.getMovieId());
         areaCinemaSer.downMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());
+
+        long idByCinemaIdAndMovieId = cinemaMoviesService.getIdByCinemaIdAndMovieId(userOrder.getCinemaId(), userOrder.getMovieId());
+        //获取缓存中的座位进行修改
+        Map<String, String> seatByRedis = seatSer.getSeatByRedis(idByCinemaIdAndMovieId);
+        List<HallSeat> hallSeatList = userOrder.getHallSeatList();
+        for (HallSeat hallSeat : hallSeatList) {
+            seatByRedis.put(String.valueOf(hallSeat.getSeatLine())+String.valueOf(hallSeat.getSeatColumn()),"0");
+        }
         hallSeatMapper.delByOrderId(userOrder.getId());
         return  userOrderService.updateOrderStatusById("退款成功",userOrder.getId());
     }
@@ -124,7 +130,7 @@ public class OrderController {
      * @return
      */
     @GetMapping("/getOrders")
-    public List<UserOrder> getOrders(@RequestParam("cinema_id") Long cinemaId){
+    public List<UserOrder> getOrders(@RequestParam("cinemaId") Long cinemaId){
         return userOrderService.getAllByCinemaId(cinemaId);
     }
 
@@ -142,9 +148,7 @@ public class OrderController {
      */
     @DeleteMapping("/delOrdersBySelf")
     public int delOrdersBySelf(@RequestParam("orderId")Long orderId){
-        int i = hallSeatMapper.delByOrderId(orderId);
-        int i1 = userOrderService.delById(orderId);
-        return i1;
+        return userOrderService.delById(orderId);
     }
 
 

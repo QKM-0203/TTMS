@@ -5,9 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -27,13 +25,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry){
-        registry.addViewController("/Login").setViewName("login");
-        registry.addViewController("/Head").setViewName("Head");
-        registry.addViewController("/fail").setViewName("Fail");
-        registry.addViewController("/buy").setViewName("buy");
-        registry.addViewController("/seat1").setViewName("selectSeat");
-        registry.addViewController("/admin").setViewName("administrator");
-        registry.addViewController("/show").setViewName("show");
+
     }
 
     /**
@@ -56,6 +48,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         hierarchy.setHierarchy("ROLE_admin > ROLE_sell > ROLE_user");
         return hierarchy;
     }
+
+
+
 
 
 

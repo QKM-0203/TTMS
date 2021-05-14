@@ -32,19 +32,6 @@
     </select>
 
 
-    <select id="selectListCMId" resultType="java.lang.Long">
-        SELECT id
-        from   movie_plan
-        WHERE cinema_movie_id  IN
-        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
-    </select>
-    <select id="selectCMId" resultType="java.lang.Long">
-        SELECT id
-        from   movie_plan
-        WHERE cinema_movie_id  = #{cinemaMovieId}
-    </select>
 
     <delete id="deleteByCinemaMovieId">
         delete
@@ -52,12 +39,5 @@
         where cinema_movie_id = #{cinemaMovieId,jdbcType=NUMERIC}
     </delete>
 
-    <delete id="deleteByCinemaMovieIds">
-        delete
-        from movie_plan
-        where cinema_movie_id IN
-        <foreach collection="cinemaMovieId" item="id" index="index" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
-    </delete>
+
 </mapper>

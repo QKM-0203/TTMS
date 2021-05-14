@@ -10,9 +10,7 @@ import com.qkm.TTMS.service.AreaCinemaService;
 import com.qkm.TTMS.service.CinemaMoviesService;
 import com.qkm.TTMS.service.MoviePlanService;
 import com.qkm.TTMS.service.MovieService;
-import com.qkm.TTMS.service.impl.*;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -101,13 +99,13 @@ public class PlanController {
 
 
     /**
-     * 查询演出计划
+     * 查询演出计划,前端过滤删除演出厅的
      * @param movieId
      * @param cinemaId
      * @return
      */
     @GetMapping("/getPlan")
-    public HashMap<Date, List<MoviePlan>> getPlan(Long movieId,Long cinemaId){
+    public HashMap<Date, List<MoviePlan>> getPlan(@RequestParam("movieId") Long movieId,@RequestParam("cinemaId") Long cinemaId){
         //查计划
         List<MoviePlan> moviePlan = moviePlanSer.getMoviePlan(movieId, cinemaId);
         HashMap<Date, List<MoviePlan>> dataMap = new HashMap<>();

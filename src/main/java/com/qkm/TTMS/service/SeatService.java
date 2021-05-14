@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface SeatService {
-   List<HallSeat> getSeatByPlanId(Long planId);
    int saveSeat(HallSeat hallSeat);
    Map<String,String> getSeatByRedis(Long planId);
 

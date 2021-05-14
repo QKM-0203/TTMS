@@ -7,9 +7,4 @@ import java.util.List;
 
 public interface MoviePlanService {
     List<MoviePlan> getMoviePlan(Long movieId,Long cinemaId);
-    int deleteByCinemaMovieId( Long cinemaMovieId);
-    int deleteByCinemaMovieIds(List<Long> cinemaMovieId);
-    List<Long> selectListCMId(List<Long> list);
-    List<Long> selectCMId(Long cinemaMovieId);
-
 }

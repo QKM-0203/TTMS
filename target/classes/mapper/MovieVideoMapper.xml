@@ -8,10 +8,11 @@
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="movieId" column="movie_id" jdbcType="BIGINT"/>
             <result property="movieVideo" column="movie_video" jdbcType="VARCHAR"/>
+            <result property="videoTitle" column="video_title" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,movie_id,movie_video
+        id,movie_id,movie_video,video_title
     </sql>
     <delete id="deleteByMovieId">
         delete

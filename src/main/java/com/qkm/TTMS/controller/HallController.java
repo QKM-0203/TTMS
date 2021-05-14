@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class HallController {
 
 
@@ -21,11 +22,11 @@ public class HallController {
 
     /**
      * 获取某个影院的所有演出厅
-     * @Param cinemaId
+     * @param cinemaId
      * @return
      */
-    @GetMapping("/getHalls")
-    public List<MovieHall> getHalls(@RequestParam("cinemaId") Long cinemaId){
+    @GetMapping("/getHalls/{cinemaId}")
+    public List<MovieHall> getHalls(@PathVariable("cinemaId") Long cinemaId){
         return  hallService.getHalls(cinemaId);
     }
 

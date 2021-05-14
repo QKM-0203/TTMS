@@ -3,13 +3,7 @@ package com.qkm.TTMS.controller;
 import com.qkm.TTMS.entity.*;
 import com.qkm.TTMS.mapper.*;
 import com.qkm.TTMS.service.AreaCinemaService;
-import com.qkm.TTMS.service.CinemaMoviesService;
-import com.qkm.TTMS.service.HallService;
-import com.qkm.TTMS.service.UserOrderService;
 import com.qkm.TTMS.service.impl.AreaCinemaServiceImpl;
-import com.qkm.TTMS.service.impl.CinemaMoviesServiceImpl;
-import com.qkm.TTMS.service.impl.HallServiceImpl;
-import com.qkm.TTMS.service.impl.UserOrderImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;

@@ -45,11 +45,16 @@
 <!--        视频-->
         <collection property="movieVideoList" column="id"  ofType="com.qkm.TTMS.entity.MovieVideo" select="getVideos">
             <result property="movieVideo" column="movie_video"/>
+            <result property="videoTitle" column="video_title" />
         </collection>
 <!--        编剧-->
         <collection property="writerList" column="id"  ofType="com.qkm.TTMS.entity.MovieWriter" select="getWriters">
             <result property="screenwriterPicture" column="screenwriter_picture"/>
             <result property="screenwriterName" column="screenwriter_name"/>
+        </collection>
+<!--        图集-->
+        <collection property="moviePictureList" column="id" ofType="com.qkm.TTMS.entity.MoviePicture"  select="getPictures">
+            <result property="moviePicture" column="movie_picture" jdbcType="VARCHAR"/>
         </collection>
     </resultMap>
 
@@ -104,9 +109,15 @@
     <select id="getVideos" resultType="com.qkm.TTMS.entity.MovieVideo">
         select * from movie_video where movie_id = #{id}
     </select>
+<!--    图集-->
+    <select id="getPictures" resultType="com.qkm.TTMS.entity.MoviePicture">
+        select * from movie_picture where movie_id = #{id}
+    </select>
+
     <select id="getMovieByMovieId" resultMap="BaseResultMap">
         select *  from movie where id = #{id}
     </select>
+
     <select id="selectMovieByListId"  resultMap="BaseResultMap">
         select  * from movie where id IN
         <foreach collection="listId" item="id" index="index" open="(" close=")" separator=",">

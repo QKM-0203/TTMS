@@ -16,6 +16,4 @@ public interface AreaCinemaService {
     int downMoney(Long money, Long cinemaId);
     List<AreaCinemas> getAllByAreaName( String cinemaName);
 
-    int delCinema(Long cinemaId,Long movieId);
-
 }

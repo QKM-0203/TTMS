@@ -53,8 +53,4 @@ public class CinemaMoviesServiceImpl implements CinemaMoviesService {
         return cinemaMoviesMapper.deleteByCinemaId(cinemaId);
     }
 
-    @Override
-    public List<Long> getListIdByCinemaId(long cinemaId) {
-        return cinemaMoviesMapper.getListIdByCinemaId(cinemaId);
-    }
-}
+  }

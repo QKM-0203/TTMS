@@ -37,7 +37,7 @@
     </select>
 
     <select id="getAllByAccounts" resultType="com.qkm.TTMS.entity.MovieUser">
-        select *  from  where accounts = #{accounts}
+        select *  from  movie_user where accounts = #{accounts}
     </select>
 
 

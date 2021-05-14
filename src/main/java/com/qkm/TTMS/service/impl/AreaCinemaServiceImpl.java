@@ -10,17 +10,12 @@ import java.util.List;
 public class AreaCinemaServiceImpl implements AreaCinemaService {
 
 
-    private final HallSeatMapper hallSeatMapper;
-    private final MoviePlanServiceImpl moviePlanSer;
-    private final CinemaMoviesServiceImpl cinemaMoviesSer;
+
     private final AreaCinemasMapper areaCinemasMapper;
 
-    public AreaCinemaServiceImpl(AreaCinemasMapper areaCinemasMapper, HallSeatMapper hallSeatMapper, MoviePlanServiceImpl moviePlanSer, CinemaMoviesServiceImpl cinemaMoviesSer) {
+    public AreaCinemaServiceImpl(AreaCinemasMapper areaCinemasMapper) {
         this.areaCinemasMapper = areaCinemasMapper;
 
-        this.hallSeatMapper = hallSeatMapper;
-        this.moviePlanSer = moviePlanSer;
-        this.cinemaMoviesSer = cinemaMoviesSer;
     }
     @Override
     public List<AreaCinemas> getCinemaMoviesByCinemaId(String areaName, Long movieId) {
@@ -49,10 +44,7 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
 
     @Override
     public int addMoney(Long money, Long cinemaId) {
-
-            return areaCinemasMapper.addMoney(money, cinemaId);
-
-
+        return areaCinemasMapper.addMoney(money, cinemaId);
     }
 
     @Override
@@ -66,15 +58,4 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
     }
 
 
-
-
-    @Override
-    public int delCinema(Long cinemaId, Long movieId) {
-        long idByCinemaIdAndMovieId = cinemaMoviesSer.getIdByCinemaIdAndMovieId(cinemaId,movieId);
-        List<Long> longs = moviePlanSer.selectCMId(idByCinemaIdAndMovieId);
-        hallSeatMapper.deleteByMoviePlanIds(longs);
-        moviePlanSer.deleteByCinemaMovieId(idByCinemaIdAndMovieId);
-        cinemaMoviesSer.deleteByCinemaIdAndMovieId(cinemaId,movieId);
-        return 1;
-    }
 }

@@ -20,23 +20,6 @@ public class MoviePlanServiceImpl implements MoviePlanService {
         return moviePlanMapper.getMoviePlan(movieId,cinemaId);
     }
 
-    @Override
-    public int deleteByCinemaMovieId(Long cinemaMovieId) {
-        return moviePlanMapper.deleteByCinemaMovieId(cinemaMovieId);
-    }
 
-    @Override
-    public int deleteByCinemaMovieIds(List<Long> cinemaMovieId) {
-        return moviePlanMapper.deleteByCinemaMovieIds(cinemaMovieId);
-    }
 
-    @Override
-    public List<Long> selectListCMId(List<Long> list) {
-        return moviePlanMapper.selectListCMId(list);
-    }
-
-    @Override
-    public List<Long> selectCMId(Long cinemaMovieId) {
-        return moviePlanMapper.selectCMId(cinemaMovieId);
-    }
-}
+  }
