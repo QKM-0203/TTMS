@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisKeyExpirationListener extends KeyExpirationEventMessageListener {
 
-    @Autowired
-    private HallSeatMapper hallSeatMapper;
-    public RedisKeyExpirationListener(RedisMessageListenerContainer container, UserOrderMapper userOrderMapper) {
+    private final HallSeatMapper hallSeatMapper;
+    public RedisKeyExpirationListener(RedisMessageListenerContainer container, UserOrderMapper userOrderMapper, HallSeatMapper hallSeatMapper) {
         super(container);
         this.userOrderMapper = userOrderMapper;
+        this.hallSeatMapper = hallSeatMapper;
     }
 
     private final UserOrderMapper userOrderMapper;

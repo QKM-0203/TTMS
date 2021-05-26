@@ -33,8 +33,8 @@ public class TicketController {
      * @param planId
      * @return
      */
-    @PostMapping("/getSeatAndOrder")
-    public Map<String,Object> getOrder(@RequestBody UserOrder userOrder, @RequestParam("planId") Long planId){
+    @PostMapping("/getSeatAndOrder/{planId}")
+    public Map<String,Object> getOrder(@RequestBody UserOrder userOrder, @PathVariable("planId") Long planId){
         Map<String, String> execute = seatService.getSeatByRedis(planId);
         HashMap<String, Object> Map = new HashMap<String, Object>();
         Map.put("seat",execute);

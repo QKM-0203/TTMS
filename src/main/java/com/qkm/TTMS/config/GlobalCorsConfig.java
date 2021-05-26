@@ -14,7 +14,7 @@ public class GlobalCorsConfig {
 
         CorsConfiguration config = new CorsConfiguration();
         //开放哪些ip、端口、域名的访问权限，星号表示开放所有域
-        config.addAllowedOrigin("http://localhost:8080");
+        config.addAllowedOriginPattern("*");
         //是否允许发送Cookie信息
         config.setAllowCredentials(true);
         //开放哪些Http方法，允许跨域访问

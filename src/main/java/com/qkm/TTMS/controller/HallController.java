@@ -47,8 +47,8 @@ public class HallController {
      * @param id
      * @return
      */
-    @DeleteMapping("/delHall")
-    public int delHall(@RequestParam("id") String id){
+    @DeleteMapping("/delHall/{id}")
+    public int delHall(@PathVariable("id") String id){
         return  hallService.delHall(Long.parseLong(id));
     }
 

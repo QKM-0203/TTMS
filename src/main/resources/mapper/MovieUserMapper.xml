@@ -33,7 +33,6 @@
 
     <select id="getByAccounts" resultMap="BaseResultMap">
         select m_u.*,m_u_r.role_id rid , m_r.role_name rname from movie_user m_u join movie_user_roles m_u_r on m_u.id = m_u_r.user_id join TTMS.movie_role m_r on m_r.role_id = m_u_r.role_id where accounts = #{accounts}
-
     </select>
 
     <select id="getAllByAccounts" resultType="com.qkm.TTMS.entity.MovieUser">

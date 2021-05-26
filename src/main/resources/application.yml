@@ -29,7 +29,7 @@ spring:
 #        max-wait: 60000
 ---
 server:
-  port: 8080
+  port: 8081
 spring:
   profiles: dev
   datasource:
@@ -40,7 +40,7 @@ spring:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
   redis:
     host: 127.0.0.1
-    port: 6380
+    port: 6379
 #    databases: [ 0,1,2,3,4] # 要使用的库，会根据此处填写的库生成redisTemplate
 #    timeout: 60s
 #    lettuce: # lettuce基于netty，线程安全，支持并发

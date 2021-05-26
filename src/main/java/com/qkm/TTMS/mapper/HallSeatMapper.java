@@ -21,6 +21,7 @@ public interface HallSeatMapper extends BaseMapper<HallSeat> {
     int deleteByMoviePlanIds(@Param("moviePlanIds") List<Long> moviePlanIds);
 
 
+
 }
 
 

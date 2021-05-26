@@ -19,6 +19,7 @@ public class RUser implements UserDetails,Serializable {
     public RUser(MovieUser user){
         this.user = user;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<Roles> roles = user.getRoles();

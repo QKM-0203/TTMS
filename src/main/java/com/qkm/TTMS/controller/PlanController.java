@@ -45,8 +45,8 @@ public class PlanController {
      * @param moviePlans
      * @return
      */
-    @PostMapping("/addPlan")
-    public Long addPlan(@RequestBody MoviePlan moviePlans, @RequestParam("movieId")Long movieId, @RequestParam("cinemaId")Long cinemaId){
+    @PostMapping("/addPlan/{movieId}/{cinemaId}")
+    public Long addPlan(@RequestBody MoviePlan moviePlans, @PathVariable("movieId")Long movieId, @PathVariable("cinemaId")Long cinemaId){
         long idByCinemaIdAndMovieId = cinemaMoviesSer.getIdByCinemaIdAndMovieId(cinemaId, movieId);
         moviePlans.setCinemaMovieId(idByCinemaIdAndMovieId);
         int insert = moviePlanMapper.insert(moviePlans);
@@ -72,8 +72,8 @@ public class PlanController {
      * @param movieId
      * @return
      */
-    @GetMapping("/getPlanAndCinema")
-    public Map<String,Object> getCinema(@Param("movieId") Long movieId, @Param("cinemaId") Long cinemaId){
+    @GetMapping("/getPlanAndCinema/{movieId}/{cinemaId}")
+    public Map<String,Object> getCinema(@PathVariable("movieId") Long movieId, @PathVariable("cinemaId") Long cinemaId){
         HashMap<Date, List<MoviePlan>> dataMap = getPlan(movieId, movieId);
         //查影院
         AreaCinemas allById = areaCinemaSer.getAllById(cinemaId);
@@ -92,8 +92,8 @@ public class PlanController {
      * @param planId
      * @return
      */
-    @DeleteMapping("/delPlan")
-    public int addPlan(@RequestParam("planId")Long  planId){
+    @DeleteMapping("/delPlan/{planId}")
+    public int addPlan(@PathVariable("planId")Long  planId){
        return moviePlanMapper.deleteById(planId);
     }
 
@@ -104,8 +104,8 @@ public class PlanController {
      * @param cinemaId
      * @return
      */
-    @GetMapping("/getPlan")
-    public HashMap<Date, List<MoviePlan>> getPlan(@RequestParam("movieId") Long movieId,@RequestParam("cinemaId") Long cinemaId){
+    @GetMapping("/getPlan/{movieId}/{cinemaId}")
+    public HashMap<Date, List<MoviePlan>> getPlan(@PathVariable("movieId") Long movieId,@PathVariable("cinemaId") Long cinemaId){
         //查计划
         List<MoviePlan> moviePlan = moviePlanSer.getMoviePlan(movieId, cinemaId);
         HashMap<Date, List<MoviePlan>> dataMap = new HashMap<>();
@@ -138,8 +138,8 @@ public class PlanController {
      * @param cinemaId
      * @param movieId
      */
-    @PostMapping("/setLowMoney")
-   public int setLawMoney(@RequestParam("lowMoney")Double lowMoney,@RequestParam("cinemaId")Long cinemaId,@RequestParam("movieId") Long movieId){
+    @PostMapping("/setLowMoney/{lowMoney}/{cinemaId}/{movieId}")
+   public int setLawMoney(@PathVariable("lowMoney")Double lowMoney,@PathVariable("cinemaId")Long cinemaId,@PathVariable("movieId") Long movieId){
       return  cinemaMoviesSer.setMovieLowMoneyByCinemaIdAndMovieId(lowMoney,cinemaId,movieId);
    }
 

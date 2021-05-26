@@ -39,8 +39,8 @@ public class OrderController {
      * @param moviePlanId
      * @return
      */
-    @PostMapping("/saveOrder")
-    public Long saveOrder(@RequestBody UserOrder userOrder,@RequestParam("moviePlanId")Long moviePlanId){
+    @PostMapping("/saveOrder/{moviePlanId}")
+    public Long saveOrder(@RequestBody UserOrder userOrder,@PathVariable("moviePlanId")Long moviePlanId){
         Map<String, String> seatByRedis = seatSer.getSeatByRedis(moviePlanId);
         redisTemplate.watch(String.valueOf(moviePlanId));
         //存座位
@@ -72,8 +72,8 @@ public class OrderController {
     /**
      * 获取订单剩余时间
      */
-    @GetMapping("/getOrederTime")
-    public Map<String,Object> getOrderTime(@RequestParam("orderId")Long orderId){
+    @GetMapping("/getOrederTime/{orderId}")
+    public Map<String,Object> getOrderTime(@PathVariable("orderId")Long orderId){
 
         Long expire = redisTemplate.getExpire("order" + orderId);
         UserOrder userOrder = (UserOrder)redisTemplate.opsForValue().get("order" + orderId);
@@ -129,16 +129,16 @@ public class OrderController {
      * @param cinemaId
      * @return
      */
-    @GetMapping("/getOrders")
-    public List<UserOrder> getOrders(@RequestParam("cinemaId") Long cinemaId){
+    @GetMapping("/getOrders/{cinemaId}")
+    public List<UserOrder> getOrders(@PathVariable("cinemaId") Long cinemaId){
         return userOrderService.getAllByCinemaId(cinemaId);
     }
 
     /**
      * 查询自己的所有订单
      */
-    @GetMapping("/getOrdersBySelf")
-    public List<UserOrder> getOrdersBySelf(@RequestParam("userId") Long userId){
+    @GetMapping("/getOrdersBySelf/{userId}")
+    public List<UserOrder> getOrdersBySelf(@PathVariable("userId") Long userId){
         return userOrderService.getAllByUserId(userId);
     }
 
@@ -146,8 +146,8 @@ public class OrderController {
     /**
      * 删除自己的订单
      */
-    @DeleteMapping("/delOrdersBySelf")
-    public int delOrdersBySelf(@RequestParam("orderId")Long orderId){
+    @DeleteMapping("/delOrdersBySelf/{orderId}")
+    public int delOrdersBySelf(@PathVariable("orderId")Long orderId){
         return userOrderService.delById(orderId);
     }
 

@@ -119,5 +119,4 @@ public class MovieUser implements Serializable{
 
     private List<Roles> roles;
 
-
 }

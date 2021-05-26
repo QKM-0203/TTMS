@@ -15,7 +15,6 @@ public interface MoviePlanMapper extends BaseMapper<MoviePlan> {
     List<MoviePlan> getMoviePlan(@Param("movieId")Long movieId, @Param("cinemaId")Long cinemaId);
     int deleteByCinemaMovieId(@Param("cinemaMovieId") Long cinemaMovieId);
 
-
 }
 
 

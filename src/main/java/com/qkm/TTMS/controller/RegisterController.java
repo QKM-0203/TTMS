@@ -6,10 +6,7 @@ import com.qkm.TTMS.entity.*;
 import com.qkm.TTMS.mapper.MovieUserMapper;
 import com.qkm.TTMS.mapper.MovieUserRolesMapper;
 import com.qkm.TTMS.mapper.PeopleWantMapper;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -33,7 +30,7 @@ public class RegisterController {
 
 
     @PostMapping("/register")
-    public String addUser(MovieUser user){
+    public String addUser(@RequestBody MovieUser user){
         user.setCreateTime(new Date());
         user.setPassword(securityConfig.encode().encode(user.getPassword()));
         //普通用户

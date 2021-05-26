@@ -37,8 +37,8 @@ public class UserController {
      * @param cinemaId
      * @return
      */
-    @GetMapping("/getSells")
-    public List<MovieUser> getSells(@RequestParam("cinemaId")Long cinemaId){
+    @GetMapping("/getSells/{cinemaId}")
+    public List<MovieUser> getSells(@PathVariable("cinemaId")Long cinemaId){
         return  userSer.getSells(cinemaId);
     }
 
@@ -50,7 +50,10 @@ public class UserController {
      */
     @PostMapping("/addUser")
     public Long addUser(@RequestBody MovieUser movieUser){
-            int i = userSer.addUser(movieUser);
+           int i = userSer.addUser(movieUser);
+           if(i == -1){
+               return -1L;
+           }
             MovieUserRoles movieUserRoles = new MovieUserRoles();
             movieUserRoles.setUserId(movieUser.getId());
             if(movieUser.getSellId() == 1){
@@ -66,9 +69,9 @@ public class UserController {
     /**
      * 删除管理员或者售票员
      */
-    @DeleteMapping("/delUser")
-    public int delUser(Long userid){
-            userSer.delById(userid);
+    @DeleteMapping("/delUser/{userId}")
+    public int delUser(@PathVariable("userId")Long userId){
+            userSer.delById(userId);
             return  1;
     }
 
@@ -85,8 +88,8 @@ public class UserController {
     /**
      * 得到个人信息
      */
-    @GetMapping("/getSelf")
-    public MovieUser getInformation(@RequestParam("accounts") String accounts){
+    @GetMapping("/getSelf/{accounts}")
+    public MovieUser getInformation(@PathVariable("accounts") String accounts){
        return userSer.getAllByAccounts(accounts);
     }
 

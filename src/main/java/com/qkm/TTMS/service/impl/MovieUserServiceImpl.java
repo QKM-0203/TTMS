@@ -18,8 +18,12 @@ public class MovieUserServiceImpl implements MovieUserService {
 
     @Override
     public int addUser(MovieUser user) {
-
-            return userMapper.insert(user);
+        try{
+            userMapper.insert(user);
+            return 1;
+        }catch (Exception e){
+            return -1;
+        }
     }
 
     @Override

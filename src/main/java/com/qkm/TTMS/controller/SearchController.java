@@ -10,6 +10,7 @@ import com.qkm.TTMS.service.impl.AreaCinemaServiceImpl;
 import com.qkm.TTMS.service.impl.CinemaMoviesServiceImpl;
 import com.qkm.TTMS.service.impl.MovieServiceImpl;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,8 +37,8 @@ public class SearchController {
      * @param movieName
      * @return
      */
-    @GetMapping("/searchMoviesByName")
-    public List<Movie> getMovies(@RequestParam("movieName")String movieName){
+    @GetMapping("/searchMoviesByName/{movieName}")
+    public List<Movie> getMovies(@PathVariable("movieName")String movieName){
         List<Movie> movies = movieSer.getMovies();
         ArrayList<Movie> results = new ArrayList<Movie>();
         Pattern pattern = Pattern.compile(movieName);
@@ -56,8 +57,8 @@ public class SearchController {
      * @param cinemaName
      * @return
      */
-    @GetMapping("/searchCinemasByName")
-    public List<AreaCinemas> getCinemas(@RequestParam("cinemaName")String cinemaName){
+    @GetMapping("/searchCinemasByName/{cinemaName}")
+    public List<AreaCinemas> getCinemas(@PathVariable("cinemaName")String cinemaName){
         List<AreaCinemas> allByAreaName = areaCinemaSer.getAllByAreaName(cinemaName);
         for (AreaCinemas areaCinemas : allByAreaName) {
             CinemaMovies allByCinemaId = cinemaMoviesSer.getAllByCinemaId(areaCinemas.getId());

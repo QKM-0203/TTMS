@@ -103,8 +103,8 @@ public class MovieController {
      * @RequestParam movieId
      * @return
      */
-    @GetMapping("/getSpecificMovie")
-    public Movie getSpecific(@RequestParam("status") int status,@RequestParam("movieId") long movieId) {
+    @GetMapping("/getSpecificMovie/{status}/{movieId}")
+    public Movie getSpecific(@PathVariable("status") int status,@PathVariable("movieId") long movieId) {
         return movieSer.getMovieByStatus(status, movieId);
     }
 
@@ -141,8 +141,8 @@ public class MovieController {
     /**
      * 管理员获取电影院所有的上映和即将上映电影
      */
-    @GetMapping("/adminGetMovies")
-    public List<Movie> getMovies(@RequestParam("cinemaId")Long cinemaId){
+    @GetMapping("/adminGetMovies/{cinemaId}")
+    public List<Movie> getMovies(@PathVariable("cinemaId")Long cinemaId){
         List<Long> listByCinemaId = cinemaMoviesSer.getListMovieIdByCinemaId(cinemaId);
         return movieSer.selectMovieByListId(listByCinemaId);
     }
@@ -151,8 +151,8 @@ public class MovieController {
     /**
      * 管理员增加电影,从经理处增加
      */
-    @PostMapping("/adminAddMovies")
-    public int AdminAddMovie(@RequestParam("movieId")Long movieId, @RequestParam("cinemaId")Long cinemaId){
+    @PostMapping("/adminAddMovies/{movieId}/{cinemaId}")
+    public int AdminAddMovie(@PathVariable("movieId")Long movieId, @PathVariable("cinemaId")Long cinemaId){
             CinemaMovies cinemaMovies = new CinemaMovies();
             cinemaMovies.setCinemaId(cinemaId);
             cinemaMovies.setMovieId(movieId);
