@@ -34,7 +34,7 @@ public class RegisterController {
         user.setCreateTime(new Date());
         user.setPassword(securityConfig.encode().encode(user.getPassword()));
         //普通用户
-        user.setCinemaId(-1L);
+        user.setCinemaId(-1);
         try{
             movieUserMapper.insert(user);
             MovieUserRoles movieUserRoles = new MovieUserRoles();
@@ -52,9 +52,8 @@ public class RegisterController {
 
 
     @GetMapping("/wl")
-    public  List<Long> Wl(){
-        List<Long> longs = peopleWantMapper.selectMovieIdByAccounts("123@qq.com");
-        return longs;
+    public  List<Integer> Wl(){
+        return peopleWantMapper.selectMovieIdByAccounts("123@qq.com");
     }
 
 

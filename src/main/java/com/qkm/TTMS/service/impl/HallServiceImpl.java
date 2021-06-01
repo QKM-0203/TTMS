@@ -1,6 +1,7 @@
 package com.qkm.TTMS.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qkm.TTMS.entity.MovieHall;
 import com.qkm.TTMS.mapper.MovieHallMapper;
 import com.qkm.TTMS.service.HallService;
@@ -21,7 +22,7 @@ public class HallServiceImpl implements HallService {
      * 删除演出厅
      * @param id
      */
-    public int delHall(Long id){
+    public int delHall(int id){
         try{
             movieHallMapper.deleteById(id);
             return 1;
@@ -38,10 +39,11 @@ public class HallServiceImpl implements HallService {
      * @return
      */
     @Override
-    public List<MovieHall> getHalls(Long cinemaId) {
+    public List<MovieHall> getHalls(int cinemaId,int page) {
+        Page<MovieHall> movieHallPage = new Page<>(page,5,true);
         QueryWrapper<MovieHall> movieHallQueryWrapper = new QueryWrapper<>();
         movieHallQueryWrapper.ge("cinema_id",cinemaId);
-        List<MovieHall> movieHalls = movieHallMapper.selectList(movieHallQueryWrapper);
+        List<MovieHall> movieHalls = (List<MovieHall>) movieHallMapper.selectPage(movieHallPage,movieHallQueryWrapper);
         return  movieHalls;
     }
 
@@ -64,18 +66,18 @@ public class HallServiceImpl implements HallService {
      * @param movieHall
      */
     @Override
-    public Long addHall( MovieHall movieHall) {
+    public int addHall( MovieHall movieHall) {
         try{
             movieHallMapper.insert(movieHall);
             return movieHall.getId();
         }catch(Exception e){
-            return 0L;
+            return 0;
         }
 
     }
 
     @Override
-    public int deleteByCinemaId(Long cinemaId) {
+    public int deleteByCinemaId(int cinemaId) {
         return movieHallMapper.deleteByCinemaId(cinemaId);
     }
 }

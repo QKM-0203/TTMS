@@ -5,12 +5,12 @@
 <mapper namespace="com.qkm.TTMS.mapper.AreaCinemasMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.AreaCinemas">
-            <id property="id" column="id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="areaName" column="area_name" jdbcType="VARCHAR"/>
             <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
             <result property="cinemaPicture" column="cinema_picture" jdbcType="VARCHAR"/>
             <result property="cinemaAddress" column="cinema_address" jdbcType="VARCHAR"/>
-            <result property="cinemaMoney" column="cinema_money" jdbcType="BIGINT"/>
+            <result property="cinemaMoney" column="cinema_money" jdbcType="DOUBLE"/>
             <result property="lawMoney" column="law_money" jdbcType="FLOAT" />
             <result property="cinemaNumber" column="cinema_number" jdbcType="VARCHAR"/>
     </resultMap>
@@ -37,7 +37,7 @@
         where
         id = #{id,jdbcType=NUMERIC}
     </select>
-    <select id="getListID" resultType="java.lang.Long">
+    <select id="getListID" resultType="java.lang.Integer">
         select id from area_cinemas
     </select>
 

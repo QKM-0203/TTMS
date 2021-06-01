@@ -16,7 +16,7 @@ public class MoviePlanServiceImpl implements MoviePlanService {
     }
 
     @Override
-    public List<MoviePlan> getMoviePlan(Long movieId, Long cinemaId) {
+    public List<MoviePlan> getMoviePlan(int movieId, int cinemaId) {
         return moviePlanMapper.getMoviePlan(movieId,cinemaId);
     }
 

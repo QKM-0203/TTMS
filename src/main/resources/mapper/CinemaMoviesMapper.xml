@@ -5,9 +5,9 @@
 <mapper namespace="com.qkm.TTMS.mapper.CinemaMoviesMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.CinemaMovies">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="cinemaId" column="cinema_id" jdbcType="BIGINT"/>
-            <result property="movieId" column="movie_id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="cinemaId" column="cinema_id" jdbcType="INTEGER"/>
+            <result property="movieId" column="movie_id" jdbcType="INTEGER"/>
             <result property="movieLowMoney" column="movie_lowMoney" jdbcType="DOUBLE"/>
     </resultMap>
 
@@ -15,11 +15,11 @@
         id,cinema_id,movie_id,
         movie_lowMoney
     </sql>
-    <select id="getIdByCinemaIdAndMovieId" resultType="Long">
+    <select id="getIdByCinemaIdAndMovieId" resultType="java.lang.Integer">
         select id from cinema_movies where cinema_id = #{cinemaId} and movie_id = #{movieId}
     </select>
 
-    <select id="getListMovieIdByCinemaId" resultType="java.lang.Long">
+    <select id="getListMovieIdByCinemaId" resultType="java.lang.Integer">
         select movie_id from cinema_movies where cinema_id = #{cinemaId}
     </select>
     <delete id="deleteByCinemaIdAndMovieId">
@@ -46,7 +46,7 @@
         where
         cinema_id = #{cinemaId,jdbcType=NUMERIC} and movie_lowMoney is not null  order by movie_lowMoney asc limit 1
     </select>
-    <select id="getListIdByCinemaId" resultType="java.lang.Long">
+    <select id="getListIdByCinemaId" resultType="java.lang.Integer">
         select id from cinema_movies where cinema_id = #{cinemaId}
     </select>
     <delete id="deleteByCinemaId">

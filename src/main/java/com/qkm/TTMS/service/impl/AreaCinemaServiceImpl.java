@@ -18,17 +18,17 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
 
     }
     @Override
-    public List<AreaCinemas> getCinemaMoviesByCinemaId(String areaName, Long movieId) {
+    public List<AreaCinemas> getCinemaMoviesByCinemaId(String areaName, int movieId) {
         return areaCinemasMapper.getCinemaMoviesByCinemaId(areaName,movieId);
     }
 
     @Override
-    public AreaCinemas getAllById(Long id) {
+    public AreaCinemas getAllById(int id) {
         return areaCinemasMapper.getAllById(id);
     }
 
     @Override
-    public List<Long> getListID() {
+    public List<Integer> getListID() {
         return areaCinemasMapper.getListID();
     }
 
@@ -38,17 +38,17 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
     }
 
     @Override
-    public int deleteById(Long cinemaId) {
+    public int deleteById(int cinemaId) {
         return areaCinemasMapper.deleteById(cinemaId);
     }
 
     @Override
-    public int addMoney(Long money, Long cinemaId) {
+    public int addMoney(Double money, int cinemaId) {
         return areaCinemasMapper.addMoney(money, cinemaId);
     }
 
     @Override
-    public int downMoney(Long money, Long cinemaId) {
+    public int downMoney(Double money, int cinemaId) {
         return areaCinemasMapper.downMoney(money, cinemaId);
     }
 

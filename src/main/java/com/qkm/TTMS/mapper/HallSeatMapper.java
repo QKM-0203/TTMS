@@ -7,18 +7,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * @Entity com.qkm.TTMS.entity.HallSeat
- */
+
 @Repository
 public interface HallSeatMapper extends BaseMapper<HallSeat> {
-    List<HallSeat> getAllByMoviePlanId(@Param("planId")Long PlanId);
+    List<HallSeat> getAllByMoviePlanId(@Param("planId")int PlanId);
+    int delByOrderId(@Param("orderId") int orderId);
 
-    int delByOrderId(@Param("orderId") Long orderId);
+    int delByOrderIdAndSeatColumnAndSeatLine(@Param("orderId") int orderId, @Param("seatColumn") int seatColumn, @Param("seatLine") int seatLine);
 
-    int delByOrderIdAndSeatColumnAndSeatLine(@Param("orderId") Long orderId, @Param("seatColumn") Integer seatColumn, @Param("seatLine") Integer seatLine);
-
-    int deleteByMoviePlanIds(@Param("moviePlanIds") List<Long> moviePlanIds);
+    int deleteByMoviePlanIds(@Param("moviePlanIds") List<Integer> moviePlanIds);
 
 
 

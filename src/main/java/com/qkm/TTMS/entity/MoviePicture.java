@@ -7,10 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Data;
 
-/**
- * 
- * @TableName movie_picture
- */
+
 @TableName(value ="movie_picture")
 @Data
 public class MoviePicture implements Serializable {
@@ -18,13 +15,13 @@ public class MoviePicture implements Serializable {
      * 
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 
      */
     @TableField(value = "movie_id")
-    private Long movieId;
+    private Integer movieId;
 
     /**
      * 

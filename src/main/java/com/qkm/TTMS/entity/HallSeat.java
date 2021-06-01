@@ -1,16 +1,12 @@
 package com.qkm.TTMS.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Data;
 
-/**
- * 
- * @TableName hall_seat
- */
+
 @TableName(value ="hall_seat")
 @Data
 public class HallSeat implements Serializable {
@@ -18,7 +14,7 @@ public class HallSeat implements Serializable {
      * 主键
      */
     @TableId(value = "id")
-    private Long id;
+    private Integer id;
 
     /**
      * 座位的行
@@ -42,7 +38,7 @@ public class HallSeat implements Serializable {
      * 订单id
      */
     @TableField(value = "order_id")
-    private Long orderId;
+    private Integer orderId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

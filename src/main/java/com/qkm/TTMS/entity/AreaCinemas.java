@@ -1,18 +1,14 @@
 package com.qkm.TTMS.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.List;
 
 import lombok.Data;
 
-/**
- * 
- * @TableName area_cinemas
- */
+
 @TableName(value ="area_cinemas")
 @Data
 public class AreaCinemas implements Serializable {
@@ -20,7 +16,7 @@ public class AreaCinemas implements Serializable {
      * 主键id
      */
     @TableId(value = "id")
-    private Long id;
+    private Integer id;
 
     /**
      * 区的名字
@@ -50,7 +46,7 @@ public class AreaCinemas implements Serializable {
      * 电影院赚的钱
      */
     @TableField(value = "cinema_money")
-    private Long cinemaMoney;
+    private Double cinemaMoney;
 
     /**
      * 电影院的电话号码
@@ -66,7 +62,7 @@ public class AreaCinemas implements Serializable {
     /**
      * 电影院里面的某部电影Id
      */
-    private Long movieId;
+    private Integer movieId;
 
 
 

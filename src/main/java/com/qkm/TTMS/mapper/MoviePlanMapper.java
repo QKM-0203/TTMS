@@ -7,13 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * @Entity com.qkm.TTMS.entity.MoviePlan
- */
 @Repository
 public interface MoviePlanMapper extends BaseMapper<MoviePlan> {
-    List<MoviePlan> getMoviePlan(@Param("movieId")Long movieId, @Param("cinemaId")Long cinemaId);
-    int deleteByCinemaMovieId(@Param("cinemaMovieId") Long cinemaMovieId);
+    List<MoviePlan> getMoviePlan(@Param("movieId")int movieId, @Param("cinemaId")int cinemaId);
+    int deleteByCinemaMovieId(@Param("cinemaMovieId") int cinemaMovieId);
 
 }
 

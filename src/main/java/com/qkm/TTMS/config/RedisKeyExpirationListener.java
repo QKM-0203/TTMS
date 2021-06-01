@@ -2,7 +2,6 @@ package com.qkm.TTMS.config;
 
 import com.qkm.TTMS.mapper.HallSeatMapper;
 import com.qkm.TTMS.mapper.UserOrderMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
@@ -31,9 +30,9 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
             //截取订单号，查询订单，如果是未支付状态则取消订单
             String orderNo=key.substring(5);
             //删除订单
-            userOrderMapper.deleteById(Long.parseLong(orderNo));
+            userOrderMapper.deleteById(Integer.parseInt(orderNo));
             //取消座位
-            hallSeatMapper.delByOrderId(Long.parseLong(orderNo));
+            hallSeatMapper.delByOrderId(Integer.parseInt(orderNo));
             System.out.println("订单号为："+orderNo+"的订单超时未支付，取消订单");
         }
     }

@@ -5,8 +5,8 @@
 <mapper namespace="com.qkm.TTMS.mapper.MovieHallMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MovieHall">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="cinemaId" column="cinema_id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="cinemaId" column="cinema_id" jdbcType="INTEGER"/>
             <result property="seatLine" column="seat_line" jdbcType="INTEGER"/>
             <result property="seatColumn" column="seat_column" jdbcType="INTEGER"/>
             <result property="hallName" column="hall_name" jdbcType="VARCHAR"/>
@@ -18,6 +18,6 @@
         seat_column,hall_name,movie_type
     </sql>
     <delete id="deleteByCinemaId">
-        delete from movie_hall where cinemaId = #{cinemaId}
+        delete from movie_hall where cinema_id = #{cinemaId}
     </delete>
 </mapper>

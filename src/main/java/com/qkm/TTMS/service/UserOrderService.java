@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface UserOrderService {
     int saveOrder(UserOrder userOrder);
-    List<UserOrder> getAllByCinemaId(Long cinemaId);
-    List<UserOrder> getAllByUserId( Long userId);
-    int delById(Long id);
-    int updateOrderStatusById(String orderStatus, Long id);
-    int deleteByCinemaId( Long cinemaId);
+    List<UserOrder> getAllByCinemaId(int cinemaId,int page);
+    List<UserOrder> getAllByUserId( int userId);
+    int delById(int id);
+    int updateOrderStatusById(String orderStatus, int id);
+    int deleteByCinemaId( int cinemaId);
 }

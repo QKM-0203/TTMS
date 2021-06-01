@@ -7,19 +7,17 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * @Entity com.qkm.TTMS.entity.CinemaMovies
- */
+
 @Repository
 public interface CinemaMoviesMapper extends BaseMapper<CinemaMovies> {
-   long  getIdByCinemaIdAndMovieId(@Param("cinemaId")long cinemaId,@Param("movieId")long movieId);
-   List<Long> getListMovieIdByCinemaId(@Param("cinemaId")long cinemaId);
-   int deleteByCinemaIdAndMovieId(@Param("cinemaId") Long cinemaId, @Param("movieId") Long movieId);
-   int  deleteByMovieId(@Param("movieId") Long movieId);
-   int setMovieLowMoneyByCinemaIdAndMovieId(@Param("movieLowMoney") Double movieLowMoney, @Param("cinemaId") Long cinemaId, @Param("movieId") Long movieId);
-   CinemaMovies getAllByCinemaId(@Param("cinemaId") Long cinemaId);
-   int deleteByCinemaId(@Param("cinemaId") Long cinemaId);
-   List<Long> getListIdByCinemaId(@Param("cinemaId")long cinemaId);
+   int  getIdByCinemaIdAndMovieId(@Param("cinemaId")int cinemaId,@Param("movieId")int movieId);
+   List<Integer> getListMovieIdByCinemaId(@Param("cinemaId")int cinemaId);
+   int deleteByCinemaIdAndMovieId(@Param("cinemaId") int cinemaId, @Param("movieId") int movieId);
+   int  deleteByMovieId(@Param("movieId") int movieId);
+   int setMovieLowMoneyByCinemaIdAndMovieId(@Param("movieLowMoney") Double movieLowMoney, @Param("cinemaId") int cinemaId, @Param("movieId") int movieId);
+   CinemaMovies getAllByCinemaId(@Param("cinemaId") int cinemaId);
+   int deleteByCinemaId(@Param("cinemaId") int cinemaId);
+   List<Integer> getListIdByCinemaId(@Param("cinemaId")int cinemaId);
 }
 
 

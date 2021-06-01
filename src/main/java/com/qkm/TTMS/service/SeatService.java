@@ -8,6 +8,6 @@ import java.util.Map;
 
 public interface SeatService {
    int saveSeat(HallSeat hallSeat);
-   Map<String,String> getSeatByRedis(Long planId);
+   Map<String,String> getSeatByRedis(int planId);
 
 }

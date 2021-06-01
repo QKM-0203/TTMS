@@ -7,18 +7,22 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * @Entity com.qkm.TTMS.entity.Movie
- */
+
 @Repository
 public interface MovieMapper extends BaseMapper<Movie> {
    List<Movie>  getMoviesOn();
    List<Movie>  getMoviesSoon();
    List<Movie>  getMoviesHot();
-   Movie  getMovieByMovieId(@Param("id") Long id);
-   int  addMoney(@Param("money")Long money,@Param("movieId") Long movieId);
-   int  downMoney(@Param("money")Long money,@Param("movieId") Long movieId);
-   List<Movie> selectMovieByListId(@Param("listId")List<Long> listId);
+   int updateByName(@Param("movieName")String movieName,@Param("movieBrief")String movieBrief,@Param("movieMoney")String movieMoney
+   ,@Param("wantLook") String WantLook);
+//   List<Movie>  getMoviesOnByMoney();
+//   List<Movie>  getMoviesSoonByLike();
+//    List<Movie>  getMoviesOnByTime();
+//   List<Movie>  getMoviesHotByScore();
+   Movie  getMovieByMovieId(@Param("id") int id);
+   int  addMoney(@Param("money")Double money,@Param("movieId") int movieId);
+   int  downMoney(@Param("money")Double money,@Param("movieId") int movieId);
+   List<Movie> selectMovieByListId(@Param("listId")List<Integer> listId);
 }
 
 

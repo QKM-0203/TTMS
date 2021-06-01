@@ -27,19 +27,19 @@ public class CinemaController {
 
     /**
      * 获取某个区的含有某部电影的所有电影院信息
-     * @param areaName
-     * @param movieId
-     * @return
+     * @param areaName   地区的名字
+     * @param movieId  电影的Id
+     * @return  所有的电影院信息
      */
-    @GetMapping("/getAreaCinemas")
-    public List<AreaCinemas> getAreaCinemas(@RequestParam("areaName")String areaName, @RequestParam("movieId")Long movieId){
+    @GetMapping("/getAreaCinemas/{areaName}/{movieId}")
+    public List<AreaCinemas> getAreaCinemas(@PathVariable("areaName")String areaName, @PathVariable("movieId")int movieId){
         return areaCinemaSer.getCinemaMoviesByCinemaId(areaName, movieId);
     }
 
 
     /**
      * 获取所有电影院的信息
-     * @return
+     * @return  所有的电影院的信息
      */
     @GetMapping("/getCinemas")
     public List<AreaCinemas> getCinemas(){
@@ -48,18 +48,18 @@ public class CinemaController {
 
     /**
      * 删除电影院
-     * @param cinemaId
-     * @return
+     * @param cinemaId  电影院的Id
+     * @return  是否删除成功
      */
-    @DeleteMapping("/delCinemas")
-    public int delCinemas(@RequestParam("cinemaId") Long cinemaId){
+    @DeleteMapping("/delCinemas/{cinemaId}")
+    public int delCinemas(@PathVariable("cinemaId") int cinemaId){
         return areaCinemaSer.deleteById(cinemaId);
     }
 
     /**
      * 增加电影院
-     * @param areaCinemas
-     * @return
+     * @param areaCinemas  电影院的信息
+     * @return  是否增加成功
      */
     @PostMapping("/addCinemas")
     public int addCinemas(@RequestBody AreaCinemas areaCinemas){
@@ -68,8 +68,8 @@ public class CinemaController {
 
     /**
      * 编辑电影院
-     * @param areaCinemas
-     * @return
+     * @param areaCinemas  电影院的信息
+     * @return  是否编辑成功
      */
 
     @PutMapping("/editCinema")
@@ -79,12 +79,12 @@ public class CinemaController {
 
     /**
      * 为影院添加管理人员
-     * @param movieUser
-     * @return
+     * @param movieUser  人员信息
+     * @return   是否增加成功
      */
     @PostMapping("/addAdmin")
-    public Long addAdmin(@RequestBody MovieUser movieUser){
-        int insert = movieUserMapper.insert(movieUser);
+    public int addAdmin(@RequestBody MovieUser movieUser){
+        movieUserMapper.insert(movieUser);
         MovieUserRoles movieUserRoles = new MovieUserRoles();
         movieUserRoles.setUserId(movieUser.getId());
         movieUserRoles.setRoleId(1);

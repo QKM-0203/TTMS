@@ -5,10 +5,10 @@
 <mapper namespace="com.qkm.TTMS.mapper.MovieDirectorMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MovieDirector">
-            <id property="id" column="id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="directorName" column="director_name" jdbcType="VARCHAR"/>
             <result property="directorPicture" column="director_picture" jdbcType="VARCHAR"/>
-            <result property="movieId" column="movie_id" jdbcType="BIGINT"/>
+            <result property="movieId" column="movie_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">

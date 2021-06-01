@@ -1,23 +1,13 @@
 package com.qkm.TTMS.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-/**
- * 用户表
- * @TableName movie_user
- */
 @TableName(value ="movie_user")
 @Data
 public class MovieUser implements Serializable{
@@ -26,7 +16,7 @@ public class MovieUser implements Serializable{
      *
      */
     @TableId(value = "id")
-    private Long id;
+    private Integer id;
 
     /**
      * 用户名`
@@ -92,7 +82,7 @@ public class MovieUser implements Serializable{
      *电影院id
      */
     @TableField(value = "cinema_id")
-    private Long cinemaId;
+    private Integer cinemaId;
 
     /**
      *售货员id
@@ -103,7 +93,7 @@ public class MovieUser implements Serializable{
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    public MovieUser(Long id, String accounts, String password, String nickname, Date createTime, String icon, String gender, Date birthday, String city, String job, String personalizedSignature) {
+    public MovieUser(Integer id, String accounts, String password, String nickname, Date createTime, String icon, String gender, Date birthday, String city, String job, String personalizedSignature) {
         this.id = id;
         this.accounts = accounts;
         this.password = password;

@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface MovieUserService {
      int addUser(MovieUser user);
-     List<MovieUser> getAdmins();
-     List<MovieUser> getSells(Long cinemaId);
-     int delById( Long id);
+     List<MovieUser> getAdmins(int page);
+     List<MovieUser> getSells(int cinemaId,int page);
+     int delById( int id);
      MovieUser getAllByAccounts( String accounts);
 }

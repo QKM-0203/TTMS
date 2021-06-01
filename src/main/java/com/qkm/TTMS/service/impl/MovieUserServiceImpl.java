@@ -1,6 +1,9 @@
 package com.qkm.TTMS.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qkm.TTMS.entity.MovieUser;
+import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.MovieUserMapper;
 import com.qkm.TTMS.service.MovieUserService;
 import org.springframework.stereotype.Service;
@@ -27,17 +30,23 @@ public class MovieUserServiceImpl implements MovieUserService {
     }
 
     @Override
-    public List<MovieUser> getAdmins() {
-        return userMapper.getAdminByCinemaId();
+    public List<MovieUser> getAdmins(int page) {
+        Page<MovieUser> movieOrderPage = new Page<>(page,5,true);
+        return (List<MovieUser>)
+                userMapper.selectPage(movieOrderPage,null);
     }
 
     @Override
-    public List<MovieUser> getSells(Long cinemaId) {
-        return userMapper.getSellByCinemaId(cinemaId);
+    public List<MovieUser> getSells(int cinemaId,int page) {
+        Page<MovieUser> movieOrderPage = new Page<>(page,5,true);
+        QueryWrapper<MovieUser> movieUserQueryWrapper = new QueryWrapper<>();
+        movieUserQueryWrapper.ge("cinema_id",cinemaId);
+        return (List<MovieUser>)
+                userMapper.selectPage(movieOrderPage,movieUserQueryWrapper);
     }
 
     @Override
-    public int delById(Long id) {
+    public int delById(int id) {
         return userMapper.delById(id);
     }
 

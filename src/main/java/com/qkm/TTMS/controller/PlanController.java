@@ -10,7 +10,6 @@ import com.qkm.TTMS.service.AreaCinemaService;
 import com.qkm.TTMS.service.CinemaMoviesService;
 import com.qkm.TTMS.service.MoviePlanService;
 import com.qkm.TTMS.service.MovieService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,19 +41,19 @@ public class PlanController {
 
     /**
      * 增加演出计划
-     * @param moviePlans
-     * @return
+     * @param moviePlans 计划信息
+     * @return  是否增加成功
      */
     @PostMapping("/addPlan/{movieId}/{cinemaId}")
-    public Long addPlan(@RequestBody MoviePlan moviePlans, @PathVariable("movieId")Long movieId, @PathVariable("cinemaId")Long cinemaId){
-        long idByCinemaIdAndMovieId = cinemaMoviesSer.getIdByCinemaIdAndMovieId(cinemaId, movieId);
+    public int addPlan(@RequestBody MoviePlan moviePlans, @PathVariable("movieId")int movieId, @PathVariable("cinemaId")int cinemaId){
+        int idByCinemaIdAndMovieId = cinemaMoviesSer.getIdByCinemaIdAndMovieId(cinemaId, movieId);
         moviePlans.setCinemaMovieId(idByCinemaIdAndMovieId);
-        int insert = moviePlanMapper.insert(moviePlans);
+        moviePlanMapper.insert(moviePlans);
         MovieHall movieHall = movieHallMapper.selectById(moviePlans.getHallId());
         HashMap<String, String> stringMap = new HashMap<>();
         for(int i = 1; i <= movieHall.getSeatLine(); i++ ){
             for(int j = 1; j <= movieHall.getSeatColumn(); j++){
-                stringMap.put(String.valueOf(i)+String.valueOf(j),"0");
+                stringMap.put(i +String.valueOf(j),"0");
             }
         }
         redisTemplate.opsForHash().putAll(String.valueOf(moviePlans.getId()),stringMap);
@@ -68,12 +67,12 @@ public class PlanController {
 
     /**
      * 获取某个电影院信息和演出计划,时间差8小时日期差一天
-     * @param cinemaId
-     * @param movieId
-     * @return
+     * @param cinemaId  电影院ID
+     * @param movieId 电影ID
+     * @return  返回演出计划
      */
     @GetMapping("/getPlanAndCinema/{movieId}/{cinemaId}")
-    public Map<String,Object> getCinema(@PathVariable("movieId") Long movieId, @PathVariable("cinemaId") Long cinemaId){
+    public Map<String,Object> getCinema(@PathVariable("movieId") int movieId, @PathVariable("cinemaId") int cinemaId){
         HashMap<Date, List<MoviePlan>> dataMap = getPlan(movieId, movieId);
         //查影院
         AreaCinemas allById = areaCinemaSer.getAllById(cinemaId);
@@ -89,8 +88,8 @@ public class PlanController {
 
     /**
      * 删除演出计划
-     * @param planId
-     * @return
+     * @param planId  计划Id
+     * @return 是否删除成功
      */
     @DeleteMapping("/delPlan/{planId}")
     public int addPlan(@PathVariable("planId")Long  planId){
@@ -100,12 +99,12 @@ public class PlanController {
 
     /**
      * 查询演出计划,前端过滤删除演出厅的
-     * @param movieId
-     * @param cinemaId
-     * @return
+     * @param movieId   电影Id
+     * @param cinemaId  电影院Id
+     * @return  返回查询演出计划
      */
     @GetMapping("/getPlan/{movieId}/{cinemaId}")
-    public HashMap<Date, List<MoviePlan>> getPlan(@PathVariable("movieId") Long movieId,@PathVariable("cinemaId") Long cinemaId){
+    public HashMap<Date, List<MoviePlan>> getPlan(@PathVariable("movieId") int movieId,@PathVariable("cinemaId") int cinemaId){
         //查计划
         List<MoviePlan> moviePlan = moviePlanSer.getMoviePlan(movieId, cinemaId);
         HashMap<Date, List<MoviePlan>> dataMap = new HashMap<>();
@@ -124,8 +123,8 @@ public class PlanController {
 
     /**
      * 编辑演出计划
-     * @param moviePlan
-     * @return
+     * @param moviePlan   计划信息
+     * @return  是否更新成功
      */
     @PutMapping("/editPlan")
     public int updatePlan(@RequestBody  MoviePlan moviePlan){
@@ -135,11 +134,11 @@ public class PlanController {
 
     /**
      * 设置某部电影的最低价格
-     * @param cinemaId
-     * @param movieId
+     * @param cinemaId   影院Id
+     * @param movieId  电影Id
      */
     @PostMapping("/setLowMoney/{lowMoney}/{cinemaId}/{movieId}")
-   public int setLawMoney(@PathVariable("lowMoney")Double lowMoney,@PathVariable("cinemaId")Long cinemaId,@PathVariable("movieId") Long movieId){
+   public int setLawMoney(@PathVariable("lowMoney")Double lowMoney,@PathVariable("cinemaId")int cinemaId,@PathVariable("movieId") int movieId){
       return  cinemaMoviesSer.setMovieLowMoneyByCinemaIdAndMovieId(lowMoney,cinemaId,movieId);
    }
 

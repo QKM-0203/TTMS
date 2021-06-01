@@ -5,9 +5,9 @@
 <mapper namespace="com.qkm.TTMS.mapper.MovieActorMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MovieActor">
-            <id property="id" column="id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="actorPicture" column="actor_picture" jdbcType="VARCHAR"/>
-            <result property="movieId" column="movie_id" jdbcType="BIGINT"/>
+            <result property="movieId" column="movie_id" jdbcType="INTEGER"/>
             <result property="actorName" column="actor_name" jdbcType="VARCHAR"/>
             <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
     </resultMap>

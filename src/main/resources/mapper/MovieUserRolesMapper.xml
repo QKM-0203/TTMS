@@ -5,8 +5,8 @@
 <mapper namespace="com.qkm.TTMS.mapper.MovieUserRolesMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MovieUserRoles">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
             <result property="roleId" column="role_id" jdbcType="INTEGER"/>
     </resultMap>
 

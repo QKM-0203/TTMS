@@ -5,8 +5,8 @@
 <mapper namespace="com.qkm.TTMS.mapper.MoviePictureMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MoviePicture">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="movieId" column="movie_id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="movieId" column="movie_id" jdbcType="INTEGER"/>
             <result property="moviePicture" column="movie_picture" jdbcType="VARCHAR"/>
     </resultMap>
 

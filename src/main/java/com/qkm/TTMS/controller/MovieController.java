@@ -4,12 +4,10 @@ import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.mapper.*;
 import com.qkm.TTMS.service.CinemaMoviesService;
+import com.qkm.TTMS.service.CommonService;
 import com.qkm.TTMS.service.MovieService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,20 +18,22 @@ public class MovieController {
 
 
 
+    private final CommonService commonService;
     private final CinemaMoviesMapper cinemaMoviesMapper;
     private final CinemaMoviesService cinemaMoviesSer;
     private final MovieService movieSer;
 
-    public MovieController(MovieService movieSer, CinemaMoviesService cinemaMoviesSer, CinemaMoviesMapper cinemaMoviesMapper) {
+    public MovieController(MovieService movieSer, CinemaMoviesService cinemaMoviesSer, CinemaMoviesMapper cinemaMoviesMapper, CommonService commonService) {
         this.movieSer = movieSer;
         this.cinemaMoviesSer = cinemaMoviesSer;
         this.cinemaMoviesMapper = cinemaMoviesMapper;
 
+        this.commonService = commonService;
     }
 
     /**
-     * 获取所有的电影信息
-     * @return
+     * 获取所有的电影信息，加入缓存
+     * @return  所有的电影信息
      */
     @Cacheable(cacheNames = "movies",key = "'movieList'")
     @GetMapping("/getMovies")
@@ -41,34 +41,60 @@ public class MovieController {
         List<Movie> moviesOn = movieSer.getMoviesOn();
         List<Movie> moviesSoon = movieSer.getMoviesSoon();
         List<Movie> moviesHot = movieSer.getMoviesHot();
-        HashMap<String,  List<Movie>> map = new HashMap<String,  List<Movie>>();
+        HashMap<String,  List<Movie>> map = new HashMap<>();
         map.put("on",moviesOn);
         map.put("soon",moviesSoon);
         map.put("hot",moviesHot);
         return  map;
     }
 
+
+
+
+
     /**
-     * 按评分排
+     * 获取首页的电影信息
+     * @return  所有的电影信息
+     */
+    @GetMapping("/getMoviesByShow")
+    public HashMap<String, List<Movie>> getMoviesByShow(){
+        HashMap<String, List<Movie>> movieByShow = movieSer.getMovieByShow();
+        List<Movie> score = getScore();
+        movieByShow.put("top100",score.subList(0,9));
+        List<Movie> likes = getLikes();
+        movieByShow.put("like",likes.subList(0,9));
+        List<Movie> byDayMoney = getByDayMoney();
+        movieByShow.put("dayMoney",byDayMoney.subList(0,5));
+        return  movieByShow;
+    }
+
+
+    /**
+     * 按评分排,排序热播的
      */
     @GetMapping("/ByScore")
      public List<Movie> getScore(){
-        List<Movie> movies = movieSer.getMovies();
-        Collections.sort(movies, new Comparator<Movie>() {
-            @Override
-            public int compare(Movie o1, Movie o2) {
-                if (o1.getMovieScore() > o2.getMovieScore()) {
-                    return -1;
-                } else if (o1.getMovieScore() < o2.getMovieScore()) {
-                    return 1;
-                } else {
-                    //如果当天的钱数相同就按电影名字名字进行排序
-                    return o1.getMovieName().compareTo(o2.getMovieName());
-                }
-            }
-        });
-        return  movies.subList(0,9);
+        return movieSer.getHotMoviesByScore();
     }
+
+    /**
+     * 按评分排,排序热播和正在上映的分页
+     */
+    @GetMapping("/ByScoreByOnAndHotPage/{page}")
+    public List<Movie> getScore(@PathVariable("page")int page){
+        List<Movie> hotAndOnMoviesByScore = movieSer.getHotAndOnMoviesByScore();
+        return (List<Movie>) commonService.getPage(hotAndOnMoviesByScore,page,10);
+    }
+
+    /**
+     * 按评分排,排序热播的分页
+     */
+    @GetMapping("/ByScoreByPage/{page}")
+    public List<Movie> getScoreByPage(@PathVariable("page")int page){
+        List<Movie> score = getScore();
+        return (List<Movie>) commonService.getPage(score,page,10);
+    }
+
 
     @GetMapping("/getSoonAndOn")
     public List<Movie> getOnAndSoonMovies(){
@@ -76,35 +102,55 @@ public class MovieController {
     }
 
     /**
-     * 按最受期待值排
+     * 即将上映按最受期待值排
      */
     @GetMapping("/ByLikes")
     public List<Movie> getLikes(){
-        List<Movie> movies = movieSer.getMoviesLikes();
-        Collections.sort(movies, new Comparator<Movie>() {
-            @Override
-            public int compare(Movie o1, Movie o2) {
-               if(o1.getWantLook() > o2.getWantLook()){
-                   return -1;
-               }else if(o1.getWantLook() < o2.getWantLook()){
-                   return 1;
-                }else{
-                  return o1.getMovieName().compareTo(o2.getMovieName());
-               }
-            }
-        });
-        return  movies;
+        return movieSer.getMoviesLikes();
     }
-    
-    
+
+    /**
+     * 即将上映按最受期待值排分页
+     */
+    @GetMapping("/ByLikesPage/{page}")
+    public List<Movie> getLikesByPage(@PathVariable("page")int page){
+        List<Movie> likes = getLikes();
+        return (List<Movie>) (List<Movie>) commonService.getPage(likes,page,10);
+    }
+
+
+
+    /**
+     * 按正在上映的每天收益排
+     */
+    @GetMapping("/ByDayMoney")
+    public List<Movie> getByDayMoney(){
+        return movieSer.getMoviesDayMoney();
+    }
+
+
+
+    /**
+     * 按正在上映的每天收益排分页
+     */
+    @GetMapping("/ByDayMoney/{page}")
+    public List<Movie> getByDayMoneyPage(@PathVariable("page")int page){
+        List<Movie> moviesDayMoney = movieSer.getMoviesDayMoney();
+        return (List<Movie>) commonService.getPage(moviesDayMoney,page,10);
+    }
+
+
+
+
+
     /**
      * 获取电影具体信息
-     * @RequestParam status
-     * @RequestParam movieId
-     * @return
+     * @RequestParam status  电影的状态
+     * @RequestParam movieId  电影的Id
+     * @return   返回电影的具体信息
      */
     @GetMapping("/getSpecificMovie/{status}/{movieId}")
-    public Movie getSpecific(@PathVariable("status") int status,@PathVariable("movieId") long movieId) {
+    public Movie getSpecific(@PathVariable("status") int status,@PathVariable("movieId") int movieId) {
         return movieSer.getMovieByStatus(status, movieId);
     }
 
@@ -142,8 +188,8 @@ public class MovieController {
      * 管理员获取电影院所有的上映和即将上映电影
      */
     @GetMapping("/adminGetMovies/{cinemaId}")
-    public List<Movie> getMovies(@PathVariable("cinemaId")Long cinemaId){
-        List<Long> listByCinemaId = cinemaMoviesSer.getListMovieIdByCinemaId(cinemaId);
+    public List<Movie> getMovies(@PathVariable("cinemaId")int cinemaId){
+        List<Integer> listByCinemaId = cinemaMoviesSer.getListMovieIdByCinemaId(cinemaId);
         return movieSer.selectMovieByListId(listByCinemaId);
     }
 
@@ -152,7 +198,7 @@ public class MovieController {
      * 管理员增加电影,从经理处增加
      */
     @PostMapping("/adminAddMovies/{movieId}/{cinemaId}")
-    public int AdminAddMovie(@PathVariable("movieId")Long movieId, @PathVariable("cinemaId")Long cinemaId){
+    public int AdminAddMovie(@PathVariable("movieId")int movieId, @PathVariable("cinemaId")int cinemaId){
             CinemaMovies cinemaMovies = new CinemaMovies();
             cinemaMovies.setCinemaId(cinemaId);
             cinemaMovies.setMovieId(movieId);
@@ -180,10 +226,25 @@ public class MovieController {
      * 管理员删除电影,只能删除自己影院的电影
      */
     @DeleteMapping("/AdminDelMovie")
-    public int AdminDelMovie(@RequestParam("movieId") Long movieId,@RequestParam("cinemaId")Long cinemaId){
+    public int AdminDelMovie(@RequestParam("movieId") int movieId,@RequestParam("cinemaId")int cinemaId){
         cinemaMoviesSer.deleteByCinemaIdAndMovieId(cinemaId,movieId);
         return 1;
     }
+
+
+    @GetMapping("/SortByTime/{status}/{page}")
+    public List<Movie> SortByTime(@PathVariable("status")int status,@PathVariable("page")int page){
+       if(status == 1){
+           return (List<Movie>) commonService.getPage(movieSer.getOnMoviesByTime(),page,12);
+       }else if(status == 2){
+           return (List<Movie>) commonService.getPage(movieSer.getSoonMoviesByTime(),page,12);
+       }else{
+           return (List<Movie>) commonService.getPage(movieSer.getHotMoviesByTime(),page,12);
+       }
+    }
+
+
+
 
 
 }

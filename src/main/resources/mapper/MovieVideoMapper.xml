@@ -6,7 +6,7 @@
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MovieVideo">
             <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="movieId" column="movie_id" jdbcType="BIGINT"/>
+            <result property="movieId" column="movie_id" jdbcType="INTEGER"/>
             <result property="movieVideo" column="movie_video" jdbcType="VARCHAR"/>
             <result property="videoTitle" column="video_title" jdbcType="VARCHAR"/>
     </resultMap>

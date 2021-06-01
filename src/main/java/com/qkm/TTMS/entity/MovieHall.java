@@ -7,10 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Data;
 
-/**
- * 
- * @TableName movie_hall
- */
+
 @TableName(value ="movie_hall")
 @Data
 public class MovieHall implements Serializable {
@@ -18,13 +15,13 @@ public class MovieHall implements Serializable {
      * 主键
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 电影院的id
      */
     @TableField(value = "cinema_id")
-    private Long cinemaId;
+    private Integer cinemaId;
 
     /**
      * 座位行数

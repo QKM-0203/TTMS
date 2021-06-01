@@ -1,6 +1,6 @@
 package com.qkm.TTMS.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -10,10 +10,7 @@ import java.util.List;
 
 import lombok.Data;
 
-/**
- * 
- * @TableName user_order
- */
+
 @TableName(value ="user_order")
 @Data
 public class UserOrder implements Serializable {
@@ -21,13 +18,13 @@ public class UserOrder implements Serializable {
      * 主键也是订单号
      */
     @TableId(value = "id")
-    private Long id;
+    private Integer id;
 
     /**
      * 使用者的id
      */
     @TableField(value = "user_id")
-    private Long userId;
+    private Integer userId;
 
     /**
      * 电影院的名字
@@ -45,13 +42,13 @@ public class UserOrder implements Serializable {
      * 订单的总钱数
      */
     @TableField(value = "order_money")
-    private Long orderMoney;
+    private Double orderMoney;
 
     /**
      * 电影院的id
      */
     @TableField(value = "cinema_id")
-    private Long cinemaId;
+    private Integer cinemaId;
 
     /**
      * 一张票的钱
@@ -100,7 +97,7 @@ public class UserOrder implements Serializable {
      * 电影的id
      */
     @TableId(value = "movie_id")
-    private Long movieId;
+    private Integer movieId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

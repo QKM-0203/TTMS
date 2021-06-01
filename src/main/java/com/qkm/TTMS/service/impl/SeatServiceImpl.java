@@ -28,7 +28,7 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public Map<String, String> getSeatByRedis(Long moviePlanId) {
+    public Map<String, String> getSeatByRedis(int moviePlanId) {
             Map<String, String> execute = redisTemplate.execute((RedisCallback<Map<String, String>>) con -> {
                 Map<byte[], byte[]> result = con.hGetAll(String.valueOf(moviePlanId).getBytes());
                 if (CollectionUtils.isEmpty(result)) {

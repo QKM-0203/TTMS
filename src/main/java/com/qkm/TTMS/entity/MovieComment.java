@@ -1,16 +1,12 @@
 package com.qkm.TTMS.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Data;
 
-/**
- * 
- * @TableName movie_comment
- */
+
 @TableName(value ="movie_comment")
 @Data
 public class MovieComment implements Serializable {
@@ -18,13 +14,13 @@ public class MovieComment implements Serializable {
      * 主键id
      */
     @TableId(value = "id")
-    private Long id;
+    private Integer id;
 
     /**
      * 电影的id
      */
     @TableField(value = "movie_id")
-    private Long movieId;
+    private Integer movieId;
 
     /**
      * 电影的评论

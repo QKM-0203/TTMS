@@ -5,11 +5,11 @@
 <mapper namespace="com.qkm.TTMS.mapper.HallSeatMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.HallSeat">
-            <id property="id" column="id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="seatLine" column="seat_line" jdbcType="INTEGER"/>
             <result property="seatColumn" column="seat_column" jdbcType="INTEGER"/>
-            <result property="moviePlanId" column="movie_plan_id" jdbcType="BIGINT"/>
-            <result property="orderId" column="order_id" jdbcType="BIGINT"/>
+            <result property="moviePlanId" column="movie_plan_id" jdbcType="INTEGER"/>
+            <result property="orderId" column="order_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">

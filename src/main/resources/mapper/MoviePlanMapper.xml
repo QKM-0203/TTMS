@@ -5,11 +5,11 @@
 <mapper namespace="com.qkm.TTMS.mapper.MoviePlanMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MoviePlan">
-            <id property="id" column="id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="movieStartTime" column="movie_start_time" jdbcType="TIMESTAMP"/>
             <result property="movieEndTime" column="movie_end_time" jdbcType="TIMESTAMP"/>
             <result property="planDate" column="plan_date" jdbcType="DATE"/>
-            <result property="cinemaMovieId" column="cinema_movie_id" jdbcType="BIGINT"/>
+            <result property="cinemaMovieId" column="cinema_movie_id" jdbcType="INTEGER"/>
             <result property="ticketMoney" column="ticket_money" jdbcType="FLOAT"/>
             <association property="hall" column="hall_id" javaType="com.qkm.TTMS.entity.MovieHall" select="getHall"/>
     </resultMap>

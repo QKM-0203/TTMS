@@ -1,6 +1,5 @@
 package com.qkm.TTMS.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -8,10 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
-/**
- * 
- * @TableName movie_plan
- */
+
 @TableName(value ="movie_plan")
 @Data
 public class MoviePlan implements Serializable,Comparable<MoviePlan> {
@@ -19,7 +15,7 @@ public class MoviePlan implements Serializable,Comparable<MoviePlan> {
      * 主键
      */
     @TableId(value = "id")
-    private Long id;
+    private Integer id;
 
     /**
      * 电影的开始时间
@@ -45,13 +41,13 @@ public class MoviePlan implements Serializable,Comparable<MoviePlan> {
      * 电影院里面对应的电影id
      */
     @TableField(value = "cinema_movie_id")
-    private Long cinemaMovieId;
+    private Integer cinemaMovieId;
 
     /**
      * 该时间段对应的演出厅id
      */
     @TableField(value = "hall_id")
-    private Long hallId;
+    private Integer hallId;
 
 
 

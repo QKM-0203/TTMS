@@ -5,12 +5,12 @@
 <mapper namespace="com.qkm.TTMS.mapper.UserOrderMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.UserOrder">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
             <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
             <result property="movieName" column="movie_name" jdbcType="VARCHAR"/>
-            <result property="orderMoney" column="order_money" jdbcType="BIGINT"/>
-            <result property="cinemaId" column="cinema_id" jdbcType="BIGINT"/>
+            <result property="orderMoney" column="order_money" jdbcType="DOUBLE"/>
+            <result property="cinemaId" column="cinema_id" jdbcType="INTEGER"/>
             <result property="ticketMoney" column="ticket_money" jdbcType="FLOAT"/>
             <result property="movieStartTime" column="movie_start_time" jdbcType="TIMESTAMP"/>
             <result property="orderStatus" column="order_status" jdbcType="VARCHAR"/>

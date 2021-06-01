@@ -5,7 +5,6 @@ import com.qkm.TTMS.entity.MovieUserRoles;
 import com.qkm.TTMS.mapper.MovieUserMapper;
 import com.qkm.TTMS.mapper.MovieUserRolesMapper;
 import com.qkm.TTMS.service.MovieUserService;
-import com.qkm.TTMS.service.impl.MovieUserServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,34 +24,34 @@ public class UserController {
 
     /**
      * 经理得到所有的管理员
-     * @return
+     * @return  所有的管理员
      */
-    @GetMapping("/getAdmins")
-    public List<MovieUser> getAdmins(){
-       return  userSer.getAdmins();
+    @GetMapping("/getAdmins/{page}")
+    public List<MovieUser> getAdmins(@PathVariable("page") int page){
+      return userSer.getAdmins(page);
     }
 
     /**
      * 管理员得到所有的售票员和管理员,sellId为1则是售票员,否则是管理员
-     * @param cinemaId
-     * @return
+     * @param cinemaId  电影院Id
+     * @return  所有的人员
      */
-    @GetMapping("/getSells/{cinemaId}")
-    public List<MovieUser> getSells(@PathVariable("cinemaId")Long cinemaId){
-        return  userSer.getSells(cinemaId);
+    @GetMapping("/getSells/{cinemaId}/{page}")
+    public List<MovieUser> getSells(@PathVariable("cinemaId")int cinemaId,@PathVariable("page")int page){
+        return  userSer.getSells(cinemaId,page);
     }
 
 
     /**
      * 管理员增加管理员或者售票员
-     * @param movieUser
-     * @return
+     * @param movieUser   人员信息
+     * @return  是否增加成功
      */
     @PostMapping("/addUser")
-    public Long addUser(@RequestBody MovieUser movieUser){
+    public int addUser(@RequestBody MovieUser movieUser){
            int i = userSer.addUser(movieUser);
            if(i == -1){
-               return -1L;
+               return -1;
            }
             MovieUserRoles movieUserRoles = new MovieUserRoles();
             movieUserRoles.setUserId(movieUser.getId());
@@ -70,7 +69,7 @@ public class UserController {
      * 删除管理员或者售票员
      */
     @DeleteMapping("/delUser/{userId}")
-    public int delUser(@PathVariable("userId")Long userId){
+    public int delUser(@PathVariable("userId")int userId){
             userSer.delById(userId);
             return  1;
     }

@@ -18,38 +18,38 @@ public class CinemaMoviesServiceImpl implements CinemaMoviesService {
 
 
     @Override
-    public long getIdByCinemaIdAndMovieId(Long cinemaId, Long movieId) {
+    public int getIdByCinemaIdAndMovieId(int cinemaId, int movieId) {
         return  cinemaMoviesMapper.getIdByCinemaIdAndMovieId(cinemaId,movieId);
     }
 
     @Override
-    public int deleteByCinemaIdAndMovieId(Long cinemaId, Long movieId) {
-        return cinemaMoviesMapper.deleteByCinemaIdAndMovieId(cinemaId,movieId);
+    public int deleteByCinemaIdAndMovieId(int cinemaId, int movieId) {
+        return cinemaMoviesMapper.deleteByCinemaIdAndMovieId(cinemaId, movieId);
     }
 
     @Override
-    public int deleteByMovieId(Long movieId) {
+    public int deleteByMovieId(int movieId) {
         return cinemaMoviesMapper.deleteByMovieId(movieId);
     }
 
 
     @Override
-    public List<Long> getListMovieIdByCinemaId(Long cinemaId) {
+    public List<Integer> getListMovieIdByCinemaId(int cinemaId) {
         return cinemaMoviesMapper.getListMovieIdByCinemaId(cinemaId);
     }
 
     @Override
-    public int setMovieLowMoneyByCinemaIdAndMovieId(Double movieLowMoney, Long cinemaId, Long movieId) {
+    public int setMovieLowMoneyByCinemaIdAndMovieId(Double movieLowMoney, int cinemaId, int movieId) {
         return cinemaMoviesMapper.setMovieLowMoneyByCinemaIdAndMovieId(movieLowMoney, cinemaId, movieId);
     }
 
     @Override
-    public CinemaMovies getAllByCinemaId(Long cinemaId) {
+    public CinemaMovies getAllByCinemaId(int cinemaId) {
         return cinemaMoviesMapper.getAllByCinemaId(cinemaId);
     }
 
     @Override
-    public int deleteByCinemaId(Long cinemaId) {
+    public int deleteByCinemaId(int cinemaId) {
         return cinemaMoviesMapper.deleteByCinemaId(cinemaId);
     }
 

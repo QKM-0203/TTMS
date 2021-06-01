@@ -2,17 +2,12 @@ package com.qkm.TTMS.mapper;
 
 import com.qkm.TTMS.entity.MovieHall;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import jdk.jfr.Registered;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-/**
- * @Entity com.qkm.TTMS.entity.MovieHall
- */
 @Repository
 public interface MovieHallMapper extends BaseMapper<MovieHall> {
-    int deleteByCinemaId(@Param("cinemaId") Long cinemaId);
-
+    int deleteByCinemaId(@Param("cinemaId") int cinemaId);
 }
 
 

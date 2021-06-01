@@ -63,8 +63,4 @@ public class RUser implements UserDetails,Serializable {
         return true;
     }
 
-    public Long getCinemaId(Long id){
-        return user.getCinemaId();
-
-    }
 }

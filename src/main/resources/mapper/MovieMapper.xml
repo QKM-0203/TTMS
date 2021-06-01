@@ -5,18 +5,18 @@
 <mapper namespace="com.qkm.TTMS.mapper.MovieMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.Movie">
-            <id property="id" column="id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="movieName" column="movie_name" jdbcType="VARCHAR"/>
             <result property="movieStatus" column="movie_status" jdbcType="INTEGER"/>
             <result property="movieStart" column="movie_start" jdbcType="DATE"/>
             <result property="movieMinute" column="movie_minute" jdbcType="INTEGER"/>
             <result property="movieBrief" column="movie_brief" jdbcType="VARCHAR"/>
             <result property="movieScore" column="movie_score" jdbcType="FLOAT"/>
-            <result property="movieMoney" column="movie_money" jdbcType="BIGINT"/>
+            <result property="movieMoney" column="movie_money" jdbcType="DOUBLE"/>
             <result property="movieType" column="movie_type" jdbcType="VARCHAR"/>
             <result property="movieArea" column="movie_area" jdbcType="VARCHAR"/>
             <result property="movieHead" column="movie_head" jdbcType="VARCHAR"/>
-            <result property="wantLook" column="want_look" jdbcType="BIGINT"/>
+            <result property="wantLook" column="want_look" jdbcType="DOUBLE"/>
             <result property="dayMoney" column="day_money" jdbcType="BIGINT"/>
 <!--            制片人-->
             <collection property="producerList" javaType="java.util.ArrayList" column="id" ofType="com.qkm.TTMS.entity.MovieProducer" select="getProducers">
@@ -70,17 +70,37 @@
     <update id="downMoney">
         update movie set movie_money = movie_money - #{money} where movie_Id = #{movieId}
     </update>
+    <update id="updateByName">
+        update movie set movie_brief = #{movieBrief},movie_money = #{movieMoney} ,want_look = #{wantLook} where movie_name = #{movieName}
+    </update>
     <!--    查找正在热映电影-->
     <select id="getMoviesOn" resultMap="BaseResultMap">
-        select *  from movie where movie_status = 1 order by day_money desc
+        select * from movie where movie_status = 1
     </select>
+
+<!--    <select id="getMoviesOnByTime" resultMap="BaseResultMap">-->
+<!--        select * from movie where movie_status = 1 order by movie_start desc-->
+<!--    </select>-->
+
+<!--    <select id="getMoviesOnByMoney" resultMap="BaseResultMap">-->
+<!--        select * from movie where movie_status = 1 order by day_money desc-->
+<!--    </select>-->
+
+<!--    <select id="getMoviesSoonByLike" resultMap="BaseResultMap">-->
+<!--        select * from movie where movie_status = 2 order by want_look desc-->
+<!--    </select>-->
+
 
     <!--    查找即将上映电影-->
     <select id="getMoviesSoon" resultMap="BaseResultMap">
-        select *  from movie where movie_status = 2 order by movie_start asc
+        select *  from movie where movie_status = 2
     </select>
 
-    <!--    查找热播电影-->
+<!--    &lt;!&ndash;    查找热播电影&ndash;&gt;-->
+<!--    <select id="getMoviesHotByScore" resultMap="BaseResultMap">-->
+<!--        select *  from movie where movie_status = 3 order By movie_score desc-->
+<!--    </select>-->
+
     <select id="getMoviesHot" resultMap="BaseResultMap">
         select *  from movie where movie_status = 3
     </select>

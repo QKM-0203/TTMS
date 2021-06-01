@@ -1,6 +1,9 @@
 package com.qkm.TTMS.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qkm.TTMS.entity.HallSeat;
+import com.qkm.TTMS.entity.MovieHall;
 import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.HallSeatMapper;
 import com.qkm.TTMS.service.*;
@@ -17,38 +20,39 @@ import java.util.concurrent.TimeUnit;
 public class OrderController {
 
 
-    private CinemaMoviesService cinemaMoviesService;
+    private final CinemaMoviesService cinemaMoviesService;
     private final HallSeatMapper hallSeatMapper;
     private final RedisTemplate<String,Object> redisTemplate;
     private final AreaCinemaService areaCinemaSer;
     private final MovieService movieSer;
     private final SeatService seatSer;
     private final UserOrderService userOrderService;
-    public OrderController(SeatService seatSer, AreaCinemaService areaCinemaSer, MovieService movieSer, RedisTemplate<String, Object> redisTemplate, HallSeatMapper hallSeatMapper, UserOrderService userOrderService) {
+    public OrderController(CinemaMoviesService cinemaMoviesService,SeatService seatSer, AreaCinemaService areaCinemaSer, MovieService movieSer, RedisTemplate<String, Object> redisTemplate, HallSeatMapper hallSeatMapper, UserOrderService userOrderService) {
         this.seatSer = seatSer;
         this.areaCinemaSer = areaCinemaSer;
         this.movieSer = movieSer;
         this.redisTemplate = redisTemplate;
         this.hallSeatMapper = hallSeatMapper;
         this.userOrderService = userOrderService;
+        this.cinemaMoviesService =  cinemaMoviesService;
     }
 
      /**
      * 前端将选的座位也要发过来,锁住座位,未支付状态
-     * @param userOrder
-     * @param moviePlanId
-     * @return
+     * @param userOrder   订单信息
+     * @param moviePlanId   电影的演出计划Id
+     * @return  是否选座成功
      */
     @PostMapping("/saveOrder/{moviePlanId}")
-    public Long saveOrder(@RequestBody UserOrder userOrder,@PathVariable("moviePlanId")Long moviePlanId){
+    public int saveOrder(@RequestBody UserOrder userOrder,@PathVariable("moviePlanId")int moviePlanId){
         Map<String, String> seatByRedis = seatSer.getSeatByRedis(moviePlanId);
         redisTemplate.watch(String.valueOf(moviePlanId));
         //存座位
         List<HallSeat> hallSeatList = userOrder.getHallSeatList();
         redisTemplate.multi();
-        for(int  j = 0; j < hallSeatList.size(); j++){
-            if(seatByRedis.containsKey((String.valueOf(hallSeatList.get(j).getSeatLine()))+String.valueOf(hallSeatList.get(j).getSeatColumn()))){
-                seatByRedis.put((String.valueOf(hallSeatList.get(j).getSeatLine())) + String.valueOf(hallSeatList.get(j).getSeatColumn()),"1");
+        for (HallSeat seat : hallSeatList) {
+            if (seatByRedis.containsKey((seat.getSeatLine()) + String.valueOf(seat.getSeatColumn()))) {
+                seatByRedis.put((seat.getSeatLine()) + String.valueOf(seat.getSeatColumn()), "1");
             }
         }
         redisTemplate.opsForHash().putAll(String.valueOf(moviePlanId),seatByRedis);
@@ -64,7 +68,7 @@ public class OrderController {
             redisTemplate.opsForValue().set("order"+userOrder.getId(), userOrder,  10, TimeUnit.SECONDS);
             return userOrder.getId();
         }else{
-            return 0L;
+            return 0;
         }
 
     }
@@ -73,27 +77,27 @@ public class OrderController {
      * 获取订单剩余时间
      */
     @GetMapping("/getOrederTime/{orderId}")
-    public Map<String,Object> getOrderTime(@PathVariable("orderId")Long orderId){
+    public Map<String,Object> getOrderTime(@PathVariable("orderId")int orderId){
 
         Long expire = redisTemplate.getExpire("order" + orderId);
         UserOrder userOrder = (UserOrder)redisTemplate.opsForValue().get("order" + orderId);
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("time",expire);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("time", expire);
         map.put("order",userOrder);
         return  map;
     }
 
     /**
      * 确认付钱后执行
-     * @param userOrder
-     * @return
+     * @param userOrder   订单信息
+     * @return  是否支付成功
      */
     @PostMapping("/saveMoney")
     public int saveMoney(@RequestBody UserOrder userOrder){
         //存票房
         int i1 = movieSer.addMoney(userOrder.getOrderMoney(), userOrder.getMovieId());
         //存电影院赚的钱
-        int i2 = areaCinemaSer.addMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());
+         areaCinemaSer.addMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());
         userOrderService.updateOrderStatusById("已支付",userOrder.getId());
         return i1;
 
@@ -112,12 +116,12 @@ public class OrderController {
         movieSer.downMoney(userOrder.getOrderMoney(), userOrder.getMovieId());
         areaCinemaSer.downMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());
 
-        long idByCinemaIdAndMovieId = cinemaMoviesService.getIdByCinemaIdAndMovieId(userOrder.getCinemaId(), userOrder.getMovieId());
+        int idByCinemaIdAndMovieId = cinemaMoviesService.getIdByCinemaIdAndMovieId(userOrder.getCinemaId(), userOrder.getMovieId());
         //获取缓存中的座位进行修改
         Map<String, String> seatByRedis = seatSer.getSeatByRedis(idByCinemaIdAndMovieId);
         List<HallSeat> hallSeatList = userOrder.getHallSeatList();
         for (HallSeat hallSeat : hallSeatList) {
-            seatByRedis.put(String.valueOf(hallSeat.getSeatLine())+String.valueOf(hallSeat.getSeatColumn()),"0");
+            seatByRedis.put(hallSeat.getSeatLine() +String.valueOf(hallSeat.getSeatColumn()),"0");
         }
         hallSeatMapper.delByOrderId(userOrder.getId());
         return  userOrderService.updateOrderStatusById("退款成功",userOrder.getId());
@@ -126,19 +130,19 @@ public class OrderController {
 
     /**
      * 查询整个电影院的订单
-     * @param cinemaId
-     * @return
+     * @param cinemaId  影院Id
+     * @return   所有的订单
      */
-    @GetMapping("/getOrders/{cinemaId}")
-    public List<UserOrder> getOrders(@PathVariable("cinemaId") Long cinemaId){
-        return userOrderService.getAllByCinemaId(cinemaId);
+    @GetMapping("/getOrders/{cinemaId}/{page}")
+    public List<UserOrder> getOrders(@PathVariable("cinemaId") int cinemaId,int page){
+        return userOrderService.getAllByCinemaId(cinemaId,page);
     }
 
     /**
      * 查询自己的所有订单
      */
     @GetMapping("/getOrdersBySelf/{userId}")
-    public List<UserOrder> getOrdersBySelf(@PathVariable("userId") Long userId){
+    public List<UserOrder> getOrdersBySelf(@PathVariable("userId") int userId){
         return userOrderService.getAllByUserId(userId);
     }
 
@@ -147,7 +151,7 @@ public class OrderController {
      * 删除自己的订单
      */
     @DeleteMapping("/delOrdersBySelf/{orderId}")
-    public int delOrdersBySelf(@PathVariable("orderId")Long orderId){
+    public int delOrdersBySelf(@PathVariable("orderId")int orderId){
         return userOrderService.delById(orderId);
     }
 

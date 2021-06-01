@@ -5,12 +5,10 @@ import com.qkm.TTMS.entity.MoviePicture;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
-/**
- * @Entity com.qkm.TTMS.entity.MoviePicture
- */
+
 @Repository
 public interface MoviePictureMapper extends BaseMapper<MoviePicture> {
-    int deleteByMovieId(@Param("movieId") Long movieId);
+    int deleteByMovieId(@Param("movieId") int movieId);
 }
 
 

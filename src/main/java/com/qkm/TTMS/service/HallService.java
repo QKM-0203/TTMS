@@ -5,10 +5,10 @@ import com.qkm.TTMS.entity.MovieHall;
 import java.util.List;
 
 public interface HallService {
-    int delHall(Long id);
-    List<MovieHall> getHalls(Long cinemaId);
+    int delHall(int id);
+    List<MovieHall> getHalls(int cinemaId,int page);
     int  updateHall(MovieHall movieHall);
-    Long  addHall( MovieHall movieHall);
-    int deleteByCinemaId( Long cinemaId);
+    int  addHall( MovieHall movieHall);
+    int deleteByCinemaId(int cinemaId);
 
 }

@@ -5,12 +5,12 @@
 <mapper namespace="com.qkm.TTMS.mapper.MovieCommentMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MovieComment">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="movieId" column="movie_id" jdbcType="BIGINT"/>
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="movieId" column="movie_id" jdbcType="INTEGER"/>
             <result property="peopleComment" column="people_comment" jdbcType="VARCHAR"/>
             <result property="peopleNickname" column="people_nickname" jdbcType="VARCHAR"/>
             <result property="peopleIcon" column="people_icon" jdbcType="VARCHAR"/>
-            <result property="peopleScore" column="people_score" jdbcType="INTEGER"/>
+            <result property="peopleScore" column="people_score" jdbcType="FLOAT"/>
     </resultMap>
 
     <sql id="Base_Column_List">

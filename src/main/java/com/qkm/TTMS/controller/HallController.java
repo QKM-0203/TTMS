@@ -22,41 +22,41 @@ public class HallController {
 
     /**
      * 获取某个影院的所有演出厅
-     * @param cinemaId
-     * @return
+     * @param cinemaId  电影院Id
+     * @return   获取的电影的信息
      */
-    @GetMapping("/getHalls/{cinemaId}")
-    public List<MovieHall> getHalls(@PathVariable("cinemaId") Long cinemaId){
-        return  hallService.getHalls(cinemaId);
+    @GetMapping("/getHalls/{cinemaId}/{page}")
+    public List<MovieHall> getHalls(@PathVariable("cinemaId") int cinemaId,@PathVariable("page")int page){
+        return  hallService.getHalls(cinemaId,page);
     }
 
 
     /**
      * 增加演出厅
-     * @param movieHall
-     * @return
+     * @param movieHall 演出厅的信息
+     * @return  是否成功
      */
     @PostMapping("/addHall")
-    public long addHall(@RequestBody MovieHall movieHall){
-        Long i = hallService.addHall(movieHall);
+    public int addHall(@RequestBody MovieHall movieHall){
+        hallService.addHall(movieHall);
         return movieHall.getId();
     }
 
     /**
      * 删除演出厅
-     * @param id
-     * @return
+     * @param id   演出厅的Id
+     * @return  是否成功
      */
     @DeleteMapping("/delHall/{id}")
     public int delHall(@PathVariable("id") String id){
-        return  hallService.delHall(Long.parseLong(id));
+        return  hallService.delHall(Integer.parseInt(id));
     }
 
 
     /**
      * 编辑演出厅
-     * @param movieHall
-     * @return
+     * @param movieHall  演出厅的信息
+     * @return  是否更新成功
      */
     @PutMapping("/editHall")
     public int updateHall(@RequestBody MovieHall movieHall){
