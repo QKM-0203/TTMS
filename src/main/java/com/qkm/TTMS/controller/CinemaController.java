@@ -26,14 +26,37 @@ public class CinemaController {
     }
 
     /**
-     * 获取某个区的含有某部电影的所有电影院信息
-     * @param areaName   地区的名字
+     * 获取含有某部电影的所有电影院信息
+     * @param  page   分页
      * @param movieId  电影的Id
      * @return  所有的电影院信息
      */
-    @GetMapping("/getAreaCinemas/{areaName}/{movieId}")
-    public List<AreaCinemas> getAreaCinemas(@PathVariable("areaName")String areaName, @PathVariable("movieId")int movieId){
-        return areaCinemaSer.getCinemaMoviesByCinemaId(areaName, movieId);
+    @GetMapping("/getCinemas/{movieId}/{page}")
+    public List<AreaCinemas> getCinemasByMovieId(@PathVariable("page")int page, @PathVariable("movieId")int movieId){
+        return areaCinemaSer.getCinemaByCinemaId(page, movieId);
+    }
+
+
+    /**
+     * 省市区的三级联动
+     * @param cityId
+     * @param movieId
+     * @param provinceId
+     * @param areaId
+     * @param page
+     * @return
+     */
+    @GetMapping("/getCinemaByArea/{provinceId}/{cityId}/{areaId}/{movieId}/{page}")
+    public Map<String,Object> getCinemaByArea(@PathVariable("cityId")int cityId,@PathVariable("movieId")int movieId,
+       @PathVariable("provinceId")int provinceId,@PathVariable("areaId")int areaId,@PathVariable("page")int page){
+       if(provinceId != 0 && cityId != 0 && areaId != 0){
+           return areaCinemaSer.getCinemasByProvinceAndCityAndArea(areaId,movieId,page);
+       } else if(provinceId != 0 && cityId == 0 && areaId == 0 ){
+           return areaCinemaSer.getCinemasByProvince(provinceId,movieId,page);
+       } else if(provinceId != 0 && cityId != 0){
+           return areaCinemaSer.getCinemasByProvinceAndCity(cityId,movieId,page);
+       }
+       return null;
     }
 
 
@@ -41,9 +64,9 @@ public class CinemaController {
      * 获取所有电影院的信息
      * @return  所有的电影院的信息
      */
-    @GetMapping("/getCinemas")
-    public List<AreaCinemas> getCinemas(){
-        return areaCinemaSer.getAll();
+    @GetMapping("/getCinemas/{page}")
+    public List<AreaCinemas> getCinemas(@PathVariable("page")int page){
+        return areaCinemaSer.getAll(page);
     }
 
     /**
@@ -51,9 +74,10 @@ public class CinemaController {
      * @param cinemaId  电影院的Id
      * @return  是否删除成功
      */
-    @DeleteMapping("/delCinemas/{cinemaId}")
-    public int delCinemas(@PathVariable("cinemaId") int cinemaId){
-        return areaCinemaSer.deleteById(cinemaId);
+    @DeleteMapping("/delCinemas/{cinemaId}/{page}")
+    public List<AreaCinemas> delCinemas(@PathVariable("cinemaId") int cinemaId,@PathVariable("page")int page){
+        areaCinemaSer.deleteById(cinemaId);
+        return getCinemas(page);
     }
 
     /**

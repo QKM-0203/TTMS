@@ -12,6 +12,7 @@
         <result property="birthday" column="birthday" jdbcType="DATE"/>
         <result property="city" column="city" jdbcType="VARCHAR"/>
         <result property="job" column="job" jdbcType="VARCHAR"/>
+        <result property="sellId" column="sell_id" jdbcType="INTEGER"/>
         <result property="personalizedSignature" column="personalized_signature" jdbcType="VARCHAR"/>
         <result property="cinemaId" column="cinema_id" jdbcType="INTEGER"/>
         <collection property="roles" ofType="com.qkm.TTMS.entity.Roles">
@@ -53,6 +54,9 @@
         from movie_user
         where
         cinema_id = #{cinemaId}
+    </select>
+    <select id="selectByCinemaId" resultType="com.qkm.TTMS.entity.MovieUser">
+        select * from movie_user where cinema_id = #{cinemaId}
     </select>
     <delete id="delById">
         delete

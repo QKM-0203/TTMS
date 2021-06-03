@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qkm.TTMS.mapper.AreaMapper">
+
+    <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.Area">
+            <result property="id" column="id" jdbcType="INTEGER"/>
+            <result property="areaName" column="area_name" jdbcType="VARCHAR"/>
+            <result property="cityId" column="city_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,area_name,city_id
+    </sql>
+    <select id="getAllByCityId" resultMap="BaseResultMap">
+        select * from area where  city_id = #{cityId}
+    </select>
+</mapper>

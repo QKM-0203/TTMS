@@ -7,32 +7,30 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Data;
 
-@TableName(value ="movie_video")
+/**
+ * 
+ * @TableName city
+ */
+@TableName(value ="city")
 @Data
-public class MovieVideo implements Serializable {
+public class City implements Serializable {
     /**
-     * 主键
+     * 城市的id
      */
-    @TableId(value = "id",type = IdType.AUTO)
+    @TableField(value = "id")
     private Integer id;
 
     /**
-     * 电影的id
+     * 城市的名字
      */
-    @TableField(value = "movie_id")
-    private Integer movieId;
+    @TableField(value = "city_name")
+    private String cityName;
 
     /**
-     * 电影的视频
+     * 省的Id
      */
-    @TableField(value = "movie_video")
-    private String movieVideo;
-
-    /**
-     * 视频的标题
-     */
-    @TableField(value = "video_title")
-    private String videoTitle;
+    @TableField(value = "province_id")
+    private Integer provinceId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

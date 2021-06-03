@@ -44,6 +44,13 @@
         where
         user_id = #{userId,jdbcType=NUMERIC}
     </select>
+    <select id="selectByCinemaId" resultType="com.qkm.TTMS.entity.UserOrder">
+        select
+          *
+        from user_order
+        where
+            cinema_id = #{cinemaId,jdbcType=NUMERIC}
+    </select>
     <delete id="delById">
         delete
         from user_order

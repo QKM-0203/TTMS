@@ -1,8 +1,10 @@
 package com.qkm.TTMS.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qkm.TTMS.entity.MovieHall;
+import com.qkm.TTMS.entity.MovieUser;
 import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.UserOrderMapper;
 import com.qkm.TTMS.service.UserOrderService;
@@ -27,14 +29,19 @@ public class UserOrderImpl implements UserOrderService {
     @Override
     public List<UserOrder> getAllByCinemaId(int cinemaId,int page) {
         Page<UserOrder> movieOrderPage = new Page<>(page,5,true);
-        QueryWrapper<UserOrder> userOrderQueryWrapper = new QueryWrapper<UserOrder>();
-        userOrderQueryWrapper.ge("cinema_id",cinemaId);
-        return (List<UserOrder>)userOrderMapper.selectPage(movieOrderPage,userOrderQueryWrapper);
+        IPage<UserOrder> userOrderIPage = userOrderMapper.selectByCinemaId(movieOrderPage, cinemaId);
+        List<UserOrder> userOrderIPageList = userOrderIPage.getRecords();
+        userOrderIPageList.add(new UserOrder(String.valueOf(userOrderIPage.getPages())));
+        return userOrderIPageList;
     }
 
     @Override
-    public List<UserOrder> getAllByUserId(int userId) {
-        return userOrderMapper.getAllByUserId(userId);
+    public List<UserOrder> getAllByUserId(int userId,int page) {
+        Page<UserOrder> userOrderIPage = new Page<>(page,5,true);
+        IPage<UserOrder> allByUserId = userOrderMapper.getAllByUserId(userOrderIPage, userId);
+        List<UserOrder> allByUserIdList = allByUserId.getRecords();
+        allByUserIdList.add(new UserOrder(String.valueOf(allByUserId.getPages())));
+        return allByUserIdList;
     }
 
     @Override

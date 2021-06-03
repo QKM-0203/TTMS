@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import lombok.Data;
 
@@ -14,6 +15,18 @@ import lombok.Data;
 @TableName(value ="movie")
 @Data
 public class Movie implements Serializable{
+    public Movie(Integer id) {
+        this.id = id;
+    }
+
+    public Movie(){
+
+    }
+
+    public Movie(String movieName) {
+        this.movieName = movieName;
+    }
+
     /**
      * 
      */
@@ -137,8 +150,16 @@ public class Movie implements Serializable{
     private static final long serialVersionUID = 1L;
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return id.equals(movie.id) && movieName.equals(movie.movieName);
+    }
 
-
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, movieName);
+    }
 }

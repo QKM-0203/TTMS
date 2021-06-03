@@ -1,7 +1,9 @@
 package com.qkm.TTMS.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.entity.MovieUser;
 import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.MovieUserMapper;
@@ -29,20 +31,20 @@ public class MovieUserServiceImpl implements MovieUserService {
         }
     }
 
-    @Override
-    public List<MovieUser> getAdmins(int page) {
-        Page<MovieUser> movieOrderPage = new Page<>(page,5,true);
-        return (List<MovieUser>)
-                userMapper.selectPage(movieOrderPage,null);
-    }
+//    @Override
+//    public List<MovieUser> getAdmins(int page) {
+//        Page<MovieUser> movieUserPage = new Page<>(page,5,true);
+//        return (List<MovieUser>)
+//                userMapper.select(movieUserPage,null);
+//    }
 
     @Override
     public List<MovieUser> getSells(int cinemaId,int page) {
         Page<MovieUser> movieOrderPage = new Page<>(page,5,true);
-        QueryWrapper<MovieUser> movieUserQueryWrapper = new QueryWrapper<>();
-        movieUserQueryWrapper.ge("cinema_id",cinemaId);
-        return (List<MovieUser>)
-                userMapper.selectPage(movieOrderPage,movieUserQueryWrapper);
+        IPage<MovieUser> movieUserIPage = userMapper.selectByCinemaId(movieOrderPage, cinemaId);
+        List<MovieUser> movieUserIPageList = movieUserIPage.getRecords();
+        movieUserIPageList.add(new MovieUser(String.valueOf(movieUserIPage.getPages())));
+        return movieUserIPageList;
     }
 
     @Override

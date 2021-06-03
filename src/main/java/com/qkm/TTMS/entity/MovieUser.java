@@ -1,5 +1,6 @@
 package com.qkm.TTMS.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -11,11 +12,14 @@ import lombok.Data;
 @TableName(value ="movie_user")
 @Data
 public class MovieUser implements Serializable{
+    public MovieUser(String accounts) {
+        this.accounts = accounts;
+    }
 
     /**
      *
      */
-    @TableId(value = "id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -88,12 +92,13 @@ public class MovieUser implements Serializable{
      *售货员id
      */
     @TableField(value = "sell_id")
-    private int sellId;
+    private Integer sellId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    public MovieUser(Integer id, String accounts, String password, String nickname, Date createTime, String icon, String gender, Date birthday, String city, String job, String personalizedSignature) {
+
+    public MovieUser(Integer id, String accounts, String password, String nickname, Date createTime, String icon, String gender, Date birthday, String city, String job, String personalizedSignature, Integer cinemaId, Integer sellId) {
         this.id = id;
         this.accounts = accounts;
         this.password = password;
@@ -105,6 +110,8 @@ public class MovieUser implements Serializable{
         this.city = city;
         this.job = job;
         this.personalizedSignature = personalizedSignature;
+        this.cinemaId = cinemaId;
+        this.sellId = sellId;
     }
 
     private List<Roles> roles;

@@ -1,6 +1,7 @@
 package com.qkm.TTMS.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -12,17 +13,22 @@ import lombok.Data;
 @TableName(value ="area_cinemas")
 @Data
 public class AreaCinemas implements Serializable {
+
+    public AreaCinemas(Integer id) {
+        this.id = id;
+    }
+
     /**
      * 主键id
      */
-    @TableId(value = "id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
 
     /**
      * 区的名字
      */
-    @TableField(value = "area_name")
-    private String areaName;
+    @TableField(value = "area_id")
+    private String areaId;
 
     /**
      * 电影院的名称
@@ -57,7 +63,7 @@ public class AreaCinemas implements Serializable {
     /**
      * 电影院某部电影的最低价格
      */
-    private Double lawMoney;
+    private Float lawMoney;
 
     /**
      * 电影院里面的某部电影Id

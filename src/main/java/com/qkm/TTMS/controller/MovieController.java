@@ -8,8 +8,8 @@ import com.qkm.TTMS.service.CommonService;
 import com.qkm.TTMS.service.MovieService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
-import java.util.List;
+
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -37,7 +37,7 @@ public class MovieController {
      */
     @Cacheable(cacheNames = "movies",key = "'movieList'")
     @GetMapping("/getMovies")
-    public HashMap<String, List<Movie>> getMovies(){
+    public HashMap<String, List<Movie>> getAllMovies(){
         List<Movie> moviesOn = movieSer.getMoviesOn();
         List<Movie> moviesSoon = movieSer.getMoviesSoon();
         List<Movie> moviesHot = movieSer.getMoviesHot();
@@ -83,7 +83,9 @@ public class MovieController {
     @GetMapping("/ByScoreByOnAndHotPage/{page}")
     public List<Movie> getScore(@PathVariable("page")int page){
         List<Movie> hotAndOnMoviesByScore = movieSer.getHotAndOnMoviesByScore();
-        return (List<Movie>) commonService.getPage(hotAndOnMoviesByScore,page,10);
+        List<Movie> movieList = (List<Movie>) commonService.getPage(hotAndOnMoviesByScore,page,10);
+        movieList.add(new Movie(movieList.size()/10));
+        return movieList;
     }
 
     /**
@@ -92,14 +94,16 @@ public class MovieController {
     @GetMapping("/ByScoreByPage/{page}")
     public List<Movie> getScoreByPage(@PathVariable("page")int page){
         List<Movie> score = getScore();
-        return (List<Movie>) commonService.getPage(score,page,10);
+        List<Movie> movieList = (List<Movie>) commonService.getPage(score,page,10);
+        movieList.add(new Movie(movieList.size()/10));
+        return movieList;
     }
 
 
-    @GetMapping("/getSoonAndOn")
-    public List<Movie> getOnAndSoonMovies(){
-       return  movieSer.getOnAndSoonMovies();
-    }
+//    @GetMapping("/getSoonAndOn")
+//    public List<Movie> getOnAndSoonMovies(){
+//       return  movieSer.getOnAndSoonMovies();
+//    }
 
     /**
      * 即将上映按最受期待值排
@@ -115,7 +119,9 @@ public class MovieController {
     @GetMapping("/ByLikesPage/{page}")
     public List<Movie> getLikesByPage(@PathVariable("page")int page){
         List<Movie> likes = getLikes();
-        return (List<Movie>) (List<Movie>) commonService.getPage(likes,page,10);
+        List<Movie> movieList = (List<Movie>) (List<Movie>) commonService.getPage(likes,page,10);
+        movieList.add(new Movie(movieList.size()/10));
+        return movieList;
     }
 
 
@@ -136,7 +142,9 @@ public class MovieController {
     @GetMapping("/ByDayMoney/{page}")
     public List<Movie> getByDayMoneyPage(@PathVariable("page")int page){
         List<Movie> moviesDayMoney = movieSer.getMoviesDayMoney();
-        return (List<Movie>) commonService.getPage(moviesDayMoney,page,10);
+        List<Movie> movieList = (List<Movie>) commonService.getPage(moviesDayMoney,page,10);
+        movieList.add(new Movie(movieList.size()/10));
+        return movieList;
     }
 
 
@@ -187,23 +195,34 @@ public class MovieController {
     /**
      * 管理员获取电影院所有的上映和即将上映电影
      */
-    @GetMapping("/adminGetMovies/{cinemaId}")
-    public List<Movie> getMovies(@PathVariable("cinemaId")int cinemaId){
-        List<Integer> listByCinemaId = cinemaMoviesSer.getListMovieIdByCinemaId(cinemaId);
-        return movieSer.selectMovieByListId(listByCinemaId);
+    @GetMapping("/adminGetMovies/{cinemaId}/{page}")
+    public List<Movie> getMovies(@PathVariable("cinemaId")int cinemaId,@PathVariable("page")int page){
+        return cinemaMoviesSer.getListMovieIdByCinemaId(cinemaId,page);
     }
 
 
     /**
+     * 管理员增加电影,从库里面增加电影院没有的
+     */
+    @PostMapping("/adminGetMovieByLibrary/{cinemaId}/{page}")
+    public Set<Movie> adminGetMovieByLibrary(@PathVariable("cinemaId")int cinemaId,@PathVariable("page")int page){
+        List<Movie> onAndSoonMovies = movieSer.getOnAndSoonMovies();
+        List<Movie> movies = getMovies(cinemaId,page);
+        Set<Movie> movieSet = new HashSet<>();
+        movieSet.addAll(movies);
+        movieSet.addAll(onAndSoonMovies);
+        return  movieSet;
+    }
+
+    /**
      * 管理员增加电影,从经理处增加
      */
-    @PostMapping("/adminAddMovies/{movieId}/{cinemaId}")
-    public int AdminAddMovie(@PathVariable("movieId")int movieId, @PathVariable("cinemaId")int cinemaId){
-            CinemaMovies cinemaMovies = new CinemaMovies();
-            cinemaMovies.setCinemaId(cinemaId);
-            cinemaMovies.setMovieId(movieId);
+    @PostMapping("/adminAddMovies/{cinemaMovieIdList}")
+    public int adminAddMovie(@PathVariable("cinemaMovieIdList") List<CinemaMovies> cinemaMovieIdList){
+        for (CinemaMovies cinemaMovies : cinemaMovieIdList) {
             cinemaMoviesMapper.insert(cinemaMovies);
-            return 1;
+        }
+        return 1;
     }
 
 
@@ -232,19 +251,28 @@ public class MovieController {
     }
 
 
+    /**
+     * 按时间排序
+     * @param status
+     * @param page
+     * @return
+     */
     @GetMapping("/SortByTime/{status}/{page}")
     public List<Movie> SortByTime(@PathVariable("status")int status,@PathVariable("page")int page){
-       if(status == 1){
-           return (List<Movie>) commonService.getPage(movieSer.getOnMoviesByTime(),page,12);
+        if(status == 1){
+           List<Movie> movieList = (List<Movie>) commonService.getPage(movieSer.getOnMoviesByTime(),page,12);
+           movieList.add(new Movie(movieList.size()/12));
+           return movieList;
        }else if(status == 2){
-           return (List<Movie>) commonService.getPage(movieSer.getSoonMoviesByTime(),page,12);
+           List<Movie> movieList = (List<Movie>) commonService.getPage(movieSer.getSoonMoviesByTime(),page,12);
+           movieList.add(new Movie(movieList.size()/12));
+           return movieList;
        }else{
-           return (List<Movie>) commonService.getPage(movieSer.getHotMoviesByTime(),page,12);
+           List<Movie> movieList = (List<Movie>) commonService.getPage(movieSer.getHotMoviesByTime(),page,12);
+           movieList.add(new Movie(movieList.size()/12));
+           return movieList;
        }
     }
-
-
-
 
 
 }

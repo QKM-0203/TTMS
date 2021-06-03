@@ -1,6 +1,10 @@
 package com.qkm.TTMS.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qkm.TTMS.entity.CinemaMovies;
+import com.qkm.TTMS.entity.Movie;
+import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.CinemaMoviesMapper;
 import com.qkm.TTMS.service.CinemaMoviesService;
 import org.springframework.stereotype.Repository;
@@ -34,8 +38,12 @@ public class CinemaMoviesServiceImpl implements CinemaMoviesService {
 
 
     @Override
-    public List<Integer> getListMovieIdByCinemaId(int cinemaId) {
-        return cinemaMoviesMapper.getListMovieIdByCinemaId(cinemaId);
+    public List<Movie> getListMovieIdByCinemaId(int cinemaId,int page) {
+        Page<Movie> moviePage = new Page<>(page, 20, true);
+        IPage<Movie> listMovieIdByCinemaId = cinemaMoviesMapper.getListMovieIdByCinemaId(moviePage, cinemaId);
+        List<Movie> listMovieIdByCinemaIdList = listMovieIdByCinemaId.getRecords();
+        listMovieIdByCinemaIdList.add(new Movie(String.valueOf(listMovieIdByCinemaId.getPages())));
+        return listMovieIdByCinemaIdList;
     }
 
     @Override

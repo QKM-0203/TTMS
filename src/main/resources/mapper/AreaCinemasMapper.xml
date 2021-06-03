@@ -6,12 +6,12 @@
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.AreaCinemas">
             <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="areaName" column="area_name" jdbcType="VARCHAR"/>
+            <result property="areaId" column="area_id" jdbcType="INTEGER"/>
             <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
             <result property="cinemaPicture" column="cinema_picture" jdbcType="VARCHAR"/>
             <result property="cinemaAddress" column="cinema_address" jdbcType="VARCHAR"/>
             <result property="cinemaMoney" column="cinema_money" jdbcType="DOUBLE"/>
-            <result property="lawMoney" column="law_money" jdbcType="FLOAT" />
+            <result property="lawMoney" column="lm" jdbcType="FLOAT" />
             <result property="cinemaNumber" column="cinema_number" jdbcType="VARCHAR"/>
     </resultMap>
 
@@ -19,6 +19,7 @@
         id,area_name,cinema_name,
         cinema_picture,cinema_address,cinema_money
     </sql>
+
     <update id="addMoney">
         update area_cinemas set cinema_money = cinema_money + #{money} where id = #{cinemaId}
     </update>
@@ -27,9 +28,10 @@
         update area_cinemas set cinema_money = cinema_money - #{money} where id = #{cinemaId}
     </update>
 
-    <select id="getCinemaMoviesByCinemaId" resultMap="BaseResultMap">
-        select *,cm.movie_lowMoney lm  from area_cinemas ac join cinema_movies cm on ac.id = cm.cinema_id where ac.area_name = #{areaName} and cm.movie_id = #{movieId}
+    <select id="getCinemaByCinemaId" resultMap="BaseResultMap">
+        select ac.*,cm.movie_lowMoney lm  from area_cinemas ac join cinema_movies cm on ac.id = cm.cinema_id where  cm.movie_id = #{movieId}
     </select>
+
     <select id="getAllById" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -37,6 +39,7 @@
         where
         id = #{id,jdbcType=NUMERIC}
     </select>
+
     <select id="getListID" resultType="java.lang.Integer">
         select id from area_cinemas
     </select>
@@ -48,11 +51,26 @@
     <select id="deleteById"  resultType="int">
         delete  from area_cinemas where id = #{cinemaId}
     </select>
+
     <select id="getAllByAreaName" resultType="com.qkm.TTMS.entity.AreaCinemas">
         select
         <include refid="Base_Column_List"/>
         from area_cinemas
         where
         cinema_name like CONCAT('%',#{cinemaName},'%') or CONCAT('%',#{cinemaName}) or CONCAT(#{cinemaName},'%')
+    </select>
+
+    <select id="getCinemasByProvinceAndCityAndArea" resultMap="BaseResultMap">
+        select acm.*,cm.movie_lowMoney lm from area_cinemas acm join cinema_movies cm on acm.id = cm.cinema_id where area_id = #{areaId} and cm.movie_id = #{movieId}
+    </select>
+    <select id="getCinemasByProvince" resultMap="BaseResultMap">
+        select ac.*,cm.movie_lowMoney lm from city c join area a on c.id = a.city_id
+        left join area_cinemas ac on a.id = ac.area_id  left join cinema_movies cm on ac.id = cm.cinema_id
+        where c.province_id = #{provinceId} and cm.movie_id = #{movieId}
+    </select>
+    <select id="getCinemasByProvinceAndCity" resultMap="BaseResultMap">
+        select ac.*,cm.movie_lowMoney lm from area a join area_cinemas ac on a.id = ac.area_id
+        left join cinema_movies cm on ac.id = cm.cinema_id
+        where a.city_id = #{cityId} and cm.movie_id = #{movieId}
     </select>
 </mapper>

@@ -11,6 +11,24 @@
             <result property="movieLowMoney" column="movie_lowMoney" jdbcType="DOUBLE"/>
     </resultMap>
 
+    <resultMap id="BaseResultMapMovies" type="com.qkm.TTMS.entity.Movie">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="movieName" column="movie_name" jdbcType="VARCHAR"/>
+        <result property="movieStatus" column="movie_status" jdbcType="INTEGER"/>
+        <result property="movieStart" column="movie_start" jdbcType="DATE"/>
+        <result property="movieScore" column="movie_score" jdbcType="FLOAT"/>
+        <result property="movieType" column="movie_type" jdbcType="VARCHAR"/>
+        <result property="movieHead" column="movie_head" jdbcType="VARCHAR"/>
+        <!--        导演-->
+        <collection property="directorList" ofType="com.qkm.TTMS.entity.MovieDirector" >
+            <result property="directorName" column="mdirect"/>
+        </collection>
+    </resultMap>
+
+
+
+
+
     <sql id="Base_Column_List">
         id,cinema_id,movie_id,
         movie_lowMoney
@@ -19,9 +37,12 @@
         select id from cinema_movies where cinema_id = #{cinemaId} and movie_id = #{movieId}
     </select>
 
-    <select id="getListMovieIdByCinemaId" resultType="java.lang.Integer">
-        select movie_id from cinema_movies where cinema_id = #{cinemaId}
+    <select id="getListMovieIdByCinemaId" resultMap="BaseResultMapMovies">
+        select m.*, mdd.director_name mdirect from cinema_movies cm,movie m left join  movie_director mdd on  mdd.movie_id = m.id where m.id = cm.movie_id
+
     </select>
+
+
     <delete id="deleteByCinemaIdAndMovieId">
         delete
         from cinema_movies

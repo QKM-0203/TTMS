@@ -134,16 +134,16 @@ public class OrderController {
      * @return   所有的订单
      */
     @GetMapping("/getOrders/{cinemaId}/{page}")
-    public List<UserOrder> getOrders(@PathVariable("cinemaId") int cinemaId,int page){
+    public List<UserOrder> getOrders(@PathVariable("cinemaId") int cinemaId,@PathVariable("page")int page){
         return userOrderService.getAllByCinemaId(cinemaId,page);
     }
 
     /**
      * 查询自己的所有订单
      */
-    @GetMapping("/getOrdersBySelf/{userId}")
-    public List<UserOrder> getOrdersBySelf(@PathVariable("userId") int userId){
-        return userOrderService.getAllByUserId(userId);
+    @GetMapping("/getOrdersBySelf/{userId}/{page}")
+    public List<UserOrder> getOrdersBySelf(@PathVariable("userId") int userId,@PathVariable("page")int page){
+        return userOrderService.getAllByUserId(userId,page);
     }
 
 

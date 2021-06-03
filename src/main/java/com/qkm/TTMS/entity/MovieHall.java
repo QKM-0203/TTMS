@@ -7,10 +7,17 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Data;
 
-
+/**
+ * 
+ * @TableName movie_hall
+ */
 @TableName(value ="movie_hall")
 @Data
 public class MovieHall implements Serializable {
+    public MovieHall(String hallName) {
+        this.hallName = hallName;
+    }
+
     /**
      * 主键
      */

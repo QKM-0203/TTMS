@@ -73,7 +73,7 @@ public class PlanController {
      */
     @GetMapping("/getPlanAndCinema/{movieId}/{cinemaId}")
     public Map<String,Object> getCinema(@PathVariable("movieId") int movieId, @PathVariable("cinemaId") int cinemaId){
-        HashMap<Date, List<MoviePlan>> dataMap = getPlan(movieId, movieId);
+        HashMap<Date, List<MoviePlan>> dataMap = getPlan(movieId, cinemaId);
         //查影院
         AreaCinemas allById = areaCinemaSer.getAllById(cinemaId);
         HashMap<String, Object> stringObjectHashMap = new HashMap<>();
@@ -81,7 +81,7 @@ public class PlanController {
         Movie movieById = movieSer.getMovieById(movieId);
 
         stringObjectHashMap.put("movie",movieById);
-        stringObjectHashMap.put("date",dataMap);
+        stringObjectHashMap.put("plan",dataMap);
         stringObjectHashMap.put("cinema",allById);
         return stringObjectHashMap;
     }

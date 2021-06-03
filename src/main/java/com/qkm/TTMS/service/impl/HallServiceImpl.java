@@ -1,8 +1,9 @@
 package com.qkm.TTMS.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qkm.TTMS.entity.MovieHall;
+import com.qkm.TTMS.entity.MovieUser;
 import com.qkm.TTMS.mapper.MovieHallMapper;
 import com.qkm.TTMS.service.HallService;
 import org.springframework.stereotype.Repository;
@@ -23,28 +24,29 @@ public class HallServiceImpl implements HallService {
      * @param id
      */
     public int delHall(int id){
-        try{
-            movieHallMapper.deleteById(id);
-            return 1;
-        }catch (Exception e){
-            return 0;
-        }
+            try {
+                movieHallMapper.deleteById(id);
+                return 1;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
 
     }
 
 
     /**
-     * 查询所有的演出厅
+     * 查询所有的演出厅分页
      * @param cinemaId
      * @return
      */
     @Override
     public List<MovieHall> getHalls(int cinemaId,int page) {
         Page<MovieHall> movieHallPage = new Page<>(page,5,true);
-        QueryWrapper<MovieHall> movieHallQueryWrapper = new QueryWrapper<>();
-        movieHallQueryWrapper.ge("cinema_id",cinemaId);
-        List<MovieHall> movieHalls = (List<MovieHall>) movieHallMapper.selectPage(movieHallPage,movieHallQueryWrapper);
-        return  movieHalls;
+        IPage<MovieHall> movieHallIPage = movieHallMapper.selectHallPage(movieHallPage, cinemaId);
+        List<MovieHall> movieHallIPageList = movieHallIPage.getRecords();
+        movieHallIPageList.add(new MovieHall(String.valueOf(movieHallIPage.getPages())));
+        return movieHallIPageList;
     }
 
 

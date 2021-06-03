@@ -47,9 +47,10 @@ public class HallController {
      * @param id   演出厅的Id
      * @return  是否成功
      */
-    @DeleteMapping("/delHall/{id}")
-    public int delHall(@PathVariable("id") String id){
-        return  hallService.delHall(Integer.parseInt(id));
+    @DeleteMapping("/delHall/{id}/{cinemaId}/{page}")
+    public List<MovieHall> delHall(@PathVariable("id") String id, @PathVariable("page")int page, @PathVariable("cinemaId")int cinemaId){
+        hallService.delHall(Integer.parseInt(id));
+        return getHalls(cinemaId,page);
     }
 
 
