@@ -14,6 +14,11 @@
     <sql id="Base_Column_List">
         id,movie_id,movie_video,video_title
     </sql>
+    <update id="updateVideoById">
+        update movie_video
+        set movie_video = #{actorPicture,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
     <delete id="deleteByMovieId">
         delete
         from movie_video

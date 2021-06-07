@@ -15,6 +15,11 @@
         id,movie_id,producer_name,
         producer_picture
     </sql>
+    <update id="updateProducerPictureById">
+        update movie_producer
+        set producer_picture = #{actorPicture,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
     <delete id="deleteByMovieId">
         delete
         from movie_producer

@@ -8,13 +8,16 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @TableName(value ="movie_user")
 @Data
+@NoArgsConstructor
 public class MovieUser implements Serializable{
     public MovieUser(String accounts) {
         this.accounts = accounts;
     }
+
 
     /**
      *

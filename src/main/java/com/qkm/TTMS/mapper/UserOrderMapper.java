@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserOrderMapper extends BaseMapper<UserOrder> {
-    List<UserOrder> getAllByCinemaId(@Param("cinemaId") int cinemaId);
+    List<UserOrder> getOrdersByCinemaId(@Param("cinemaId") int cinemaId);
 
-    IPage<UserOrder> getAllByUserId(@Param("page")IPage<UserOrder> page,@Param("userId") int userId);
+    IPage<UserOrder> getOrdersByUserId(@Param("page")IPage<UserOrder> page,@Param("userId") int userId);
 
     int delById(@Param("id") int id);
 
@@ -23,6 +23,9 @@ public interface UserOrderMapper extends BaseMapper<UserOrder> {
     int insertAll(UserOrder userOrder);
 
     IPage<UserOrder> selectByCinemaId(@Param("page")IPage<UserOrder> page, @Param("cinemaId")int cinemaId);
+    List<UserOrder>  selectByCinemaIdNotPage(@Param("cinemaId")int cinemaId);
+
+
 }
 
 

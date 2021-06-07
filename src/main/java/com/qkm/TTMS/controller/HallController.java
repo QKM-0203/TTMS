@@ -30,6 +30,16 @@ public class HallController {
         return  hallService.getHalls(cinemaId,page);
     }
 
+    /**
+     * 获取某个影院的所有演出厅不分页
+     * @param cinemaId  电影院Id
+     * @return   获取的电影的信息
+     */
+    @GetMapping("/getHalls/{cinemaId}")
+    public List<MovieHall> getHallsNotPage(@PathVariable("cinemaId") int cinemaId){
+        return  hallService.getHallsNotPage(cinemaId);
+    }
+
 
     /**
      * 增加演出厅

@@ -1,5 +1,8 @@
 package com.qkm.TTMS.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qkm.TTMS.entity.AreaCinemas;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.entity.MovieHall;
@@ -53,9 +56,10 @@ public class PlanController {
         HashMap<String, String> stringMap = new HashMap<>();
         for(int i = 1; i <= movieHall.getSeatLine(); i++ ){
             for(int j = 1; j <= movieHall.getSeatColumn(); j++){
-                stringMap.put(i +String.valueOf(j),"0");
+                stringMap.put(i +","+String.valueOf(j),"0");
             }
         }
+        stringMap.put("sum",String.valueOf(movieHall.getSeatLine())+","+movieHall.getSeatColumn());
         redisTemplate.opsForHash().putAll(String.valueOf(moviePlans.getId()),stringMap);
         return moviePlans.getId();
     }
@@ -72,8 +76,8 @@ public class PlanController {
      * @return  返回演出计划
      */
     @GetMapping("/getPlanAndCinema/{movieId}/{cinemaId}")
-    public Map<String,Object> getCinema(@PathVariable("movieId") int movieId, @PathVariable("cinemaId") int cinemaId){
-        HashMap<Date, List<MoviePlan>> dataMap = getPlan(movieId, cinemaId);
+    public Map<String,Object> getCinemaAndPlanAndMovie(@PathVariable("movieId") int movieId, @PathVariable("cinemaId") int cinemaId){
+        HashMap<Date, List<MoviePlan>> dataMap = moviePlanSer.ClassficationDate(moviePlanSer.getMoviePlanByDate(movieId, cinemaId));
         //查影院
         AreaCinemas allById = areaCinemaSer.getAllById(cinemaId);
         HashMap<String, Object> stringObjectHashMap = new HashMap<>();
@@ -92,8 +96,10 @@ public class PlanController {
      * @return 是否删除成功
      */
     @DeleteMapping("/delPlan/{planId}")
-    public int addPlan(@PathVariable("planId")Long  planId){
-       return moviePlanMapper.deleteById(planId);
+    public int addPlan(@PathVariable("planId")int  planId){
+       moviePlanMapper.deleteById(planId);
+       redisTemplate.delete(String.valueOf(planId));
+       return 1;
     }
 
 
@@ -107,17 +113,8 @@ public class PlanController {
     public HashMap<Date, List<MoviePlan>> getPlan(@PathVariable("movieId") int movieId,@PathVariable("cinemaId") int cinemaId){
         //查计划
         List<MoviePlan> moviePlan = moviePlanSer.getMoviePlan(movieId, cinemaId);
-        HashMap<Date, List<MoviePlan>> dataMap = new HashMap<>();
-        for (MoviePlan plan : moviePlan) {
-            if(dataMap.containsKey(plan.getPlanDate())){
-                dataMap.get(plan.getPlanDate()).add(plan);
-            }else{
-                ArrayList<MoviePlan> moviePlans = new ArrayList<>();
-                moviePlans.add(plan);
-                dataMap.put(plan.getPlanDate(),moviePlans);
-            }
-        }
-        return dataMap;
+        HashMap<Date, List<MoviePlan>> dateListHashMap = moviePlanSer.ClassficationDate(moviePlan);
+        return dateListHashMap;
     }
 
 

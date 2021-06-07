@@ -9,12 +9,16 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 
 @TableName(value ="user_order")
 @Data
+@AllArgsConstructor
 public class UserOrder implements Serializable {
+
+
 
     public UserOrder(String cinemaName) {
         this.cinemaName = cinemaName;
@@ -43,6 +47,12 @@ public class UserOrder implements Serializable {
      */
     @TableField(value = "movie_name")
     private String movieName;
+
+    /**
+     * 电影的图片
+     */
+    @TableField(value = "movie_head")
+    private String movieHead;
 
     /**
      * 订单的总钱数
@@ -80,6 +90,14 @@ public class UserOrder implements Serializable {
     @TableField(value = "hall_name")
     private String hallName;
 
+
+    /**
+     * 计划id
+     */
+    @TableField(value = "plan_id")
+    private Integer planId;
+
+
     /**
      * 订单的座位
      */
@@ -96,7 +114,7 @@ public class UserOrder implements Serializable {
      * 电影的时长
      */
     @TableField(value = "movie_time")
-    private Integer movieTime;
+    private Date movieTime;
 
 
     /**

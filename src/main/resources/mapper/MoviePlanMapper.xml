@@ -5,13 +5,14 @@
 <mapper namespace="com.qkm.TTMS.mapper.MoviePlanMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MoviePlan">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="movieStartTime" column="movie_start_time" jdbcType="TIMESTAMP"/>
-            <result property="movieEndTime" column="movie_end_time" jdbcType="TIMESTAMP"/>
-            <result property="planDate" column="plan_date" jdbcType="DATE"/>
-            <result property="cinemaMovieId" column="cinema_movie_id" jdbcType="INTEGER"/>
-            <result property="ticketMoney" column="ticket_money" jdbcType="FLOAT"/>
-            <association property="hall" column="hall_id" javaType="com.qkm.TTMS.entity.MovieHall" select="getHall"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="movieStartTime" column="movie_start_time" jdbcType="TIMESTAMP"/>
+        <result property="movieEndTime" column="movie_end_time" jdbcType="TIMESTAMP"/>
+        <result property="planDate" column="plan_date" jdbcType="DATE"/>
+        <result property="cinemaMovieId" column="cinema_movie_id" jdbcType="INTEGER"/>
+        <result property="ticketMoney" column="ticket_money" jdbcType="FLOAT"/>
+        <association property="hall" column="hall_id" javaType="com.qkm.TTMS.entity.MovieHall" select="getHall"/>
+        <association property="movie" column="cinema_movie_id" javaType="com.qkm.TTMS.entity.Movie" select="getMovies"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -19,16 +20,25 @@
         plan_date,cinema_movie_id,hall_id,
         ticket_money
     </sql>
+    <select id="getMovies" resultType="com.qkm.TTMS.entity.Movie">
+       select m.* from cinema_movies cm join movie m on cm.movie_id = m.id where cm.id = #{cinema_movie_id}
+    </select>
+
+    <select id="getMoviePlanFilterDate" resultMap="BaseResultMap">
+     select *  from movie_plan mp ,cinema_movies cm where cm.movie_id = #{movieId} and cm.cinema_id = #{cinemaId}
+      and mp.cinema_movie_id = cm.id and mp.movie_start_time >= NOW()
+       group by mp.plan_date ,mp.id having mp.plan_date >= CURDATE()
+       order by mp.plan_date asc
+    </select>
 
     <select id="getMoviePlan" resultMap="BaseResultMap">
         select *  from movie_plan mp ,cinema_movies cm where cm.movie_id = #{movieId} and cm.cinema_id = #{cinemaId}
-            and mp.cinema_movie_id = cm.id and mp.movie_start_time >= NOW()
-               group by mp.plan_date ,mp.id having mp.plan_date >= CURDATE()
-                   order by mp.plan_date asc
+          and mp.cinema_movie_id = cm.id group by mp.plan_date ,mp.id
+             order by mp.plan_date asc
     </select>
 
     <select id="getHall" resultType="com.qkm.TTMS.entity.MovieHall">
-        select * from movie_hall where id = #{hall_id}
+    select * from movie_hall where id = #{hall_id}
     </select>
 
 
@@ -38,6 +48,7 @@
         from movie_plan
         where cinema_movie_id = #{cinemaMovieId,jdbcType=NUMERIC}
     </delete>
+
 
 
 

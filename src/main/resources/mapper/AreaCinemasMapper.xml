@@ -5,19 +5,48 @@
 <mapper namespace="com.qkm.TTMS.mapper.AreaCinemasMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.AreaCinemas">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="areaId" column="area_id" jdbcType="INTEGER"/>
-            <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
-            <result property="cinemaPicture" column="cinema_picture" jdbcType="VARCHAR"/>
-            <result property="cinemaAddress" column="cinema_address" jdbcType="VARCHAR"/>
-            <result property="cinemaMoney" column="cinema_money" jdbcType="DOUBLE"/>
-            <result property="lawMoney" column="lm" jdbcType="FLOAT" />
-            <result property="cinemaNumber" column="cinema_number" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="areaId" column="area_id" jdbcType="INTEGER"/>
+        <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
+        <result property="cinemaPicture" column="cinema_picture" jdbcType="VARCHAR"/>
+        <result property="cinemaAddress" column="cinema_address" jdbcType="VARCHAR"/>
+        <result property="cinemaMoney" column="cinema_money" jdbcType="DOUBLE"/>
+        <result property="cinemaNumber" column="cinema_number" jdbcType="VARCHAR"/>
+        <result property="cinemaEmail" column="cinema_email" jdbcType="VARCHAR"/>
+        <association property="lawMoney" column="id"  select="getCinemasLowMoney" javaType="float" />
     </resultMap>
 
+
+    <resultMap id="BaseResultMapMovies" type="com.qkm.TTMS.entity.AreaCinemas">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="areaId" column="area_id" jdbcType="INTEGER"/>
+        <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
+        <result property="cinemaPicture" column="cinema_picture" jdbcType="VARCHAR"/>
+        <result property="cinemaAddress" column="cinema_address" jdbcType="VARCHAR"/>
+        <result property="cinemaMoney" column="cinema_money" jdbcType="DOUBLE"/>
+        <result property="cinemaEmail" column="cinema_email" jdbcType="VARCHAR"/>
+        <result property="cinemaNumber" column="cinema_number" jdbcType="VARCHAR"/>
+        <result property="lawMoney" column="lm"  jdbcType="FLOAT" />
+    </resultMap>
+
+    <resultMap id="BaseResultMapTable" type="com.qkm.TTMS.entity.AreaCinemas">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="areaId" column="area_id" jdbcType="INTEGER"/>
+        <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
+        <result property="cinemaPicture" column="cinema_picture" jdbcType="VARCHAR"/>
+        <result property="cinemaAddress" column="cinema_address" jdbcType="VARCHAR"/>
+        <result property="cinemaMoney" column="cinema_money" jdbcType="DOUBLE"/>
+        <result property="cinemaEmail" column="cinema_email" jdbcType="VARCHAR"/>
+        <result property="cinemaNumber" column="cinema_number" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+
+
     <sql id="Base_Column_List">
-        id,area_name,cinema_name,
-        cinema_picture,cinema_address,cinema_money
+        id,area_id,cinema_name,
+        cinema_picture,cinema_address,cinema_money,cinema_number,cinema_email
     </sql>
 
     <update id="addMoney">
@@ -28,11 +57,11 @@
         update area_cinemas set cinema_money = cinema_money - #{money} where id = #{cinemaId}
     </update>
 
-    <select id="getCinemaByCinemaId" resultMap="BaseResultMap">
+    <select id="getCinemaByMovieId" resultMap="BaseResultMap">
         select ac.*,cm.movie_lowMoney lm  from area_cinemas ac join cinema_movies cm on ac.id = cm.cinema_id where  cm.movie_id = #{movieId}
     </select>
 
-    <select id="getAllById" resultMap="BaseResultMap">
+    <select id="getAllById" resultMap="BaseResultMapTable">
         select
         <include refid="Base_Column_List"/>
         from area_cinemas
@@ -44,7 +73,12 @@
         select id from area_cinemas
     </select>
 
-    <select id="getAll" resultType="com.qkm.TTMS.entity.AreaCinemas">
+    <select id="getCinemasLowMoney" resultType="java.lang.Float">
+     select cm.movie_lowMoney from cinema_movies cm where
+         cinema_id = #{id} and movie_lowMoney is not null  order by movie_lowMoney asc limit 1
+    </select>
+
+    <select id="getAllCinemas" resultMap="BaseResultMapTable">
         select * from area_cinemas
     </select>
 
@@ -52,25 +86,43 @@
         delete  from area_cinemas where id = #{cinemaId}
     </select>
 
-    <select id="getAllByAreaName" resultType="com.qkm.TTMS.entity.AreaCinemas">
+    <select id="getAllByCinemaName" resultType="com.qkm.TTMS.entity.AreaCinemas">
         select
-        <include refid="Base_Column_List"/>
-        from area_cinemas
-        where
-        cinema_name like CONCAT('%',#{cinemaName},'%') or CONCAT('%',#{cinemaName}) or CONCAT(#{cinemaName},'%')
+           <include refid="Base_Column_List"/>
+              from area_cinemas
+                  where cinema_name like CONCAT('%',#{cinemaName},'%') or CONCAT('%',#{cinemaName}) or CONCAT(#{cinemaName},'%')
     </select>
 
-    <select id="getCinemasByProvinceAndCityAndArea" resultMap="BaseResultMap">
-        select acm.*,cm.movie_lowMoney lm from area_cinemas acm join cinema_movies cm on acm.id = cm.cinema_id where area_id = #{areaId} and cm.movie_id = #{movieId}
+    <select id="getCinemasByProvinceAndCityAndArea" resultMap="BaseResultMapMovies">
+         select acm.*,cm.movie_lowMoney lm from area_cinemas acm join cinema_movies cm on acm.id = cm.cinema_id where area_id = #{areaId} and cm.movie_id = #{movieId}
     </select>
-    <select id="getCinemasByProvince" resultMap="BaseResultMap">
-        select ac.*,cm.movie_lowMoney lm from city c join area a on c.id = a.city_id
+    <select id="getCinemasByProvince" resultMap="BaseResultMapMovies">
+    select ac.*,cm.movie_lowMoney lm from city c join area a on c.id = a.city_id
         left join area_cinemas ac on a.id = ac.area_id  left join cinema_movies cm on ac.id = cm.cinema_id
-        where c.province_id = #{provinceId} and cm.movie_id = #{movieId}
+           where c.province_id = #{provinceId} and cm.movie_id = #{movieId}
     </select>
-    <select id="getCinemasByProvinceAndCity" resultMap="BaseResultMap">
-        select ac.*,cm.movie_lowMoney lm from area a join area_cinemas ac on a.id = ac.area_id
-        left join cinema_movies cm on ac.id = cm.cinema_id
-        where a.city_id = #{cityId} and cm.movie_id = #{movieId}
+    <select id="getCinemasByProvinceAndCity" resultMap="BaseResultMapMovies">
+      select ac.*,cm.movie_lowMoney lm from area a join area_cinemas ac on a.id = ac.area_id
+          left join cinema_movies cm on ac.id = cm.cinema_id
+               where a.city_id = #{cityId} and cm.movie_id = #{movieId}
     </select>
+    <select id="getAllCinemasByProvinceAndCityAndArea" resultMap="BaseResultMap">
+       select acm.* from area_cinemas acm join cinema_movies cm on acm.id = cm.cinema_id where area_id = #{areaId}
+    </select>
+    <select id="getAllCinemasByProvince" resultMap="BaseResultMap">
+       select ac.* from city c join area a on c.id = a.city_id
+           left join area_cinemas ac on a.id = ac.area_id  left join cinema_movies cm on ac.id = cm.cinema_id
+                where c.province_id = #{provinceId}
+    </select>
+    <select id="getAllCinemasByProvinceAndCity" resultMap="BaseResultMap">
+        select ac.* from area a join area_cinemas ac on a.id = ac.area_id
+            left join cinema_movies cm on ac.id = cm.cinema_id
+                 where a.city_id = #{cityId}
+    </select>
+    <update id="updateCinemaPictureById">
+        update area_cinemas
+        set cinema_picture = #{cinemaPicture,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
+
 </mapper>

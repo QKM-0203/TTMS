@@ -21,30 +21,35 @@ public class HallServiceImpl implements HallService {
 
     /**
      * 删除演出厅
+     *
      * @param id
      */
-    public int delHall(int id){
-            try {
-                movieHallMapper.deleteById(id);
-                return 1;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return 0;
-            }
+    public int delHall(int id) {
+        try {
+            movieHallMapper.deleteById(id);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
 
     }
 
 
     /**
      * 查询所有的演出厅分页
+     *
      * @param cinemaId
      * @return
      */
     @Override
-    public List<MovieHall> getHalls(int cinemaId,int page) {
-        Page<MovieHall> movieHallPage = new Page<>(page,5,true);
+    public List<MovieHall> getHalls(int cinemaId, int page) {
+        Page<MovieHall> movieHallPage = new Page<>(page, 5, true);
         IPage<MovieHall> movieHallIPage = movieHallMapper.selectHallPage(movieHallPage, cinemaId);
         List<MovieHall> movieHallIPageList = movieHallIPage.getRecords();
+        if (movieHallIPageList.size() == 0) {
+            return null;
+        }
         movieHallIPageList.add(new MovieHall(String.valueOf(movieHallIPage.getPages())));
         return movieHallIPageList;
     }
@@ -52,12 +57,13 @@ public class HallServiceImpl implements HallService {
 
     /**
      * 更新演出厅
-     */ @Override
+     */
+    @Override
     public int updateHall(MovieHall movieHall) {
-        try{
+        try {
             movieHallMapper.updateById(movieHall);
             return 1;
-        }catch(Exception e){
+        } catch (Exception e) {
             return 0;
         }
 
@@ -65,14 +71,15 @@ public class HallServiceImpl implements HallService {
 
     /**
      * 增加演出厅
+     *
      * @param movieHall
      */
     @Override
-    public int addHall( MovieHall movieHall) {
-        try{
+    public int addHall(MovieHall movieHall) {
+        try {
             movieHallMapper.insert(movieHall);
             return movieHall.getId();
-        }catch(Exception e){
+        } catch (Exception e) {
             return 0;
         }
 
@@ -82,4 +89,10 @@ public class HallServiceImpl implements HallService {
     public int deleteByCinemaId(int cinemaId) {
         return movieHallMapper.deleteByCinemaId(cinemaId);
     }
+
+    @Override
+    public List<MovieHall> getHallsNotPage(int cinemaId) {
+        return movieHallMapper.selectHallByCinemaId(cinemaId);
+    }
+
 }

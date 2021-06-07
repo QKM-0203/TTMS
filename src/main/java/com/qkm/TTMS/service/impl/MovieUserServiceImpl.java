@@ -43,6 +43,9 @@ public class MovieUserServiceImpl implements MovieUserService {
         Page<MovieUser> movieOrderPage = new Page<>(page,5,true);
         IPage<MovieUser> movieUserIPage = userMapper.selectByCinemaId(movieOrderPage, cinemaId);
         List<MovieUser> movieUserIPageList = movieUserIPage.getRecords();
+        if(movieUserIPageList.size() == 0){
+            return null;
+        }
         movieUserIPageList.add(new MovieUser(String.valueOf(movieUserIPage.getPages())));
         return movieUserIPageList;
     }

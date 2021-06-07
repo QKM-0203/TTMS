@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MovieVideoMapper extends BaseMapper<MovieVideo> {
     int deleteByMovieId(@Param("movieId") int movieId);
+    int updateVideoById(@Param("video") String video, @Param("id") Integer id);
+
 }
 
 

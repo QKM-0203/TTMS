@@ -17,9 +17,6 @@ import java.util.Map;
 @Repository
 public class AreaCinemaServiceImpl implements AreaCinemaService {
 
-
-
-
     private final CityMapper cityMapper;
     private final AreaMapper areaMapper;
     private final AreaCinemasMapper areaCinemasMapper;
@@ -30,10 +27,15 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
         this.areaMapper = areaMapper;
     }
     @Override
-    public List<AreaCinemas> getCinemaByCinemaId(int page, int movieId) {
+    public List<AreaCinemas> getCinemaByMovieId(int page, int movieId) {
         Page<AreaCinemas> areaCinemasPage = new Page<>(page,12,true);
-        IPage<AreaCinemas> cinemaByCinemaId = areaCinemasMapper.getCinemaByCinemaId(areaCinemasPage, movieId);
-        return cinemaByCinemaId.getRecords();
+        IPage<AreaCinemas> cinemaByCinemaId = areaCinemasMapper.getCinemaByMovieId(areaCinemasPage, movieId);
+        List<AreaCinemas> records = cinemaByCinemaId.getRecords();
+        if(records.size() == 0){
+            return null;
+        }
+        records.add(new AreaCinemas(String.valueOf(cinemaByCinemaId.getPages())));
+        return records;
 
     }
 
@@ -45,10 +47,15 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
 
 
     @Override
-    public List<AreaCinemas> getAll(int page) {
+    public List<AreaCinemas> getAllCinemas(int page) {
         Page<AreaCinemas> areaCinemasPage = new Page<>(page,20,true);
-        IPage<AreaCinemas> all = areaCinemasMapper.getAll(areaCinemasPage);
-        return  all.getRecords();
+        IPage<AreaCinemas> all = areaCinemasMapper.getAllCinemas(areaCinemasPage);
+        List<AreaCinemas> records = all.getRecords();
+        if(records.size() == 0){
+            return null;
+        }
+        records.add(new AreaCinemas(String.valueOf(all.getPages())));
+        return records;
     }
 
     @Override
@@ -67,11 +74,15 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
     }
 
     @Override
-    public List<AreaCinemas> getAllByAreaName(String cinemaName,int page) {
+    public List<AreaCinemas> getCinemasByCinemaName(String cinemaName,int page) {
         Page<AreaCinemas> areaCinemasPage = new Page<AreaCinemas>(page,10);
-        IPage<AreaCinemas> allByAreaName = areaCinemasMapper.getAllByAreaName(areaCinemasPage, cinemaName);
-
-        return allByAreaName.getRecords();
+        IPage<AreaCinemas> allByAreaName = areaCinemasMapper.getAllByCinemaName(areaCinemasPage, cinemaName);
+        List<AreaCinemas> records = allByAreaName.getRecords();
+        if(records.size() == 0){
+            return  null;
+        }
+        records.add(new AreaCinemas(String.valueOf(allByAreaName.getPages())));
+        return records;
     }
 
     @Override
@@ -79,9 +90,13 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
         Page<AreaCinemas> areaCinemasPage = new Page<>(page,12,true);
         IPage<AreaCinemas> cinemasByProvinceAndCityAndArea = areaCinemasMapper.getCinemasByProvinceAndCityAndArea(areaCinemasPage, areaId, movieId);
         List<AreaCinemas> records = cinemasByProvinceAndCityAndArea.getRecords();
-        records.add(new AreaCinemas(records.size()/12));
+        if(records.size() == 0){
+            return  null;
+        }
+        records.add(new AreaCinemas(String.valueOf(cinemasByProvinceAndCityAndArea.getPages())));
         HashMap<String, Object> stringObjectHashMap = new HashMap<String, Object>();
         stringObjectHashMap.put("data",records);
+        stringObjectHashMap.put("local",null);
         return stringObjectHashMap;
     }
 
@@ -90,10 +105,12 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
         Page<AreaCinemas> areaCinemasPage = new Page<>(page,12,true);
         IPage<AreaCinemas> cinemasByProvince = areaCinemasMapper.getCinemasByProvince(areaCinemasPage, provinceId, movieId);
         List<AreaCinemas> records = cinemasByProvince.getRecords();
-        records.add(new AreaCinemas(records.size()/12));
+        if(records.size() != 0){
+            records.add(new AreaCinemas(String.valueOf(cinemasByProvince.getPages())));
+        }
         HashMap<String, Object> stringObjectHashMap = new HashMap<String, Object>();
         stringObjectHashMap.put("data",records);
-        List<City> allByProvinceId = cityMapper.getAllByProvinceId(provinceId);
+        List<City> allByProvinceId = cityMapper.getCityByProvinceId(provinceId);
         stringObjectHashMap.put("local",allByProvinceId);
         return stringObjectHashMap;
     }
@@ -103,10 +120,57 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
         Page<AreaCinemas> areaCinemasPage = new Page<>(page,12,true);
         IPage<AreaCinemas> cinemasByProvinceAndCity = areaCinemasMapper.getCinemasByProvinceAndCity(areaCinemasPage, cityId, movieId);
         List<AreaCinemas> records = cinemasByProvinceAndCity.getRecords();
-        records.add(new AreaCinemas(records.size()/12));
+        if(records.size() != 0){
+            records.add(new AreaCinemas(String.valueOf(cinemasByProvinceAndCity.getPages())));
+        }
         HashMap<String, Object> stringObjectHashMap = new HashMap<String, Object>();
         stringObjectHashMap.put("data",records);
-        List<Area> allByCityId = areaMapper.getAllByCityId(cityId);
+        List<Area> allByCityId = areaMapper.getAreaByCityId(cityId);
+        stringObjectHashMap.put("local",allByCityId);
+        return stringObjectHashMap;
+    }
+
+    @Override
+    public Map<String, Object> getAllCinemasByProvinceAndCityAndArea(int areaId, int page) {
+        Page<AreaCinemas> areaCinemasPage = new Page<>(page,12,true);
+        IPage<AreaCinemas> cinemasByProvinceAndCityAndArea = areaCinemasMapper.getAllCinemasByProvinceAndCityAndArea(areaCinemasPage, areaId);
+        List<AreaCinemas> records = cinemasByProvinceAndCityAndArea.getRecords();
+        if(records.size() == 0){
+            return  null;
+        }
+        records.add(new AreaCinemas(String.valueOf(cinemasByProvinceAndCityAndArea.getPages())));
+        HashMap<String, Object> stringObjectHashMap = new HashMap<String, Object>();
+        stringObjectHashMap.put("data",records);
+        stringObjectHashMap.put("local",null);
+        return stringObjectHashMap;
+    }
+
+    @Override
+    public Map<String, Object> getAllCinemasByProvince(int provinceId, int page) {
+        Page<AreaCinemas> areaCinemasPage = new Page<>(page,12,true);
+        IPage<AreaCinemas> cinemasByProvince = areaCinemasMapper.getAllCinemasByProvince(areaCinemasPage, provinceId);
+        List<AreaCinemas> records = cinemasByProvince.getRecords();
+        if(records.size() != 0){
+            records.add(new AreaCinemas(String.valueOf(cinemasByProvince.getPages())));
+        }
+        HashMap<String, Object> stringObjectHashMap = new HashMap<String, Object>();
+        stringObjectHashMap.put("data",records);
+        List<City> allByProvinceId = cityMapper.getCityByProvinceId(provinceId);
+        stringObjectHashMap.put("local",allByProvinceId);
+        return stringObjectHashMap;
+    }
+
+    @Override
+    public Map<String, Object> getAllCinemasByProvinceAndCity(int cityId, int page) {
+        Page<AreaCinemas> areaCinemasPage = new Page<>(page,12,true);
+        IPage<AreaCinemas> cinemasByProvinceAndCity = areaCinemasMapper.getAllCinemasByProvinceAndCity(areaCinemasPage, cityId);
+        List<AreaCinemas> records = cinemasByProvinceAndCity.getRecords();
+        if(records.size() != 0){
+            records.add(new AreaCinemas(String.valueOf(cinemasByProvinceAndCity.getPages())));
+        }
+        HashMap<String, Object> stringObjectHashMap = new HashMap<String, Object>();
+        stringObjectHashMap.put("data",records);
+        List<Area> allByCityId = areaMapper.getAreaByCityId(cityId);
         stringObjectHashMap.put("local",allByCityId);
         return stringObjectHashMap;
     }

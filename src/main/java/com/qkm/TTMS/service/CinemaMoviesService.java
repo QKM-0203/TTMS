@@ -6,6 +6,8 @@ import com.qkm.TTMS.entity.Movie;
 import java.util.List;
 
 public interface CinemaMoviesService {
+    int addMoney(Double money, int cinema_movie_id);
+    int downMoney(Double money, int cinema_movie_id);
     int getIdByCinemaIdAndMovieId(int cinemaId,int movieId);
     int deleteByCinemaIdAndMovieId(int cinemaId, int movieId);
     int  deleteByMovieId(int movieId);

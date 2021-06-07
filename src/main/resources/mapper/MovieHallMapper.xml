@@ -23,4 +23,9 @@
     <select id="selectHallPage" resultType="com.qkm.TTMS.entity.MovieHall">
         select * from movie_hall where cinema_id = #{cinemaId}
     </select>
+    <select id="selectHallByCinemaId" resultType="com.qkm.TTMS.entity.MovieHall">
+            select * from movie_hall where cinema_id = #{cinemaId}
+    </select>
+
+
 </mapper>

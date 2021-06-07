@@ -45,7 +45,7 @@ public class SearchController {
         List<Movie> movies = movieSer.getMovies();
         List<Movie> pattern = pattern(movieName, movies, 4);
         List<Movie> movieList = (List<Movie>)commonService.getPage(pattern, page, 10);
-        movieList.add(new Movie(movies.size()/10));
+        movieList.add(new Movie(commonService.justPage(pattern,4)));
         return movieList;
     }
 
@@ -56,8 +56,8 @@ public class SearchController {
      * @return  所有的电影院信息
      */
     @GetMapping("/searchCinemasByName/{cinemaName}/{page}")
-    public List<AreaCinemas> getCinemas(@PathVariable("cinemaName")String cinemaName,@PathVariable("page")int page){
-        List<AreaCinemas> allByAreaName = areaCinemaSer.getAllByAreaName(cinemaName,page);
+    public List<AreaCinemas> getCinemasByCinemaName(@PathVariable("cinemaName")String cinemaName,@PathVariable("page")int page){
+        List<AreaCinemas> allByAreaName = areaCinemaSer.getCinemasByCinemaName(cinemaName,page);
         for (AreaCinemas areaCinemas : allByAreaName) {
             CinemaMovies allByCinemaId = cinemaMoviesSer.getAllByCinemaId(areaCinemas.getId());
             areaCinemas.setLawMoney(allByCinemaId.getMovieLowMoney());
@@ -77,7 +77,7 @@ public class SearchController {
     public List<Movie> getMoviesByStatus(@PathVariable("status")int status,@PathVariable("page")int page){
         List<Movie> movies = ByStatus(status);
         List<Movie> movieList = (List<Movie>) commonService.getPage(movies,page,25);
-        movieList.add(new Movie(movies.size()/25));
+        movieList.add(new Movie(commonService.justPage(movies,25)));
         return movieList;
     }
 
@@ -96,6 +96,28 @@ public class SearchController {
     ,@PathVariable("type")String type,@PathVariable("area")String area,@PathVariable("page")int page){
         System.out.println(1);
         List<Movie> movies = ByStatus(status);
+        //按全部排序
+        if("1".equals(type) && "1".equals(area) &&  "1".equals(time)){
+            Collections.sort(movies, new Comparator<Movie>() {
+                @Override
+                public int compare(Movie o1, Movie o2) {
+                    if (o1.getMovieStart().compareTo(o2.getMovieStart()) < 0 ) {
+                        return 1;
+                    } else if (o1.getMovieStart().compareTo(o2.getMovieStart()) > 0) {
+                        return -1;
+                    } else {
+                        //如果当天的钱数相同就按电影名字名字进行排序
+                        return o1.getMovieName().compareTo(o2.getMovieName());
+                    }
+                }
+            });
+            List<Movie> movieList = (List<Movie>) commonService.getPage(movies,page,25);
+            if(movieList == null ){
+                return null;
+            }
+            movieList.add(new Movie(commonService.justPage(movies,25)));
+            return movieList;
+        }
         List<String> strings = new ArrayList<>();
         if(!"0".equals(type)){
             strings.add(type);
@@ -141,8 +163,9 @@ public class SearchController {
                     }
                 }
             });
+            return movieList;
         }
-        movieList.add(new Movie(movies.size()/25));
+        movieList.add(new Movie(commonService.justPage(movies,25)));
         return movieList;
     }
 

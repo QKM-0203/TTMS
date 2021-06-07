@@ -27,19 +27,28 @@ public class UserOrderImpl implements UserOrderService {
     }
 
     @Override
-    public List<UserOrder> getAllByCinemaId(int cinemaId,int page) {
+    public List<UserOrder> getOrdersByCinemaId(int cinemaId,int page) {
+        if(page == -1){
+            return userOrderMapper.selectByCinemaIdNotPage(cinemaId);
+        }
         Page<UserOrder> movieOrderPage = new Page<>(page,5,true);
         IPage<UserOrder> userOrderIPage = userOrderMapper.selectByCinemaId(movieOrderPage, cinemaId);
         List<UserOrder> userOrderIPageList = userOrderIPage.getRecords();
+        if(userOrderIPageList.size() == 0){
+            return null;
+        }
         userOrderIPageList.add(new UserOrder(String.valueOf(userOrderIPage.getPages())));
         return userOrderIPageList;
     }
 
     @Override
-    public List<UserOrder> getAllByUserId(int userId,int page) {
+    public List<UserOrder> getOrdersByUserId(int userId,int page) {
         Page<UserOrder> userOrderIPage = new Page<>(page,5,true);
-        IPage<UserOrder> allByUserId = userOrderMapper.getAllByUserId(userOrderIPage, userId);
+        IPage<UserOrder> allByUserId = userOrderMapper.getOrdersByUserId(userOrderIPage, userId);
         List<UserOrder> allByUserIdList = allByUserId.getRecords();
+        if(allByUserIdList.size() == 0){
+            return null;
+        }
         allByUserIdList.add(new UserOrder(String.valueOf(allByUserId.getPages())));
         return allByUserIdList;
     }

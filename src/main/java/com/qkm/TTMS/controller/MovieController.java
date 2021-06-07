@@ -84,7 +84,7 @@ public class MovieController {
     public List<Movie> getScore(@PathVariable("page")int page){
         List<Movie> hotAndOnMoviesByScore = movieSer.getHotAndOnMoviesByScore();
         List<Movie> movieList = (List<Movie>) commonService.getPage(hotAndOnMoviesByScore,page,10);
-        movieList.add(new Movie(movieList.size()/10));
+        movieList.add(new Movie(commonService.justPage(hotAndOnMoviesByScore,10)));
         return movieList;
     }
 
@@ -95,15 +95,12 @@ public class MovieController {
     public List<Movie> getScoreByPage(@PathVariable("page")int page){
         List<Movie> score = getScore();
         List<Movie> movieList = (List<Movie>) commonService.getPage(score,page,10);
-        movieList.add(new Movie(movieList.size()/10));
+        movieList.add(new Movie(commonService.justPage(score,10)));
         return movieList;
     }
 
 
-//    @GetMapping("/getSoonAndOn")
-//    public List<Movie> getOnAndSoonMovies(){
-//       return  movieSer.getOnAndSoonMovies();
-//    }
+
 
     /**
      * 即将上映按最受期待值排
@@ -120,7 +117,7 @@ public class MovieController {
     public List<Movie> getLikesByPage(@PathVariable("page")int page){
         List<Movie> likes = getLikes();
         List<Movie> movieList = (List<Movie>) (List<Movie>) commonService.getPage(likes,page,10);
-        movieList.add(new Movie(movieList.size()/10));
+        movieList.add(new Movie(commonService.justPage(likes,10)));
         return movieList;
     }
 
@@ -143,7 +140,7 @@ public class MovieController {
     public List<Movie> getByDayMoneyPage(@PathVariable("page")int page){
         List<Movie> moviesDayMoney = movieSer.getMoviesDayMoney();
         List<Movie> movieList = (List<Movie>) commonService.getPage(moviesDayMoney,page,10);
-        movieList.add(new Movie(movieList.size()/10));
+        movieList.add(new Movie(commonService.justPage(moviesDayMoney,10)));
         return movieList;
     }
 
@@ -181,6 +178,7 @@ public class MovieController {
         return movieSer.editMovie(movie);
     }
 
+
     /**
      * 经理获取电影院的所有电影
      */
@@ -204,21 +202,25 @@ public class MovieController {
     /**
      * 管理员增加电影,从库里面增加电影院没有的
      */
-    @PostMapping("/adminGetMovieByLibrary/{cinemaId}/{page}")
-    public Set<Movie> adminGetMovieByLibrary(@PathVariable("cinemaId")int cinemaId,@PathVariable("page")int page){
+    @PostMapping("/adminGetMovieByLibrary/{cinemaId}")
+    public Set<Movie> AdminGetMovieByLibrary(@PathVariable("cinemaId")int cinemaId){
         List<Movie> onAndSoonMovies = movieSer.getOnAndSoonMovies();
-        List<Movie> movies = getMovies(cinemaId,page);
+        List<Movie> movies = getMovies(cinemaId,-1);
+        System.out.println(onAndSoonMovies);
+        System.out.println(movies);
         Set<Movie> movieSet = new HashSet<>();
-        movieSet.addAll(movies);
         movieSet.addAll(onAndSoonMovies);
+        movieSet.removeAll(movies);
+        System.out.println(movieSet);
         return  movieSet;
     }
 
+
     /**
-     * 管理员增加电影,从经理处增加
+     * 管理员增加电影,从经理处(库里面)增加
      */
-    @PostMapping("/adminAddMovies/{cinemaMovieIdList}")
-    public int adminAddMovie(@PathVariable("cinemaMovieIdList") List<CinemaMovies> cinemaMovieIdList){
+    @PostMapping("/adminAddMovies")
+    public int adminAddMovie(@RequestBody List<CinemaMovies> cinemaMovieIdList){
         for (CinemaMovies cinemaMovies : cinemaMovieIdList) {
             cinemaMoviesMapper.insert(cinemaMovies);
         }
@@ -226,53 +228,40 @@ public class MovieController {
     }
 
 
-//    /**
-//     * 管理员增加电影,自己增加新的
-//     */
-//    @PostMapping("/adminAddMovies")
-//    public int AdminAddMovie(@RequestBody Movie movie,@RequestParam("cinemaId")Long cinemaId){
-//
-//        CinemaMovies cinemaMovies = new CinemaMovies();
-//        cinemaMovies.setCinemaId(cinemaId);
-//        cinemaMovies.setMovieId(movie.getId());
-//        cinemaMoviesMapper.insert(cinemaMovies);
-//        return 1;
-//    }
-
 
 
     /**
      * 管理员删除电影,只能删除自己影院的电影
      */
-    @DeleteMapping("/AdminDelMovie")
-    public int AdminDelMovie(@RequestParam("movieId") int movieId,@RequestParam("cinemaId")int cinemaId){
+    @DeleteMapping("/AdminDelMovie/{movieId}/{cinemaId}")
+    public int AdminDelMovie(@PathVariable("movieId") int movieId,@PathVariable("cinemaId")int cinemaId){
         cinemaMoviesSer.deleteByCinemaIdAndMovieId(cinemaId,movieId);
         return 1;
     }
 
-
-    /**
-     * 按时间排序
-     * @param status
-     * @param page
-     * @return
-     */
-    @GetMapping("/SortByTime/{status}/{page}")
-    public List<Movie> SortByTime(@PathVariable("status")int status,@PathVariable("page")int page){
-        if(status == 1){
-           List<Movie> movieList = (List<Movie>) commonService.getPage(movieSer.getOnMoviesByTime(),page,12);
-           movieList.add(new Movie(movieList.size()/12));
-           return movieList;
-       }else if(status == 2){
-           List<Movie> movieList = (List<Movie>) commonService.getPage(movieSer.getSoonMoviesByTime(),page,12);
-           movieList.add(new Movie(movieList.size()/12));
-           return movieList;
-       }else{
-           List<Movie> movieList = (List<Movie>) commonService.getPage(movieSer.getHotMoviesByTime(),page,12);
-           movieList.add(new Movie(movieList.size()/12));
-           return movieList;
-       }
-    }
+//
+//    /**
+//     * 按时间排序
+//     * @param status
+//     * @param page
+//     * @return
+//     */
+//    @GetMapping("/SortByTime/{status}/{page}")
+//    public List<Movie> SortByTime(@PathVariable("status")int status,@PathVariable("page")int page){
+//        if(status == 1){
+//           List<Movie> movieList = (List<Movie>) commonService.getPage(movieSer.getOnMoviesByTime(),page,12);
+//           movieList.add(new Movie(movieList.size()/12));
+//           return movieList;
+//       }else if(status == 2){
+//           List<Movie> movieList = (List<Movie>) commonService.getPage(movieSer.getSoonMoviesByTime(),page,12);
+//           movieList.add(new Movie(movieList.size()/12));
+//           return movieList;
+//       }else{
+//           List<Movie> movieList = (List<Movie>) commonService.getPage(movieSer.getHotMoviesByTime(),page,12);
+//           movieList.add(new Movie(movieList.size()/12));
+//           return movieList;
+//       }
+//    }
 
 
 }

@@ -50,7 +50,7 @@ public class MoviePlan implements Serializable,Comparable<MoviePlan> {
     @TableField(value = "hall_id")
     private Integer hallId;
 
-
+    private Movie movie;
 
     /**
      * 该时间段对应的演出厅信息

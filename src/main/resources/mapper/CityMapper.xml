@@ -13,7 +13,7 @@
     <sql id="Base_Column_List">
         id,city_name,province_id
     </sql>
-    <select id="getAllByProvinceId" resultMap="BaseResultMap">
+    <select id="getCityByProvinceId" resultMap="BaseResultMap">
         select * from city where province_id = #{provinceId}
     </select>
 </mapper>

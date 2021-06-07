@@ -13,7 +13,7 @@
     <sql id="Base_Column_List">
         id,area_name,city_id
     </sql>
-    <select id="getAllByCityId" resultMap="BaseResultMap">
+    <select id="getAreaByCityId" resultMap="BaseResultMap">
         select * from area where  city_id = #{cityId}
     </select>
 </mapper>

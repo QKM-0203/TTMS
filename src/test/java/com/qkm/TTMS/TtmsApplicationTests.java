@@ -21,12 +21,12 @@ class TtmsApplicationTests {
 
     @Test
     public void test1() throws Exception{
-        InputStream file = new FileInputStream(new File("/home/qikaimeng/result2.xls"));
+        InputStream file = new FileInputStream(new File("/home/qkm/result1.xls"));
         org.apache.poi.ss.usermodel.Workbook workbook = WorkbookFactory.create(file);
         org.apache.poi.ss.usermodel.Sheet sheet = workbook.getSheetAt(0);
         Movie movie = new Movie();
         movie.setMovieArea("中国大陆");
-        movie.setMovieStatus(2);
+        movie.setMovieStatus(3);
         movie.setMovieBrief("空");
         movie.setMovieMinute(120);
         String[] string = new String[6];
@@ -43,16 +43,47 @@ class TtmsApplicationTests {
             }
             i = 0;
             movie.setMovieName(string[0]);
-            movie.setMovieHead(string[3]);
-            movie.setMovieType(string[2]);
+            movie.setMovieHead(string[4]);
+            movie.setMovieScore(Double.parseDouble(string[2]));
+            movie.setMovieType(string[3]);
             String string1 = string[1]+" 08:00:00";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             movie.setMovieStart(sdf.parse(string1));
             movieMapper.insert(movie);
         }
 
+
     }
 
+    @Test
+    public void test2() throws Exception{
 
+        InputStream file = new FileInputStream(new File("/home/qkm/excel/result2.xls"));
+        org.apache.poi.ss.usermodel.Workbook workbook = WorkbookFactory.create(file);
+        org.apache.poi.ss.usermodel.Sheet sheet = workbook.getSheetAt(0);
+        String[] string = new String[10];
+        int i = 0;
+        for (Row row : sheet) {
+            //遍历行，获得每个单元格对象
+            for (Cell cell : row) {
+                //System.out.println(cell.getNumericCellValue());
+                if (cell.getCellType() == CellType.NUMERIC) {
+                    cell.setCellType(CellType.STRING);
+                }
+//                System.out.println(cell.getStringCellValue());
+                string[i++] = cell.getStringCellValue();
+            }
+            i = 0;
+            movieMapper.updateByName(string[0],string[6],string[4],string[5]);
+        }
+
+
+    }
+//
+//    private Demm
+//    @Test
+//    public void insert(){
+//
+//    }
 
 }

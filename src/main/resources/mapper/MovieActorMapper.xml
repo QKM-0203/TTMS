@@ -21,4 +21,9 @@
         from movie_actor
         where movie_id = #{movieId,jdbcType=NUMERIC}
     </delete>
+    <update id="updateActorPictureById">
+        update movie_actor
+        set actor_picture = #{actorPicture,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
 </mapper>

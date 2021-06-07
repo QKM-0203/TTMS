@@ -15,6 +15,8 @@
             <result property="movieStartTime" column="movie_start_time" jdbcType="TIMESTAMP"/>
             <result property="orderStatus" column="order_status" jdbcType="VARCHAR"/>
             <result property="hallName" column="hall_name" jdbcType="VARCHAR"/>
+            <result property="movieHead" column="movie_head" jdbcType="VARCHAR"/>
+            <result property="planId" column="plan_id" jdbcType="INTEGER"/>
             <collection property="hallSeatList" ofType="com.qkm.TTMS.entity.HallSeat">
                 <result property="seatLine" column="seat_line" jdbcType="INTEGER"/>
                 <result property="seatColumn" column="seat_column" jdbcType="INTEGER"/>
@@ -24,22 +26,22 @@
     <sql id="Base_Column_List">
         id,user_id,cinema_name,
         movie_name,order_money,cinema_id,
-        ticket_money,movie_start_time,order_status,
+        ticket_money,movie_start_time,order_status,plan_id,movie_head
         hall_name
     </sql>
-    <select id="getAllByCinemaId" resultType="com.qkm.TTMS.entity.UserOrder">
+    <select id="getOrdersByCinemaId" resultType="com.qkm.TTMS.entity.UserOrder">
         select
         <include refid="Base_Column_List"/>
         from user_order
         where
         cinema_id = #{cinemaId,jdbcType=NUMERIC}
     </select>
-    <select id="getAllByUserId" resultMap="BaseResultMap">
+    <select id="getOrdersByUserId" resultMap="BaseResultMap">
         select
             uo.id,user_id,cinema_name,
             movie_name,order_money,cinema_id,
             ticket_money,movie_start_time,order_status,
-            hall_name,hs.seat_line,hs.seat_column
+            hall_name,hs.seat_line,hs.seat_column,movie_head,plan_id
         from user_order uo  join hall_seat hs on order_id = uo.id
         where
         user_id = #{userId,jdbcType=NUMERIC}
@@ -47,6 +49,13 @@
     <select id="selectByCinemaId" resultType="com.qkm.TTMS.entity.UserOrder">
         select
           *
+        from user_order
+        where
+            cinema_id = #{cinemaId,jdbcType=NUMERIC}
+    </select>
+    <select id="selectByCinemaIdNotPage" resultType="com.qkm.TTMS.entity.UserOrder">
+        select
+            *
         from user_order
         where
             cinema_id = #{cinemaId,jdbcType=NUMERIC}
@@ -71,12 +80,13 @@
         (id, user_id, cinema_name,
          movie_name, order_money, cinema_id,
          ticket_money, movie_start_time, order_status,
-         hall_name,  movie_type,
+         movie_head,hall_name,  movie_type,plan_id,
          movie_time)
         values (#{id,jdbcType=NUMERIC}, #{userId,jdbcType=NUMERIC}, #{cinemaName,jdbcType=VARCHAR},
                 #{movieName,jdbcType=VARCHAR}, #{orderMoney,jdbcType=NUMERIC}, #{cinemaId,jdbcType=NUMERIC},
                 #{ticketMoney,jdbcType=DECIMAL}, #{movieStartTime,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=VARCHAR},
-                #{hallName,jdbcType=VARCHAR}, #{movieType,jdbcType=VARCHAR},
+                #{movie_head,jdbcType=VARCHAR},#{hallName,jdbcType=VARCHAR}, #{movieType,jdbcType=VARCHAR},
+                #{plan_id,jdbcType=INTEGER},
                 #{movieTime,jdbcType=NUMERIC})
 
     </insert>

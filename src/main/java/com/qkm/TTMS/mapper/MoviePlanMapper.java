@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface MoviePlanMapper extends BaseMapper<MoviePlan> {
     List<MoviePlan> getMoviePlan(@Param("movieId")int movieId, @Param("cinemaId")int cinemaId);
+    List<MoviePlan> getMoviePlanFilterDate(@Param("movieId")int movieId, @Param("cinemaId")int cinemaId);
     int deleteByCinemaMovieId(@Param("cinemaMovieId") int cinemaMovieId);
+
 
 }
 

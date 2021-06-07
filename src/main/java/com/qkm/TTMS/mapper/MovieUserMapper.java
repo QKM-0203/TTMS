@@ -21,6 +21,9 @@ public interface MovieUserMapper extends BaseMapper<MovieUser> {
    int delById(@Param("id") int id);
 
     IPage<MovieUser> selectByCinemaId(@Param("page") IPage<MovieUser> page,@Param("cinemaId")int cinemaId);
+
+
+    int updateIconById(@Param("id")int id,@Param("icon")String icon);
 }
 
 

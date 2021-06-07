@@ -3,10 +3,13 @@ package com.qkm.TTMS.service.impl;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.service.CommonService;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.*;
 
 @Repository
 public class CommonServiceImpl implements CommonService {
@@ -28,5 +31,42 @@ public class CommonServiceImpl implements CommonService {
         stringObjectHashMap.put("list",(List<Movie>)getPage(list,page,offset));
         stringObjectHashMap.put("size",size/offset);
         return stringObjectHashMap;
+    }
+
+    @Override
+    public int justPage(List<?> list, int offset) {
+        if(list.size() <= offset){
+            return 0;
+        }else{
+            return list.size()/offset;
+        }
+    }
+
+    @Override
+    public List<String> uploadPictures(MultipartFile file) {
+        ArrayList<String> strings = new ArrayList<>();
+        //缓存输出流
+        BufferedOutputStream stream = null;
+        String filePath = "/home/qkm/Web/static/image/";
+        if (!file.isEmpty()){
+            String originalFilename = file.getOriginalFilename()+String.valueOf(new Date());
+            try {
+                byte[] bytes = file.getBytes();
+                stream = new BufferedOutputStream(new FileOutputStream(new File(filePath+originalFilename)));
+                stream.write(bytes);
+                strings.add(filePath+originalFilename);
+                stream.close();
+            } catch (IOException e) {
+                stream = null;
+                strings.add("文件上传失败");
+                return  strings;
+            }
+        }else {
+            strings.add("上传失败因为存在文件为空");
+            return strings;
+        }
+
+        strings.add("上传成功");
+        return strings;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MovieDirectorMapper extends BaseMapper<MovieDirector> {
     int deleteByMovieId(@Param("movieId") int movieId);
+    int updateDirectorPictureById(@Param("directorPicture") String directorPicture, @Param("id") Integer id);
 }
 
 

@@ -22,6 +22,16 @@ public class CinemaMoviesServiceImpl implements CinemaMoviesService {
 
 
     @Override
+    public int addMoney(Double money, int id) {
+        return cinemaMoviesMapper.addMoney(money,id);
+    }
+
+    @Override
+    public int downMoney(Double money, int id) {
+        return cinemaMoviesMapper.downMoney(money,id);
+    }
+
+    @Override
     public int getIdByCinemaIdAndMovieId(int cinemaId, int movieId) {
         return  cinemaMoviesMapper.getIdByCinemaIdAndMovieId(cinemaId,movieId);
     }
@@ -39,11 +49,18 @@ public class CinemaMoviesServiceImpl implements CinemaMoviesService {
 
     @Override
     public List<Movie> getListMovieIdByCinemaId(int cinemaId,int page) {
+        if(page == -1){
+            return cinemaMoviesMapper.getListMovieIdByCinemaIdNotPage(cinemaId);
+        }
         Page<Movie> moviePage = new Page<>(page, 20, true);
         IPage<Movie> listMovieIdByCinemaId = cinemaMoviesMapper.getListMovieIdByCinemaId(moviePage, cinemaId);
         List<Movie> listMovieIdByCinemaIdList = listMovieIdByCinemaId.getRecords();
+        if(listMovieIdByCinemaIdList.size() == 0){
+            return null;
+        }
         listMovieIdByCinemaIdList.add(new Movie(String.valueOf(listMovieIdByCinemaId.getPages())));
         return listMovieIdByCinemaIdList;
+
     }
 
     @Override

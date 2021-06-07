@@ -10,5 +10,6 @@ public interface HallService {
     int  updateHall(MovieHall movieHall);
     int  addHall( MovieHall movieHall);
     int deleteByCinemaId(int cinemaId);
+    List<MovieHall> getHallsNotPage(int cinemaId);
 
 }

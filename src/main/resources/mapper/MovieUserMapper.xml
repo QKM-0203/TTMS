@@ -30,6 +30,9 @@
         gender,birthday,city,
         job,personalized_signature,cinema_id
     </sql>
+    <update id="updateIconById">
+        update movie_user set icon = #{icon} where id = #{id}
+    </update>
 
 
     <select id="getByAccounts" resultMap="BaseResultMap">

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
@@ -13,10 +14,12 @@ import lombok.Data;
  */
 @TableName(value ="movie_hall")
 @Data
+@NoArgsConstructor
 public class MovieHall implements Serializable {
     public MovieHall(String hallName) {
         this.hallName = hallName;
     }
+
 
     /**
      * 主键
