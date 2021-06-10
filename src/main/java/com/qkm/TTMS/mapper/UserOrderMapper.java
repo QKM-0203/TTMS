@@ -23,6 +23,7 @@ public interface UserOrderMapper extends BaseMapper<UserOrder> {
     int insertAll(UserOrder userOrder);
 
     IPage<UserOrder> selectByCinemaId(@Param("page")IPage<UserOrder> page, @Param("cinemaId")int cinemaId);
+
     List<UserOrder>  selectByCinemaIdNotPage(@Param("cinemaId")int cinemaId);
 
 

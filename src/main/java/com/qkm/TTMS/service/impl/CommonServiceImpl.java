@@ -1,7 +1,12 @@
 package com.qkm.TTMS.service.impl;
 
 import com.qkm.TTMS.entity.Movie;
+import com.qkm.TTMS.entity.UserOrder;
+import com.qkm.TTMS.mapper.CinemaMoviesMapper;
+import com.qkm.TTMS.service.AreaCinemaService;
+import com.qkm.TTMS.service.CinemaMoviesService;
 import com.qkm.TTMS.service.CommonService;
+import com.qkm.TTMS.service.MovieService;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +18,16 @@ import java.util.*;
 
 @Repository
 public class CommonServiceImpl implements CommonService {
+    private final CinemaMoviesService cinemaMoviesService;
+    private final AreaCinemaService areaCinemaSer;
+    private final MovieService movieSer;
+
+
+    public CommonServiceImpl( CinemaMoviesService cinemaMoviesService, AreaCinemaService areaCinemaSer, MovieService movieSer) {
+        this.cinemaMoviesService = cinemaMoviesService;
+        this.areaCinemaSer = areaCinemaSer;
+        this.movieSer = movieSer;
+    }
 
   @Override
     public List<?> getPage(List<?> List, int page, int num) {
@@ -41,6 +56,21 @@ public class CommonServiceImpl implements CommonService {
             return list.size()/offset;
         }
     }
+
+    @Override
+    public int addAllMoney(UserOrder userOrder) {
+        //存票房
+        movieSer.addMoney(userOrder.getOrderMoney(), userOrder.getMovieId());
+
+        //存电影院赚的钱
+        areaCinemaSer.addMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());
+
+        //存储电影院的某部电影赚得钱
+        int idByCinemaIdAndMovieId = cinemaMoviesService.getIdByCinemaIdAndMovieId(userOrder.getCinemaId(), userOrder.getMovieId());
+        cinemaMoviesService.addMoney(userOrder.getOrderMoney(),idByCinemaIdAndMovieId);
+        return 1;
+    }
+
 
     @Override
     public List<String> uploadPictures(MultipartFile file) {

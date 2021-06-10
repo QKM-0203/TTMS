@@ -18,6 +18,12 @@ public class MovieUser implements Serializable{
         this.accounts = accounts;
     }
 
+    public MovieUser( String accounts,Date createTime, Float sellMoney) {
+        this.accounts = accounts;
+        this.createTime = createTime;
+        this.sellMoney = sellMoney;
+
+    }
 
     /**
      *
@@ -96,6 +102,13 @@ public class MovieUser implements Serializable{
      */
     @TableField(value = "sell_id")
     private Integer sellId;
+
+    /**
+     *售货员赚得钱
+     */
+    @TableField(value = "sell_id")
+    private Float sellMoney;
+
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

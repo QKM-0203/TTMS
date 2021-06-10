@@ -15,10 +15,7 @@ public interface MovieMapper extends BaseMapper<Movie> {
    List<Movie>  getMoviesHot();
    int updateByName(@Param("movieName")String movieName,@Param("movieBrief")String movieBrief,@Param("movieMoney")String movieMoney
    ,@Param("wantLook") String WantLook);
-//   List<Movie>  getMoviesOnByMoney();
-//   List<Movie>  getMoviesSoonByLike();
-//    List<Movie>  getMoviesOnByTime();
-//   List<Movie>  getMoviesHotByScore();
+   int setHead(@Param("head")String head,@Param("id") int id);
    Movie  getMovieByMovieId(@Param("id") int id);
    int  addMoney(@Param("money")Double money,@Param("movieId") int movieId);
    int  downMoney(@Param("money")Double money,@Param("movieId") int movieId);

@@ -13,7 +13,7 @@
     <sql id="Base_Column_List">
         id,city_name,province_id
     </sql>
-    <select id="getCityByProvinceId" resultMap="BaseResultMap">
+    <select id="getCityByProvinceId" resultType="com.qkm.TTMS.entity.City">
         select * from city where province_id = #{provinceId}
     </select>
 </mapper>

@@ -5,11 +5,13 @@
 <mapper namespace="com.qkm.TTMS.mapper.CinemaMoviesMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.CinemaMovies">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="cinemaId" column="cinema_id" jdbcType="INTEGER"/>
-            <result property="movieId" column="movie_id" jdbcType="INTEGER"/>
-            <result property="movieLowMoney" column="movie_lowMoney" jdbcType="DOUBLE"/>
-            <result property="cinemaMovieMoney" column="cinema_movie_money" jdbcType="FLOAT"/>
+        <result property="cinemaMovieMoney" column="cmoney" jdbcType="FLOAT"/>
+        <association property="movie"  javaType="com.qkm.TTMS.entity.Movie" >
+            <result property="movieName" column="mname" jdbcType="VARCHAR"/>
+            <result property="movieStatus" column="mstatus" jdbcType="INTEGER"/>
+            <result property="movieStart" column="mstart" jdbcType="DATE"/>
+            <result property="movieType" column="mtype" jdbcType="VARCHAR"/>
+        </association>
     </resultMap>
 
     <resultMap id="BaseResultMapMovies" type="com.qkm.TTMS.entity.Movie">
@@ -21,7 +23,7 @@
         <result property="movieType" column="movie_type" jdbcType="VARCHAR"/>
         <result property="movieHead" column="movie_head" jdbcType="VARCHAR"/>
         <!--        演员-->
-        <collection property="movieActorList" column="id" select="getActors" >
+        <collection property="movieActorList" select="getActors" column="id" >
             <result property="actorName" column="mactor"/>
         </collection>
     </resultMap>
@@ -31,22 +33,28 @@
         id,cinema_id,movie_id,
         movie_lowMoney,cinema_movie_money
     </sql>
+
     <update id="addMoney">
         update cinema_movies set cinema_movie_money = cinema_movie_money + #{money} where id = #{id}
 
     </update>
+
     <select id="getIdByCinemaIdAndMovieId" resultType="java.lang.Integer">
         select id from cinema_movies where cinema_id = #{cinemaId} and movie_id = #{movieId}
     </select>
 
+    <select id="getMovieAndMoney" resultMap="BaseResultMap">
+       select cm.cinema_movie_money cmoney,m.movie_name mname,m.movie_start mstart,m.movie_status mstatus,m.movie_type mtype from cinema_movies cm join movie m on m.id = cm.movie_id where cinema_id = #{cinemaId}
+    </select>
+
     <select id="getListMovieIdByCinemaId" resultMap="BaseResultMapMovies">
-        select m.* from cinema_movies cm join movie m on m.id = cm.movie_id where cinema_id = #{cinemaId}
+        select m.*  from cinema_movies cm join movie m on m.id = cm.movie_id
+        where cinema_id = #{cinemaId}
     </select>
 
     <select id="getActors" resultType="com.qkm.TTMS.entity.MovieActor">
         select mac.actor_name mactor from movie_actor mac  where mac.movie_id = #{id}
     </select>
-
 
     <delete id="deleteByCinemaIdAndMovieId">
         delete
@@ -54,21 +62,25 @@
         where cinema_id = #{cinemaId,jdbcType=NUMERIC}
           AND movie_id = #{movieId,jdbcType=NUMERIC}
     </delete>
+
     <delete id="deleteByMovieId">
         delete
         from cinema_movies
         where movie_id = #{movieId,jdbcType=NUMERIC}
     </delete>
+
     <update id="setMovieLowMoneyByCinemaIdAndMovieId">
         update cinema_movies
         set movie_lowMoney = #{movieLowMoney,jdbcType=DECIMAL}
         where cinema_id = #{cinemaId,jdbcType=NUMERIC}
           AND movie_id = #{movieId,jdbcType=NUMERIC}
     </update>
+
     <update id="downMoney">
         update cinema_movies set cinema_movie_money = cinema_movie_money - #{money} where id = #{id}
 
     </update>
+
     <select id="getAllByCinemaId" resultType="com.qkm.TTMS.entity.CinemaMovies">
         select
         <include refid="Base_Column_List"/>
@@ -76,14 +88,16 @@
         where
         cinema_id = #{cinemaId,jdbcType=NUMERIC} and movie_lowMoney is not null  order by movie_lowMoney asc limit 1
     </select>
+
     <select id="getListIdByCinemaId" resultType="java.lang.Integer">
         select id from cinema_movies where cinema_id = #{cinemaId}
     </select>
 
-    <select id="getListMovieIdByCinemaIdNotPage" resultType="com.qkm.TTMS.entity.Movie">
-         select m.*, mac.actor_name mactor from cinema_movies cm,movie m left join  movie_actor mac on  mac.movie_id = m.id where m.id = cm.movie_id
-    </select>
 
+    <select id="getListMovieIdByCinemaIdNotPage" resultType="com.qkm.TTMS.entity.Movie">
+        select m.*,ma.actor_name mactor from cinema_movies cm join movie m on m.id = cm.movie_id
+    left join movie_actor ma on m.id = ma.movie_id  where cinema_id = #{cinemaId}
+    </select>
     <delete id="deleteByCinemaId">
         delete
         from cinema_movies

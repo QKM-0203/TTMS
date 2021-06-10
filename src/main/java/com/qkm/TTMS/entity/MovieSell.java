@@ -15,22 +15,23 @@ import lombok.Data;
 @Data
 public class MovieSell implements Serializable {
     /**
-     * 
+     * 主键
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 
+     * 售票员的id
      */
     @TableField(value = "sell_id")
     private Integer sellId;
+
 
     /**
      * 售票员赚得钱
      */
     @TableField(value = "sell_money")
-    private Long sellMoney;
+    private Float sellMoney;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

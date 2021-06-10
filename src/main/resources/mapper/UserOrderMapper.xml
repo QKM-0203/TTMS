@@ -5,30 +5,36 @@
 <mapper namespace="com.qkm.TTMS.mapper.UserOrderMapper">
 
     <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.UserOrder">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="userId" column="user_id" jdbcType="INTEGER"/>
-            <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
-            <result property="movieName" column="movie_name" jdbcType="VARCHAR"/>
-            <result property="orderMoney" column="order_money" jdbcType="DOUBLE"/>
-            <result property="cinemaId" column="cinema_id" jdbcType="INTEGER"/>
-            <result property="ticketMoney" column="ticket_money" jdbcType="FLOAT"/>
-            <result property="movieStartTime" column="movie_start_time" jdbcType="TIMESTAMP"/>
-            <result property="orderStatus" column="order_status" jdbcType="VARCHAR"/>
-            <result property="hallName" column="hall_name" jdbcType="VARCHAR"/>
-            <result property="movieHead" column="movie_head" jdbcType="VARCHAR"/>
-            <result property="planId" column="plan_id" jdbcType="INTEGER"/>
-            <collection property="hallSeatList" ofType="com.qkm.TTMS.entity.HallSeat">
-                <result property="seatLine" column="seat_line" jdbcType="INTEGER"/>
-                <result property="seatColumn" column="seat_column" jdbcType="INTEGER"/>
-            </collection>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="cinemaName" column="cinema_name" jdbcType="VARCHAR"/>
+        <result property="movieName" column="movie_name" jdbcType="VARCHAR"/>
+        <result property="orderMoney" column="order_money" jdbcType="DOUBLE"/>
+        <result property="cinemaId" column="cinema_id" jdbcType="INTEGER"/>
+        <result property="ticketMoney" column="ticket_money" jdbcType="FLOAT"/>
+        <result property="movieStartTime" column="movie_start_time" jdbcType="TIMESTAMP"/>
+        <result property="orderStatus" column="order_status" jdbcType="VARCHAR"/>
+        <result property="hallName" column="hall_name" jdbcType="VARCHAR"/>
+        <result property="movieHead" column="movie_head" jdbcType="VARCHAR"/>
+        <result property="movieId" column="movie_id" jdbcType="INTEGER"/>
+        <result property="movieType" column="movie_type" jdbcType="VARCHAR"/>
+        <result property="movieTime" column="movie_time" jdbcType="INTEGER"/>
+        <result property="planId" column="plan_id" jdbcType="INTEGER"/>
+        <result property="payTime" column="pay_time" jdbcType="DATE"/>
+        <collection property="hallSeatList" column="id" select="getSeats" ofType="com.qkm.TTMS.entity.HallSeat">
+            <result property="seatLine" column="seat_line" jdbcType="INTEGER"/>
+            <result property="seatColumn" column="seat_column" jdbcType="INTEGER"/>
+        </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,user_id,cinema_name,
-        movie_name,order_money,cinema_id,
-        ticket_money,movie_start_time,order_status,plan_id,movie_head
+        movie_name,order_money,cinema_id,movie_type,movie_time,movie_id,
+        ticket_money,movie_start_time,order_status,plan_id,movie_head,pay_time,
         hall_name
     </sql>
+
+
     <select id="getOrdersByCinemaId" resultType="com.qkm.TTMS.entity.UserOrder">
         select
         <include refid="Base_Column_List"/>
@@ -36,27 +42,31 @@
         where
         cinema_id = #{cinemaId,jdbcType=NUMERIC}
     </select>
-    <select id="getOrdersByUserId" resultMap="BaseResultMap">
-        select
-            uo.id,user_id,cinema_name,
-            movie_name,order_money,cinema_id,
-            ticket_money,movie_start_time,order_status,
-            hall_name,hs.seat_line,hs.seat_column,movie_head,plan_id
-        from user_order uo  join hall_seat hs on order_id = uo.id
-        where
-        user_id = #{userId,jdbcType=NUMERIC}
+    <select id="getSeats" resultType="com.qkm.TTMS.entity.HallSeat">
+    select * from hall_seat where order_id = #{id}
     </select>
+
+    <select id="getOrdersByUserId" resultMap="BaseResultMap">
+    select
+    uo.id,user_id,cinema_name,hall_name,
+    movie_name,order_money,cinema_id,movie_type,movie_time,movie_id,
+    ticket_money,movie_start_time,order_status,plan_id,movie_head,pay_time
+    from user_order uo
+    where
+    user_id = #{userId,jdbcType=NUMERIC}
+    order by pay_time desc
+    </select>
+
+
     <select id="selectByCinemaId" resultType="com.qkm.TTMS.entity.UserOrder">
-        select
-          *
-        from user_order
+        select ud.movie_name ,ud.order_status , ud.movie_start_time ,ud.movie_time ,ud.hall_name ,ud.order_money
+        from user_order ud
         where
             cinema_id = #{cinemaId,jdbcType=NUMERIC}
     </select>
     <select id="selectByCinemaIdNotPage" resultType="com.qkm.TTMS.entity.UserOrder">
-        select
-            *
-        from user_order
+        select ud.movie_name ,ud.order_status , ud.movie_start_time ,ud.movie_time ,ud.hall_name ,ud.order_money
+        from user_order ud
         where
             cinema_id = #{cinemaId,jdbcType=NUMERIC}
     </select>
@@ -80,14 +90,16 @@
         (id, user_id, cinema_name,
          movie_name, order_money, cinema_id,
          ticket_money, movie_start_time, order_status,
-         movie_head,hall_name,  movie_type,plan_id,
+         movie_head,hall_name,movie_id,movie_type,plan_id,pay_time,
          movie_time)
         values (#{id,jdbcType=NUMERIC}, #{userId,jdbcType=NUMERIC}, #{cinemaName,jdbcType=VARCHAR},
                 #{movieName,jdbcType=VARCHAR}, #{orderMoney,jdbcType=NUMERIC}, #{cinemaId,jdbcType=NUMERIC},
                 #{ticketMoney,jdbcType=DECIMAL}, #{movieStartTime,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=VARCHAR},
-                #{movie_head,jdbcType=VARCHAR},#{hallName,jdbcType=VARCHAR}, #{movieType,jdbcType=VARCHAR},
-                #{plan_id,jdbcType=INTEGER},
+                #{movieHead,jdbcType=VARCHAR},#{hallName,jdbcType=VARCHAR},#{movieId,jdbcType=INTEGER}, #{movieType,jdbcType=VARCHAR},
+                #{planId,jdbcType=INTEGER},#{payTime,jdbcType=TIMESTAMP},
                 #{movieTime,jdbcType=NUMERIC})
 
     </insert>
+
+
 </mapper>

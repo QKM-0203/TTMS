@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qkm.TTMS.mapper.MovieSellMapper">
+
+    <resultMap id="BaseResultMap" type="com.qkm.TTMS.entity.MovieSell">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="sellId" column="sell_id" jdbcType="INTEGER"/>
+            <result property="sellMoney" column="sell_money" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sell_id,sell_money
+    </sql>
+    <update id="updateBySellId">
+        update movie_sell set sell_money = sell_money + #{sellMoney} where sell_id = #{sellId}
+    </update>
+</mapper>

@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Repository
 public interface CityMapper extends BaseMapper<City> {
-    List<City> getCityByProvinceId(@Param("provinceId")int provinceId);
+   List<City> getCityByProvinceId(@Param("provinceId")int provinceId);
 }
 
 

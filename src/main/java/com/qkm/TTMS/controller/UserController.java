@@ -5,19 +5,12 @@ import com.qkm.TTMS.entity.*;
 import com.qkm.TTMS.mapper.MovieUserMapper;
 import com.qkm.TTMS.mapper.MovieUserRolesMapper;
 import com.qkm.TTMS.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -34,8 +27,9 @@ public class UserController {
     private final MovieUserMapper movieUserMapper;
     private final MovieUserRolesMapper movieUserRolesMapper;
     private final MovieUserService userSer;
+    private final MovieService movieService;
 
-    public UserController(MovieUserService userSer, MovieUserRolesMapper movieUserRolesMapper, MovieUserMapper movieUserMapper, CommonService commonService, SecurityConfig securityConfig, MovieActorService movieActorService, MovieDirectorService movieDirectorService, MovieWriteService movieWriteService, MovieVideoService movieVideoService, MovieProducerService movieProducerService) {
+    public UserController(MovieUserService userSer, MovieUserRolesMapper movieUserRolesMapper, MovieUserMapper movieUserMapper, CommonService commonService, SecurityConfig securityConfig, MovieActorService movieActorService, MovieDirectorService movieDirectorService, MovieWriteService movieWriteService, MovieVideoService movieVideoService, MovieProducerService movieProducerService, MovieService movieService) {
         this.userSer = userSer;
         this.movieUserRolesMapper = movieUserRolesMapper;
         this.movieUserMapper = movieUserMapper;
@@ -46,6 +40,7 @@ public class UserController {
         this.movieWriteService = movieWriteService;
         this.movieVideoService = movieVideoService;
         this.movieProducerService = movieProducerService;
+        this.movieService = movieService;
     }
 
     /**
@@ -187,8 +182,9 @@ public class UserController {
      * 修改视频
      */
     @PostMapping("/setVideo/{id}")
-    public String setVideoPicture(@PathVariable("id")int id,MultipartHttpServletRequest request){
-        MultipartFile files = request.getFile("video");
+    public String setVideoPicture(@PathVariable("id")int id, HttpServletRequest request){
+        MultipartHttpServletRequest request1 = (MultipartHttpServletRequest)request;
+        MultipartFile files = request1.getFile("video");
         List<String> strings = commonService.uploadPictures(files);
         if("上传成功".equals(strings.get(strings.size()-1))){
             movieVideoService.updateVideo(strings.get(0),id);
@@ -199,6 +195,27 @@ public class UserController {
             return "文件上传失败";
         }
     }
+
+
+    /**
+     * 修改海报
+     */
+    @PostMapping("/setHead/{id}")
+    public String setHeadPicture(@PathVariable("id")int id,HttpServletRequest request){
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        MultipartHttpServletRequest multipartHttpServletRequest = commonsMultipartResolver.resolveMultipart(request);
+        MultipartFile head = multipartHttpServletRequest.getFile("head");
+        List<String> strings = commonService.uploadPictures(head);
+        if("上传成功".equals(strings.get(strings.size()-1))){
+            movieService.setHeadPicture(strings.get(0),id);
+            return "上传成功";
+        }else if("上传失败因为存在文件为空".equals(strings.get(strings.size()-1))){
+            return "上传失败因为存在文件为空";
+        }else{
+            return "文件上传失败";
+        }
+    }
+
 
 
 

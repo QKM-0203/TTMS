@@ -19,6 +19,11 @@
     <select id="getAllByMoviePlanId" resultType="com.qkm.TTMS.entity.HallSeat">
         select * from hall_seat where movie_plan_id = #{planId}
     </select>
+
+    <select id="getAllByOrderId" resultType="com.qkm.TTMS.entity.HallSeat">
+        select * from hall_seat where order_id = #{orderId}
+    </select>
+
     <delete id="delByOrderId">
         delete
         from hall_seat

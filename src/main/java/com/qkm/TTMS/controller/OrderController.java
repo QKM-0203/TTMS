@@ -1,14 +1,15 @@
 package com.qkm.TTMS.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qkm.TTMS.entity.HallSeat;
-import com.qkm.TTMS.entity.MovieHall;
 import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.HallSeatMapper;
+import com.qkm.TTMS.mapper.MovieSellMapper;
+import com.qkm.TTMS.mapper.UserOrderMapper;
 import com.qkm.TTMS.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -20,6 +21,8 @@ import java.util.concurrent.TimeUnit;
 public class OrderController {
 
 
+    private final UserOrderMapper userOrderMapper;
+    private final MovieSellMapper mapper;
     private final CommonService commonService;
     private final CinemaMoviesService cinemaMoviesService;
     private final HallSeatMapper hallSeatMapper;
@@ -28,7 +31,9 @@ public class OrderController {
     private final MovieService movieSer;
     private final SeatService seatSer;
     private final UserOrderService userOrderService;
-    public OrderController(CinemaMoviesService cinemaMoviesService, SeatService seatSer, AreaCinemaService areaCinemaSer, MovieService movieSer, RedisTemplate<String, Object> redisTemplate, HallSeatMapper hallSeatMapper, UserOrderService userOrderService, CommonService commonService) {
+
+
+    public OrderController(CinemaMoviesService cinemaMoviesService, SeatService seatSer, AreaCinemaService areaCinemaSer, MovieService movieSer, RedisTemplate<String, Object> redisTemplate, HallSeatMapper hallSeatMapper, UserOrderService userOrderService, CommonService commonService, MovieSellMapper mapper, UserOrderMapper userOrderMapper) {
         this.seatSer = seatSer;
         this.areaCinemaSer = areaCinemaSer;
         this.movieSer = movieSer;
@@ -37,9 +42,12 @@ public class OrderController {
         this.userOrderService = userOrderService;
         this.cinemaMoviesService =  cinemaMoviesService;
         this.commonService = commonService;
+        this.mapper = mapper;
+        this.userOrderMapper = userOrderMapper;
     }
 
-     /**
+
+    /**
      * 前端将选的座位也要发过来,锁住座位,未支付状态
      * @param userOrder   订单信息
      * @param moviePlanId   电影的演出计划Id
@@ -47,22 +55,32 @@ public class OrderController {
      */
     @PostMapping("/saveOrder/{moviePlanId}")
     public int saveOrder(@RequestBody UserOrder userOrder,@PathVariable("moviePlanId")int moviePlanId){
-        //存订单
-        userOrderService.saveOrder(userOrder);
-
         Map<String, String> seatByRedis = seatSer.getSeatByRedis(moviePlanId);
-        redisTemplate.watch(String.valueOf(moviePlanId));
-        //存座位
-        List<HallSeat> hallSeatList = userOrder.getHallSeatList();
-        redisTemplate.multi();
-        for (HallSeat seat : hallSeatList) {
-            if (seatByRedis.containsKey((seat.getSeatLine()) + ","+String.valueOf(seat.getSeatColumn()))) {
-                seatByRedis.put((seat.getSeatLine()) +"," +String.valueOf(seat.getSeatColumn()), "1");
+        List<HallSeat> hallSeatList  = userOrder.getHallSeatList();
+        userOrder.setPayTime(new Date());
+        List<Object> execute = redisTemplate.execute(new SessionCallback<List<Object>>() {
+            public List<Object> execute(RedisOperations operations) throws DataAccessException {
+                operations.watch(String.valueOf(moviePlanId));
+                redisTemplate.multi();
+                //存座位
+                for (HallSeat seat : hallSeatList) {
+                    if ("0".equals(seatByRedis.get(seat.getSeatLine() + "," + String.valueOf(seat.getSeatColumn())))) {
+                    seatByRedis.put((seat.getSeatLine()) + "," + String.valueOf(seat.getSeatColumn()),"1" );
+                     }else {
+                        return new ArrayList<>();
+                    }
+                }
+                redisTemplate.opsForValue().set(String.valueOf(moviePlanId), seatByRedis);
+                return operations.exec();
             }
-        }
-        redisTemplate.opsForHash().putAll(String.valueOf(moviePlanId),seatByRedis);
-        List<Object> exec = redisTemplate.exec();
-        if(!exec.isEmpty()){
+        });
+
+        Map<String, String> seatByRedis1 = seatSer.getSeatByRedis(moviePlanId);
+        System.out.println(seatByRedis1);
+
+        if(!execute.isEmpty()){
+            //存订单
+            userOrderService.saveOrder(userOrder);
             for (HallSeat hallSeat : hallSeatList) {
                 hallSeat.setOrderId(userOrder.getId());
                 seatSer.saveSeat(hallSeat);
@@ -75,17 +93,20 @@ public class OrderController {
 
     }
 
+
+    @GetMapping("/sellAddLock/{moviePlanId}")
+    public int sellAddLock(@RequestBody UserOrder userOrder,@PathVariable("moviePlanId")int moviePlanId){
+       return saveOrder(userOrder,moviePlanId);
+    }
+
     /**
      * 获取订单剩余时间
      */
     @GetMapping("/getOrderTime/{orderId}")
     public Map<String,Object> getOrderTime(@PathVariable("orderId")int orderId){
-
         Long expire = redisTemplate.getExpire("order" + orderId);
-        UserOrder userOrder = (UserOrder)redisTemplate.opsForValue().get("order" + orderId);
         HashMap<String, Object> map = new HashMap<>();
         map.put("time", expire);
-        map.put("order",userOrder);
         return  map;
     }
 
@@ -96,28 +117,34 @@ public class OrderController {
      */
     @PostMapping("/saveMoney")
     public int saveMoney(@RequestBody UserOrder userOrder){
-        //存票房
-        int i1 = movieSer.addMoney(userOrder.getOrderMoney(), userOrder.getMovieId());
-        //存电影院赚的钱
-         areaCinemaSer.addMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());
-         //存储电影院的某部电影赚得钱
-        int idByCinemaIdAndMovieId = cinemaMoviesService.getIdByCinemaIdAndMovieId(userOrder.getCinemaId(), userOrder.getMovieId());
-        cinemaMoviesService.addMoney(userOrder.getOrderMoney(),idByCinemaIdAndMovieId);
+        redisTemplate.delete("order"+userOrder.getId());
+        commonService.addAllMoney(userOrder);
         userOrderService.updateOrderStatusById("已支付",userOrder.getId());
-        return i1;
-
+        return 1;
     }
+
+    /**
+     * 售票员确认付钱后执行
+     * @return  是否支付成功
+     */
+    @PostMapping("/sellSaveMoney/{sellId}/{sellMoney}")
+    public int sellSaveMoney(@RequestBody UserOrder userOrder ,@PathVariable("sellId")int sellId,@PathVariable("sellMoney")float sellMoney){
+        userOrderMapper.insert(userOrder);
+        commonService.addAllMoney(userOrder);
+        return mapper.updateBySellId(sellId,sellMoney);
+    }
+
 
     /**
      * 退订单
      */
     @DeleteMapping("/delOrder")
     public int backOrder(@RequestBody UserOrder userOrder){
-        Date movieStartTime = userOrder.getMovieStartTime();
-        if(movieStartTime.getTime() - new Date().getTime() < 1800000L ){
-           //电影开始半小时前不能退订单
-            return 0;
-        }
+//        Date movieStartTime = userOrder.getMovieStartTime();
+//        if(movieStartTime.getTime() - new Date().getTime() < 1800000L ){
+//           //电影开始半小时前不能退订单
+//            return 0;
+//        }
         int idByCinemaIdAndMovieId = cinemaMoviesService.getIdByCinemaIdAndMovieId(userOrder.getCinemaId(), userOrder.getMovieId());
         movieSer.downMoney(userOrder.getOrderMoney(), userOrder.getMovieId());
         areaCinemaSer.downMoney(userOrder.getOrderMoney(), userOrder.getCinemaId());

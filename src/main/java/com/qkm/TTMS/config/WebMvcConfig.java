@@ -7,10 +7,13 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
 
+import java.util.Set;
+
 
 //@EnableSwagger2
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
 
     /**
      * 不用经过Service操作直接返回试图.
@@ -18,7 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry){
-          registry.addViewController("/login");
+          registry.addViewController("/Login");
     }
 
     /**

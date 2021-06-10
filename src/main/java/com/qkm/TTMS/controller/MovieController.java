@@ -60,9 +60,9 @@ public class MovieController {
     public HashMap<String, List<Movie>> getMoviesByShow(){
         HashMap<String, List<Movie>> movieByShow = movieSer.getMovieByShow();
         List<Movie> score = getScore();
-        movieByShow.put("top100",score.subList(0,9));
+        movieByShow.put("top100",score.subList(0,10));
         List<Movie> likes = getLikes();
-        movieByShow.put("like",likes.subList(0,9));
+        movieByShow.put("like",likes.subList(0,10));
         List<Movie> byDayMoney = getByDayMoney();
         movieByShow.put("dayMoney",byDayMoney.subList(0,5));
         return  movieByShow;
@@ -166,7 +166,8 @@ public class MovieController {
      */
     @PostMapping("/ManageAddMovie")
     public int ManageAddMovie(@RequestBody Movie movie) {
-        return movieSer.addMovie(movie);
+        movieSer.addMovie(movie);
+        return movie.getId();
     }
 
 
@@ -204,14 +205,16 @@ public class MovieController {
      */
     @PostMapping("/adminGetMovieByLibrary/{cinemaId}")
     public Set<Movie> AdminGetMovieByLibrary(@PathVariable("cinemaId")int cinemaId){
+      //  System.out.println(1);
         List<Movie> onAndSoonMovies = movieSer.getOnAndSoonMovies();
-        List<Movie> movies = getMovies(cinemaId,-1);
-        System.out.println(onAndSoonMovies);
-        System.out.println(movies);
+       // System.out.println(onAndSoonMovies);
+         List<Movie> movies = getMovies(cinemaId,-1);
+     //    System.out.println(movies);
+       //  return  null;
         Set<Movie> movieSet = new HashSet<>();
         movieSet.addAll(onAndSoonMovies);
         movieSet.removeAll(movies);
-        System.out.println(movieSet);
+       // System.out.println(movieSet);
         return  movieSet;
     }
 

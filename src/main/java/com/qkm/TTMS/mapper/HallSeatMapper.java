@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface HallSeatMapper extends BaseMapper<HallSeat> {
     List<HallSeat> getAllByMoviePlanId(@Param("planId")int PlanId);
+    List<HallSeat> getAllByOrderId(@Param("orderId")int orderId);
     int delByOrderId(@Param("orderId") int orderId);
 
     int delByOrderIdAndSeatColumnAndSeatLine(@Param("orderId") int orderId, @Param("seatColumn") int seatColumn, @Param("seatLine") int seatLine);

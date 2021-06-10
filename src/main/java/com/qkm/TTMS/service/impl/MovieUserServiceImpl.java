@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qkm.TTMS.entity.Movie;
+import com.qkm.TTMS.entity.MovieSell;
 import com.qkm.TTMS.entity.MovieUser;
 import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.MovieUserMapper;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 public class MovieUserServiceImpl implements MovieUserService {
+
     private final MovieUserMapper userMapper;
 
     public MovieUserServiceImpl(MovieUserMapper userMapper) {
@@ -31,12 +33,7 @@ public class MovieUserServiceImpl implements MovieUserService {
         }
     }
 
-//    @Override
-//    public List<MovieUser> getAdmins(int page) {
-//        Page<MovieUser> movieUserPage = new Page<>(page,5,true);
-//        return (List<MovieUser>)
-//                userMapper.select(movieUserPage,null);
-//    }
+
 
     @Override
     public List<MovieUser> getSells(int cinemaId,int page) {
@@ -58,5 +55,18 @@ public class MovieUserServiceImpl implements MovieUserService {
     @Override
     public MovieUser getAllByAccounts(String accounts) {
         return userMapper.getAllByAccounts(accounts);
+    }
+
+
+    @Override
+    public List<MovieUser> getMoneyBySell(int cinemaId,int page) {
+        Page<MovieUser> movieUserPage = new Page<>(page,5,true);
+        IPage<MovieUser> moneyBySell = userMapper.getMoneyBySell(movieUserPage, cinemaId);
+        List<MovieUser> records = moneyBySell.getRecords();
+        if(records.size() == 0){
+            return null;
+        }
+        records.add(new MovieUser(String.valueOf(moneyBySell.getPages())));
+        return records;
     }
 }

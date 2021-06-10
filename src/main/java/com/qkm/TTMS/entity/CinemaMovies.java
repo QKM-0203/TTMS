@@ -12,7 +12,15 @@ import lombok.NoArgsConstructor;
 
 @TableName(value ="cinema_movies")
 @Data
+@NoArgsConstructor
 public class CinemaMovies implements Serializable {
+
+
+    public CinemaMovies(Movie movie, Float cinemaMovieMoney) {
+        this.movie = movie;
+        this.cinemaMovieMoney = cinemaMovieMoney;
+    }
+
     /**
      * 主键
      */
@@ -30,6 +38,12 @@ public class CinemaMovies implements Serializable {
      */
     @TableField(value = "movie_id")
     private Integer movieId;
+
+    /**
+     * 电影
+     */
+    @TableField(value = "movie_id")
+    private Movie movie;
 
     /**
      * 电影的最低价格

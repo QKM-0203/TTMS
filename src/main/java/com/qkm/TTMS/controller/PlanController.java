@@ -1,8 +1,5 @@
 package com.qkm.TTMS.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qkm.TTMS.entity.AreaCinemas;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.entity.MovieHall;
@@ -60,7 +57,7 @@ public class PlanController {
             }
         }
         stringMap.put("sum",String.valueOf(movieHall.getSeatLine())+","+movieHall.getSeatColumn());
-        redisTemplate.opsForHash().putAll(String.valueOf(moviePlans.getId()),stringMap);
+        redisTemplate.opsForValue().set(String.valueOf(moviePlans.getId()),stringMap);
         return moviePlans.getId();
     }
 
@@ -138,5 +135,6 @@ public class PlanController {
    public int setLawMoney(@PathVariable("lowMoney")Double lowMoney,@PathVariable("cinemaId")int cinemaId,@PathVariable("movieId") int movieId){
       return  cinemaMoviesSer.setMovieLowMoneyByCinemaIdAndMovieId(lowMoney,cinemaId,movieId);
    }
+
 
 }

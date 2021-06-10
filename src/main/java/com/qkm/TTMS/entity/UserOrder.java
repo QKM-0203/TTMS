@@ -11,18 +11,33 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @TableName(value ="user_order")
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserOrder implements Serializable {
+    public UserOrder(String movieName, Double orderMoney,Date movieStartTime, String orderStatus, String hallName,  int movieTime) {
+        this.movieName = movieName;
+        this.orderMoney = orderMoney;
+        this.movieStartTime = movieStartTime;
+        this.orderStatus = orderStatus;
+        this.hallName = hallName;
+        this.movieTime = movieTime;
 
-
+    }
 
     public UserOrder(String cinemaName) {
         this.cinemaName = cinemaName;
     }
+
+    /**
+     * 订单的支付时间
+     */
+    @TableField(value = "pay_time")
+    private Date payTime;
 
     /**
      * 主键也是订单号
@@ -114,7 +129,7 @@ public class UserOrder implements Serializable {
      * 电影的时长
      */
     @TableField(value = "movie_time")
-    private Date movieTime;
+    private int movieTime;
 
 
     /**

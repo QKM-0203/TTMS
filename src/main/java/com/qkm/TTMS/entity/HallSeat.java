@@ -33,7 +33,7 @@ public class HallSeat implements Serializable {
      * 某一个电影院的某个电影的某个时间段的id
      */
     @TableField(value = "movie_plan_id")
-    private Long moviePlanId;
+    private int moviePlanId;
 
     /**
      * 订单id

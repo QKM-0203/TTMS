@@ -2,6 +2,7 @@ package com.qkm.TTMS.service;
 
 import com.qkm.TTMS.entity.Movie;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface MovieService {
     List<Movie> getOnMoviesByTime();
     List<Movie> getHotMoviesByTime();
     List<Movie> getSoonMoviesByTime();
-    List<Movie> getMoviesDayMoney();
+    List<Movie> getMoviesDayMoney() ;
     List<Movie> getHotAndOnMoviesByScore();
     int addMovie(Movie movie);
     int editMovie(Movie movie);
@@ -29,4 +30,5 @@ public interface MovieService {
     List<Movie> getMoviesOnByRedis();
     List<Movie> getMoviesSoonByRedis();
     List<Movie> getMoviesHotByRedis();
+    int setHeadPicture(String head,int id);
 }

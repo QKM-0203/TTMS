@@ -42,13 +42,20 @@ public class SearchController {
      */
     @GetMapping("/searchMoviesByName/{movieName}/{page}")
     public List<Movie> getMovies(@PathVariable("movieName")String movieName,@PathVariable("page")int page){
+        System.out.println(1);
+        System.out.println(movieName);
         List<Movie> movies = movieSer.getMovies();
         List<Movie> pattern = pattern(movieName, movies, 4);
-        List<Movie> movieList = (List<Movie>)commonService.getPage(pattern, page, 10);
-        movieList.add(new Movie(commonService.justPage(pattern,4)));
-        return movieList;
-    }
+        if(pattern != null){
+            List<Movie> movieList = (List<Movie>)commonService.getPage(pattern, page, 10);
+            movieList.add(new Movie(commonService.justPage(pattern,10)));
+            return movieList;
+        }else{
+            return null;
+        }
 
+
+    }
 
     /**
      * 根据影院名字查影院
@@ -58,10 +65,12 @@ public class SearchController {
     @GetMapping("/searchCinemasByName/{cinemaName}/{page}")
     public List<AreaCinemas> getCinemasByCinemaName(@PathVariable("cinemaName")String cinemaName,@PathVariable("page")int page){
         List<AreaCinemas> allByAreaName = areaCinemaSer.getCinemasByCinemaName(cinemaName,page);
-        for (AreaCinemas areaCinemas : allByAreaName) {
-            CinemaMovies allByCinemaId = cinemaMoviesSer.getAllByCinemaId(areaCinemas.getId());
-            areaCinemas.setLawMoney(allByCinemaId.getMovieLowMoney());
-            areaCinemas.setMovieId(allByCinemaId.getMovieId());
+        for(int i = 0;i < allByAreaName.size()-1;i++){
+            CinemaMovies allByCinemaId = cinemaMoviesSer.getAllByCinemaId(allByAreaName.get(i).getId());
+            if(allByCinemaId != null) {
+                allByAreaName.get(i).setLawMoney(allByCinemaId.getMovieLowMoney());
+                allByAreaName.get(i).setMovieId(allByCinemaId.getMovieId());
+            }
         }
         return allByAreaName;
     }

@@ -22,13 +22,20 @@
     </resultMap>
 
 
+    <resultMap id="BaseResultMapSell" type="com.qkm.TTMS.entity.MovieUser">
+        <result property="accounts" column="muc" jdbcType="VARCHAR"/>
+        <result property="createTime" column="mtime" jdbcType="TIMESTAMP"/>
+        <result property="sellMoney" column="msellMoney" jdbcType="FLOAT"/>
+    </resultMap>
+
+
 
 
     <sql id="Base_Column_List">
         id,accounts,password,
         nickname,create_time,icon,
         gender,birthday,city,
-        job,personalized_signature,cinema_id
+        job,personalized_signature,cinema_id,sell_id
     </sql>
     <update id="updateIconById">
         update movie_user set icon = #{icon} where id = #{id}
@@ -51,6 +58,7 @@
         where
         cinema_id is not null and sell_id is null and cinema_id != -2
     </select>
+
     <select id="getSellByCinemaId" resultType="com.qkm.TTMS.entity.MovieUser">
         select
         <include refid="Base_Column_List"/>
@@ -58,9 +66,17 @@
         where
         cinema_id = #{cinemaId}
     </select>
+
     <select id="selectByCinemaId" resultType="com.qkm.TTMS.entity.MovieUser">
         select * from movie_user where cinema_id = #{cinemaId}
     </select>
+
+
+    <select id="getMoneyBySell" resultMap="BaseResultMapSell">
+        select mu.accounts muc ,mu.create_time mtime,ms.sell_money msellMoney from movie_user mu join movie_sell ms on mu.id = ms.sell_id where cinema_id = #{cinemaId} and mu.sell_id = 1
+    </select>
+
+
     <delete id="delById">
         delete
         from movie_user

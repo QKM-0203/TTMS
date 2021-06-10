@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @TableName(value ="area_cinemas")
 @Data
-
+@NoArgsConstructor//JOSN反序列化需要需要无参构造器
 public class AreaCinemas implements Serializable {
     public AreaCinemas(String cinemaName) {
         this.cinemaName = cinemaName;
@@ -24,7 +24,7 @@ public class AreaCinemas implements Serializable {
     }
 
 
-    public AreaCinemas(Integer id, String areaId, String cinemaName, String cinemaPicture, String cinemaAddress, Double cinemaMoney, String cinemaNumber, Float lawMoney) {
+    public AreaCinemas(Integer id, Integer areaId, String cinemaName, String cinemaPicture, String cinemaAddress, Double cinemaMoney, String cinemaNumber, Float lawMoney) {
         this.id = id;
         this.areaId = areaId;
         this.cinemaName = cinemaName;
@@ -35,7 +35,19 @@ public class AreaCinemas implements Serializable {
         this.lawMoney = lawMoney;
     }
 
-    public AreaCinemas(Integer id, String areaId, String cinemaName, String cinemaPicture, String cinemaAddress, Double cinemaMoney, String cinemaNumber) {
+    public AreaCinemas(Integer id, Integer areaId, String cinemaName, String cinemaPicture, String cinemaAddress, String cinemaEmail, Double cinemaMoney, String cinemaNumber, Float lawMoney) {
+        this.id = id;
+        this.areaId = areaId;
+        this.cinemaName = cinemaName;
+        this.cinemaPicture = cinemaPicture;
+        this.cinemaAddress = cinemaAddress;
+        this.cinemaEmail = cinemaEmail;
+        this.cinemaMoney = cinemaMoney;
+        this.cinemaNumber = cinemaNumber;
+        this.lawMoney = lawMoney;
+    }
+
+    public AreaCinemas(Integer id, Integer areaId, String cinemaName, String cinemaPicture, String cinemaAddress, Double cinemaMoney, String cinemaNumber) {
         this.id = id;
         this.areaId = areaId;
         this.cinemaName = cinemaName;
@@ -45,7 +57,7 @@ public class AreaCinemas implements Serializable {
         this.cinemaNumber = cinemaNumber;
     }
 
-    public AreaCinemas(Integer id, String areaId, String cinemaName, String cinemaPicture, String cinemaAddress, String cinemaEmail, Double cinemaMoney, String cinemaNumber) {
+    public AreaCinemas(Integer id, Integer areaId, String cinemaName, String cinemaPicture, String cinemaAddress, String cinemaEmail, Double cinemaMoney, String cinemaNumber) {
         this.id = id;
         this.areaId = areaId;
         this.cinemaName = cinemaName;
@@ -57,6 +69,8 @@ public class AreaCinemas implements Serializable {
 
     }
 
+
+
     /**
      * 主键id
      */
@@ -67,7 +81,7 @@ public class AreaCinemas implements Serializable {
      * 区的名字
      */
     @TableField(value = "area_id")
-    private String areaId;
+    private Integer areaId;
 
     /**
      * 电影院的名称

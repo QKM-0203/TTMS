@@ -6,7 +6,13 @@ import com.qkm.TTMS.entity.CinemaMovies;
 import com.qkm.TTMS.entity.Movie;
 import com.qkm.TTMS.entity.UserOrder;
 import com.qkm.TTMS.mapper.CinemaMoviesMapper;
+import com.qkm.TTMS.mapper.HallSeatMapper;
+import com.qkm.TTMS.mapper.UserOrderMapper;
+import com.qkm.TTMS.service.AreaCinemaService;
 import com.qkm.TTMS.service.CinemaMoviesService;
+import com.qkm.TTMS.service.MovieService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,10 +20,15 @@ import java.util.List;
 @Repository
 public class CinemaMoviesServiceImpl implements CinemaMoviesService {
 
+    private final AreaCinemaService areaCinemaSer;
+    private final MovieService movieSer;
+
     private final CinemaMoviesMapper cinemaMoviesMapper;
 
-    public CinemaMoviesServiceImpl(CinemaMoviesMapper cinemaMoviesMapper) {
+    public CinemaMoviesServiceImpl(CinemaMoviesMapper cinemaMoviesMapper, AreaCinemaService areaCinemaSer, MovieService movieSer) {
         this.cinemaMoviesMapper = cinemaMoviesMapper;
+        this.areaCinemaSer = areaCinemaSer;
+        this.movieSer = movieSer;
     }
 
 
@@ -64,6 +75,18 @@ public class CinemaMoviesServiceImpl implements CinemaMoviesService {
     }
 
     @Override
+    public List<Movie> getMovieAndMoney(int cinemaId, int page) {
+        Page<Movie> moviePage = new Page<>(page, 20, true);
+        IPage<Movie> movieAndMoney = cinemaMoviesMapper.getMovieAndMoney(moviePage, cinemaId);
+        List<Movie> listMovieIdByCinemaIdList = movieAndMoney.getRecords();
+        if(listMovieIdByCinemaIdList.size() == 0){
+            return null;
+        }
+        listMovieIdByCinemaIdList.add(new Movie(String.valueOf(movieAndMoney.getPages())));
+        return listMovieIdByCinemaIdList;
+    }
+
+    @Override
     public int setMovieLowMoneyByCinemaIdAndMovieId(Double movieLowMoney, int cinemaId, int movieId) {
         return cinemaMoviesMapper.setMovieLowMoneyByCinemaIdAndMovieId(movieLowMoney, cinemaId, movieId);
     }
@@ -78,4 +101,6 @@ public class CinemaMoviesServiceImpl implements CinemaMoviesService {
         return cinemaMoviesMapper.deleteByCinemaId(cinemaId);
     }
 
-  }
+
+
+}

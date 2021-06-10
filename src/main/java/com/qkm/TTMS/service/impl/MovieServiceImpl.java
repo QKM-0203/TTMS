@@ -6,6 +6,9 @@ import com.qkm.TTMS.service.MovieService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 @Repository
@@ -76,9 +79,9 @@ public class MovieServiceImpl implements MovieService {
             @Override
             public int compare(Movie o1, Movie o2) {
                 if (o1.getMovieScore() > o2.getMovieScore()) {
-                    return 1;
-                } else if (o1.getMovieScore() < o2.getMovieScore()) {
                     return -1;
+                } else if (o1.getMovieScore() < o2.getMovieScore()) {
+                    return 1;
                 } else {
                     //如果当天的钱数相同就按电影名字名字进行排序
                     return o1.getMovieName().compareTo(o2.getMovieName());
@@ -152,9 +155,9 @@ public class MovieServiceImpl implements MovieService {
             @Override
             public int compare(Movie o1, Movie o2) {
                 if (o1.getMovieScore() > o2.getMovieScore()) {
-                    return 1;
-                } else if (o1.getMovieScore() < o2.getMovieScore()) {
                     return -1;
+                } else if (o1.getMovieScore() < o2.getMovieScore()) {
+                    return 1;
                 } else {
                     //如果当天的钱数相同就按电影名字名字进行排序
                     return o1.getMovieName().compareTo(o2.getMovieName());
@@ -187,7 +190,7 @@ public class MovieServiceImpl implements MovieService {
 
 
     @Override
-    public List<Movie> getMoviesDayMoney() {
+    public List<Movie> getMoviesDayMoney()  {
         List<Movie> moviesOnByRedis = getMoviesOnByRedis();
         Collections.sort(moviesOnByRedis ,new Comparator<Movie>() {
             @Override
@@ -201,6 +204,7 @@ public class MovieServiceImpl implements MovieService {
                 }
             }
         });
+        System.out.println(moviesOnByRedis);
         return moviesOnByRedis;
     }
 
@@ -281,7 +285,7 @@ public class MovieServiceImpl implements MovieService {
                 }
             }
         });
-        map.put("on",getMoviesOnByRedis().subList(0,9));
+        map.put("on",moviesOnByRedis.subList(0,8));
         List<Movie> moviesSoonByRedis = getMoviesSoonByRedis();
         moviesSoonByRedis.sort(new Comparator<Movie>() {
             @Override
@@ -295,8 +299,8 @@ public class MovieServiceImpl implements MovieService {
                 }
             }
         });
-        map.put("soon",getMoviesSoonByRedis().subList(0,9));
-        map.put("hot",getMoviesHotByRedis().subList(0,9));
+        map.put("soon",moviesOnByRedis.subList(0,8));
+        map.put("hot",getMoviesHotByRedis().subList(0,8));
         return map;
     }
 
@@ -327,6 +331,11 @@ public class MovieServiceImpl implements MovieService {
             return getMoviesHot();
         }
         return movieMap.get("hot");
+    }
+
+    @Override
+    public int setHeadPicture(String head, int id) {
+        return movieMapper.setHead(head,id);
     }
 
 

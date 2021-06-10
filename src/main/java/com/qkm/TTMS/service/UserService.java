@@ -25,8 +25,8 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        MovieUser user = movieUserMapper.getByAccounts(s);
+    public UserDetails loadUserByUsername(String accounts) throws UsernameNotFoundException {
+        MovieUser user = movieUserMapper.getByAccounts(accounts);
 
         if(user == null){
             throw new UsernameNotFoundException("accounts not find");

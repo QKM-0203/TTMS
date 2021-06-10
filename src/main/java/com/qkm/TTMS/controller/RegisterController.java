@@ -33,8 +33,8 @@ public class RegisterController {
     public String addUser(@RequestBody MovieUser user){
         user.setCreateTime(new Date());
         user.setPassword(securityConfig.encode().encode(user.getPassword()));
-        //普通用户
-        user.setCinemaId(-1);
+//        //普通用户
+//        user.setCinemaId(-1);
         try{
             movieUserMapper.insert(user);
             MovieUserRoles movieUserRoles = new MovieUserRoles();

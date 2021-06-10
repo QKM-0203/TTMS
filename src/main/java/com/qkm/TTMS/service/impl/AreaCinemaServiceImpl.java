@@ -107,6 +107,8 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
         List<AreaCinemas> records = cinemasByProvince.getRecords();
         if(records.size() != 0){
             records.add(new AreaCinemas(String.valueOf(cinemasByProvince.getPages())));
+        }else{
+            records.clear();
         }
         HashMap<String, Object> stringObjectHashMap = new HashMap<String, Object>();
         stringObjectHashMap.put("data",records);
@@ -122,6 +124,8 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
         List<AreaCinemas> records = cinemasByProvinceAndCity.getRecords();
         if(records.size() != 0){
             records.add(new AreaCinemas(String.valueOf(cinemasByProvinceAndCity.getPages())));
+        }else{
+            records.clear();
         }
         HashMap<String, Object> stringObjectHashMap = new HashMap<String, Object>();
         stringObjectHashMap.put("data",records);
@@ -150,8 +154,11 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
         Page<AreaCinemas> areaCinemasPage = new Page<>(page,12,true);
         IPage<AreaCinemas> cinemasByProvince = areaCinemasMapper.getAllCinemasByProvince(areaCinemasPage, provinceId);
         List<AreaCinemas> records = cinemasByProvince.getRecords();
-        if(records.size() != 0){
+        System.out.println(records);
+        if(records.size() != 0 ){
             records.add(new AreaCinemas(String.valueOf(cinemasByProvince.getPages())));
+        }else{
+            records.clear();
         }
         HashMap<String, Object> stringObjectHashMap = new HashMap<String, Object>();
         stringObjectHashMap.put("data",records);
@@ -165,8 +172,10 @@ public class AreaCinemaServiceImpl implements AreaCinemaService {
         Page<AreaCinemas> areaCinemasPage = new Page<>(page,12,true);
         IPage<AreaCinemas> cinemasByProvinceAndCity = areaCinemasMapper.getAllCinemasByProvinceAndCity(areaCinemasPage, cityId);
         List<AreaCinemas> records = cinemasByProvinceAndCity.getRecords();
-        if(records.size() != 0){
+        if(records.size() != 0 ){
             records.add(new AreaCinemas(String.valueOf(cinemasByProvinceAndCity.getPages())));
+        }else{
+            records.clear();
         }
         HashMap<String, Object> stringObjectHashMap = new HashMap<String, Object>();
         stringObjectHashMap.put("data",records);

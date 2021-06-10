@@ -144,7 +144,7 @@ public class CinemaController {
         //生成默认账号
         MovieUser movieUser = new MovieUser();
         movieUser.setAccounts(areaCinemas.getCinemaEmail());
-        movieUser.setPassword(securityConfig.encode().encode(movieUser.getPassword()));
+        movieUser.setPassword(securityConfig.encode().encode("123456"));
         //插入默认的账号
         movieUserMapper.insert(movieUser);
         //为该人员设置权限
@@ -152,7 +152,7 @@ public class CinemaController {
         movieUserRoles.setUserId(movieUser.getId());
         movieUserRoles.setRoleId(3);
         movieUserRolesMapper.insert(movieUserRoles);
-        return  1;
+        return  areaCinemas.getId();
     }
 
     /**

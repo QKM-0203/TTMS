@@ -94,7 +94,9 @@
     </select>
 
     <select id="getCinemasByProvinceAndCityAndArea" resultMap="BaseResultMapMovies">
-         select acm.*,cm.movie_lowMoney lm from area_cinemas acm join cinema_movies cm on acm.id = cm.cinema_id where area_id = #{areaId} and cm.movie_id = #{movieId}
+         select acm.*,cm.movie_lowMoney lm from area_cinemas acm
+             join cinema_movies cm on acm.id = cm.cinema_id
+         where area_id = #{areaId} and cm.movie_id = #{movieId}
     </select>
     <select id="getCinemasByProvince" resultMap="BaseResultMapMovies">
     select ac.*,cm.movie_lowMoney lm from city c join area a on c.id = a.city_id
@@ -106,19 +108,21 @@
           left join cinema_movies cm on ac.id = cm.cinema_id
                where a.city_id = #{cityId} and cm.movie_id = #{movieId}
     </select>
+
     <select id="getAllCinemasByProvinceAndCityAndArea" resultMap="BaseResultMap">
-       select acm.* from area_cinemas acm join cinema_movies cm on acm.id = cm.cinema_id where area_id = #{areaId}
+        select acm.* from area_cinemas acm  where area_id = #{areaId}
     </select>
+
     <select id="getAllCinemasByProvince" resultMap="BaseResultMap">
-       select ac.* from city c join area a on c.id = a.city_id
-           left join area_cinemas ac on a.id = ac.area_id  left join cinema_movies cm on ac.id = cm.cinema_id
-                where c.province_id = #{provinceId}
+        select ac.* from city c join area a on c.id = a.city_id
+            join area_cinemas ac on a.id = ac.area_id where c.province_id = #{provinceId}
     </select>
+
     <select id="getAllCinemasByProvinceAndCity" resultMap="BaseResultMap">
         select ac.* from area a join area_cinemas ac on a.id = ac.area_id
-            left join cinema_movies cm on ac.id = cm.cinema_id
-                 where a.city_id = #{cityId}
+        where a.city_id = #{cityId}
     </select>
+
     <update id="updateCinemaPictureById">
         update area_cinemas
         set cinema_picture = #{cinemaPicture,jdbcType=VARCHAR}
