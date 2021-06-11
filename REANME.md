@@ -1,29 +1,28 @@
-# Getting Started
+[TTMS]()
+## 功能
+- 经理（待完善）
+    - 引进新的电影到库中
+    - 查看库中所有电影的票房
+    - 引进电影院
+- 管理员（每个电影院的管理员，已完成）
+    - 管理演出厅
+    - 管理演出计划
+    - 管理剧目，从库里增加
+    - 管理人员
+    - 查看电影院的收益
+- 售票员（待完善）
+    - 现场售票
+- 用户（已完成）
+    - 登陆注册
+    - 查看库里面的所有电影以及电影的详细信息
+    - 查看演出计划，根据省市区选择电影院进行买票选座，退票，订单失效，查看订单。
+    - 管理个人信息。
+    - 根据电影名称和电影院名称进行模糊搜索
+## 技术栈
+- 后端使用springboot mybatis-plus mysql 搭建整体架构
+- 前端使用ajax jquery lay-ui
+- 使用内存数据库redis提升效率
+- 使用redis进行订单失效和加锁的实现
+- 登陆注册以及拦截验证使用spring security实现
 
-### Reference Documentation
-
-For further reference, please consider the following sections:
-
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.4.5/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.4.5/maven-plugin/reference/html/#build-image)
-* [Thymeleaf](https://docs.spring.io/spring-boot/docs/2.4.5/reference/htmlsingle/#boot-features-spring-mvc-template-engines)
-* [Spring Security](https://docs.spring.io/spring-boot/docs/2.4.5/reference/htmlsingle/#boot-features-security)
-* [Spring Configuration Processor](https://docs.spring.io/spring-boot/docs/2.4.5/reference/htmlsingle/#configuration-metadata-annotation-processor)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.4.5/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Spring Data Redis (Access+Driver)](https://docs.spring.io/spring-boot/docs/2.4.5/reference/htmlsingle/#boot-features-redis)
-
-### Guides
-
-The following guides illustrate how to use some features concretely:
-
-* [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
-* [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
-* [Securing a Web Application](https://spring.io/guides/gs/securing-web/)
-* [Spring Boot and OAuth2](https://spring.io/guides/tutorials/spring-boot-oauth2/)
-* [Authenticating a User with LDAP](https://spring.io/guides/gs/authenticating-ldap/)
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
-* [Messaging with Redis](https://spring.io/guides/gs/messaging-redis/)
 

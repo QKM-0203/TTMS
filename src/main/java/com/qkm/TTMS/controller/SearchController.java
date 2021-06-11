@@ -163,16 +163,15 @@ public class SearchController {
                 @Override
                 public int compare(Movie o1, Movie o2) {
                     if (o1.getMovieStart().compareTo(o2.getMovieStart()) > 0 ) {
-                        return 1;
-                    } else if (o1.getMovieStart().compareTo(o2.getMovieStart()) < 0) {
                         return -1;
+                    } else if (o1.getMovieStart().compareTo(o2.getMovieStart()) < 0) {
+                        return 1;
                     } else {
                         //如果当天的钱数相同就按电影名字名字进行排序
                         return o1.getMovieName().compareTo(o2.getMovieName());
                     }
                 }
             });
-            return movieList;
         }
         movieList.add(new Movie(commonService.justPage(movies,25)));
         return movieList;
